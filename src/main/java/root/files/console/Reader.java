@@ -123,6 +123,7 @@ public class Reader {
     }
 
     public static NaturalColor readNaturalColor(){
+        System.out.print("\n Введите цвет волос");
         String color = readLine();
         for (;;) {
             switch (color){
@@ -144,5 +145,42 @@ public class Reader {
                             "    BROWN; \n");
             }
         }
+    }
+
+    public static int readLocationX(){
+        System.out.println("\n Введите координату X: ");
+        Integer x = readInteger();
+        for (;;){
+            if (x == null){
+                System.out.print("\n Строка не может быть пустой. Введите координату X: ");
+            } else {
+                return x;
+            }
+        }
+    }
+
+    public static Integer readLocationY(){
+        System.out.println("\n Введите координату Y: ");
+        Integer y = readInteger();
+        for (;;){
+            if (y == null){
+                System.out.print("\n Строка не может быть пустой. Введите координату Y: ");
+            } else {
+                return y;
+            }
+        }
+    }
+
+    public static double readLocationZ(){
+        System.out.println("\n Введите координату Z: ");
+        Double z = readDouble();
+        for (;;){
+            if (z == null){
+                System.out.print("\n Строка не может быть пустой. Введите координату Z: ");
+            } else {
+                return z;
+            }
+        }
+
     }
 }

@@ -15,7 +15,7 @@ public class Person {
     private NaturalColor hairColor; //Поле может быть null
     private Location location; //Поле не может быть null
 
-    public Person(String name, String passportID, BrightColor eyeColor, NaturalColor hairColor, Location location){
+    public Person(String name, BrightColor eyeColor, NaturalColor hairColor, Location location){
         if (name == null || name.isEmpty() || eyeColor == null || hairColor == null || location == null){
             System.out.println("Ошибка вкралась");
         } else {
