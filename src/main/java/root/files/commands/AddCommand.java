@@ -13,26 +13,27 @@ public class AddCommand implements Command{
 
     @Override
     public void execute(String[] args){
-        if (args.length == 1) {
-            try {
-                Dragon dragon = manager.getDragonManager().getDragon();
-                boolean inCollection = false;
-                for (Dragon dragonTmp : manager.getDragons()){
-                    if (dragonTmp.equals(dragon)){
-                        inCollection = true;
+        // надо фиксить, трай кэч
+            if (args.length == 1) {
+                try {
+                    Dragon dragon = manager.getDragonManager().getDragon();
+                    boolean inCollection = false;
+                    for (Dragon dragonTmp : manager.getDragons()) {
+                        if (dragonTmp.equals(dragon)) {
+                            inCollection = true;
+                        }
                     }
+                    if (inCollection) {
+                        System.out.println("Этот дракон уже есть в коллекции.");
+                    } else {
+                        manager.add(dragon);
+                        System.out.println("Дракон успешно добавлен.");
+                    }
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException(e);
                 }
-                if (inCollection){
-                    System.out.println("Этот дракон уже есть в коллекции.");
-                } else {
-                    manager.add(dragon);
-                    System.out.println("Дракон успешно добавлен.");
-                }
-            } catch (IllegalArgumentException e){
-                System.out.println("Проверьте введенные данные.");
+            } else {
+                throw new IllegalArgumentException("");
             }
-        } else {
-            throw new IllegalArgumentException("Проверьте колличество аргументов");
-        }
     }
 }

@@ -8,77 +8,103 @@ import static root.files.console.ReadWriteManager.*;
 
 public class Reader {
     public static String readName(){
-        System.out.print("\n Введите имя дракона: ");
-        String name = readLine();
+        System.out.println("Введите имя: ");
+        String name;
         for (;;){
+            name = readLine();
             if (name.isEmpty() || name.isBlank()){
-                System.out.print("\n Строка не может быть пустой! Введите имя дракона: ");
+                System.out.println("Строка не может быть пустой! Введите имя дракона: ");
             } else {
                 return name;
             }
         }
     }
 
-    public static Float readCoordinateX(){
-        System.out.println("\n Введите координату X: ");
-        Float coordinateX = readFloat();
-        for (;;){
-            if (coordinateX == null){
-                System.out.print("\n Строка не может быть пустой. Введите координату X: ");
-            } else {
-                return coordinateX;
+    public static Float readCoordinateX() {
+        System.out.println("Введите координату X: ");
+        Float coordinateX;
+
+        for (;;) {
+            try {
+                coordinateX = readFloat();
+                if (coordinateX == null) {
+                    System.out.println("Строка не может быть пустой. Введите координату X: ");
+                }else{
+                    return coordinateX;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите координату X: ");
             }
         }
     }
 
     public static Integer readCoordinateY(){
-        System.out.print("\n Введите координату Y: ");
-        Integer coordinateY = readInteger();
+        System.out.println("Введите координату Y: ");
+        Integer coordinateY;
         for (;;){
-            if (coordinateY == null){
-                System.out.print("\n Строка не может быть пустой. Введите координату Y: ");
-            } else {
-                return coordinateY;
+            try {
+                coordinateY = readInteger();
+                if (coordinateY == null) {
+                    System.out.println("Строка не может быть пустой. Введите координату Y: ");
+                } else {
+                    return coordinateY;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите координату Y: ");
             }
         }
     }
 
     public static Long readAge(){
-        System.out.print("\n Введите возраст дракона: ");
-        Long age = readLong();
+        System.out.println("Введите возраст дракона: ");
+        Long age;
         for (;;){
-            if (age == null) {
-                return age;
-            } else if (age < 0){
-                System.out.print("\n Возраст должен быть больше 0. Введите возраст дракона: ");
-            } else {
-                return age;
+            try {
+                age = readLong();
+                if (age == null) {
+                    return age;
+                } else if (age < 0) {
+                    System.out.println("Возраст должен быть больше 0. Введите возраст дракона: ");
+                } else {
+                    return age;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите возраст дракона: ");
             }
         }
     }
 
     public static String readDescription(){
-        System.out.print("\n Введите описание дракона: ");
+        System.out.println("Введите описание дракона: ");
         return readLine();
     }
 
-    public static Long readWeight(){
-        System.out.print("\n Введите вес дракона: ");
-        Long weight = readLong();
-        for (;;){
-            if (weight == null) {
-                return weight;
-            } else if (weight < 0){
-                System.out.print("\n Вес должен быть больше 0. Введите возраст дракона: ");
-            } else {
-                return weight;
+    public static Long readWeight() {
+        System.out.println("Введите вес дракона: ");
+        Long weight = null;
+        while (true) {
+            try {
+                weight = readLong();  // Читаем ввод
+                if (weight == null) {
+                    System.out.println("Строка не может быть пустой. Введите вес дракона: ");
+                } else if (weight < 0) {
+                    System.out.println("Вес должен быть больше 0. Введите вес дракона: ");
+                } else {
+                    return weight;  // Возвращаем вес, если всё корректно
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите вес дракона: ");
             }
         }
     }
 
+
+
     public static DragonType readType() {
-        String type = readLine();
+        String type;
+        System.out.println("Введите тип дракона: ");
         for (; ; ) {
+            type = readLine();
             switch (type) {
                 case "WATER":
                     return DragonType.WATER;
@@ -86,19 +112,18 @@ public class Reader {
                     return DragonType.UNDERGROUND;
                 case "AIR":
                     return DragonType.AIR;
-                default:
-                    System.out.print("\n Выбирите один из трех типов (WATER, UNDERGROUND, AIR). Введите тип дракона: ");
+                default: System.out.println("Выбирите один из трех типов (WATER, UNDERGROUND, AIR). Введите тип дракона: ");
             }
-
         }
     }
 
     public static BrightColor readBrightColor(){
-        System.out.print("\n Введите цвет глаз: ");
-        String color = readLine();
+        System.out.println("Введите цвет глаз: ");
+        String color;
         for (;;) {
+            color = readLine();
             if (color.isEmpty())
-                System.out.print("\n Цвет глаз не может быть пустым. Введите цвет глаз: ");
+                System.out.println("Цвет глаз не может быть пустым. Введите цвет глаз: ");
             else{
                 switch (color){
                     case "GREEN":
@@ -112,7 +137,7 @@ public class Reader {
                     case "ORANGE":
                         return BrightColor.ORANGE;
                     default:
-                        System.out.print("\n Выберите один из 5 типов \n    (GREEN\n" +
+                        System.out.println("Выберите один из 5 типов \n    (GREEN\n" +
                                 "    BLACK\n" +
                                 "    BLUE\n" +
                                 "    YELLOW\n" +
@@ -123,9 +148,10 @@ public class Reader {
     }
 
     public static NaturalColor readNaturalColor(){
-        System.out.print("\n Введите цвет волос");
-        String color = readLine();
+        System.out.println("Введите цвет волос");
+        String color;
         for (;;) {
+            color = readLine();
             switch (color){
                 case "BLACK":
                     return NaturalColor.BLACK;
@@ -138,7 +164,7 @@ public class Reader {
                 case "BROWN":
                     return NaturalColor.BROWN;
                 default:
-                    System.out.print("\n Выберите один из 5 типов \n" + "    RED,\n" +
+                    System.out.println("Выберите один из 5 типов \n" + "    RED,\n" +
                             "    BLACK,\n" +
                             "    YELLOW,\n" +
                             "    WHITE,\n" +
@@ -148,35 +174,47 @@ public class Reader {
     }
 
     public static int readLocationX(){
-        System.out.println("\n Введите координату X: ");
-        Integer x = readInteger();
+        System.out.println("Введите координату X: ");
+        Integer x;
         for (;;){
-            if (x == null){
-                System.out.print("\n Строка не может быть пустой. Введите координату X: ");
-            } else {
-                return x;
+            try{
+                x = readInteger();
+                if (x == null){
+                    System.out.println("Строка не может быть пустой. Введите координату X: ");
+                } else {
+                    return x;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите координату X: ");
             }
         }
     }
 
     public static Integer readLocationY(){
-        System.out.println("\n Введите координату Y: ");
-        Integer y = readInteger();
+        System.out.println("Введите координату Y: ");
+        Integer y;
         for (;;){
-            if (y == null){
-                System.out.print("\n Строка не может быть пустой. Введите координату Y: ");
-            } else {
-                return y;
+            try {
+                y = readInteger();
+                if (y == null){
+                    System.out.print("Строка не может быть пустой. Введите координату Y: ");
+                } else {
+                    return y;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите координату Y: ");
             }
+
         }
     }
 
     public static double readLocationZ(){
-        System.out.println("\n Введите координату Z: ");
-        Double z = readDouble();
+        System.out.println("Введите координату Z: ");
+        Double z;
         for (;;){
+            z = readDouble();
             if (z == null){
-                System.out.print("\n Строка не может быть пустой. Введите координату Z: ");
+                System.out.println("Строка не может быть пустой. Введите координату Z: ");
             } else {
                 return z;
             }

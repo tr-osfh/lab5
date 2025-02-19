@@ -10,6 +10,8 @@ public class Main {
     public static void main(String[] args) {
         CollectionManagerRecever cmr = new CollectionManagerRecever();
         CommandManager cm = new CommandManager(cmr);
-        cm.executeCommand();
+        for (;;){
+            cm.executeCommand();
+        }
     }
 }

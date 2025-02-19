@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Dragon implements Serializable {
+public class Dragon implements Comparable<Dragon> {
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -169,5 +169,16 @@ public class Dragon implements Serializable {
                 ", type=" + type +
                 ", killer=" + killer +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Dragon o) {
+        if (this.getCoordinates().getX() > o.getCoordinates().getX()){
+            return 1;
+        } else if (this.getCoordinates().getX() < o.getCoordinates().getX()){
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }
