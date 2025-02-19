@@ -14,6 +14,7 @@ public class CommandManager {
 
     public CommandManager(CollectionManagerRecever manager){
         commands.put("add", new AddCommand(manager));
+        commands.put("show", new ShowCommand(manager));
     }
 
 

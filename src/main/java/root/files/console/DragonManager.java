@@ -8,7 +8,7 @@ public class DragonManager {
     public DragonManager() {
     }
 
-    public Dragon getDragon() {
+    public Dragon setDragon() {
         String name = readName();
 
         Float coordinateX = readCoordinateX();
