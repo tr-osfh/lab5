@@ -17,30 +17,10 @@ public class FileWriterManager {
     }
 
     public void saveCSV(PriorityQueue<Dragon> dragons) {
-        try {
-            FileOutputStream stream = new FileOutputStream(this.fileName);
-            OutputStreamWriter writer = new OutputStreamWriter(stream);
-            try {
-                writer.write(
-                        "id," +
-                                "name," +
-                                "coordinateX," +
-                                "coordinateY," +
-                                "age," +
-                                "description," +
-                                "weight," +
-                                "type," +
-                                "killerID," +
-                                "killerName," +
-                                "killerEyeColor," +
-                                "killerHairColor," +
-                                "locationX," +
-                                "locationY," +
-                                "locationZ," +
-                                "locationName\n"
-                );
-
-                for (Dragon dragon : dragons) {
+        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(this.fileName))) {
+             System.out.println("Сохраняем " + dragons.size() + " драконов.");
+             for (Dragon dragon : dragons) {
+                if (dragon.getKiller() != null) {
                     writer.write(
                             dragon.getId() + "," +
                                     dragon.getName() + "," +
@@ -59,67 +39,39 @@ public class FileWriterManager {
                                     dragon.getKiller().getLocation().getZ() + "," +
                                     dragon.getKiller().getLocation().getName() + "\n"
                     );
+                } else {
+                    writer.write(
+                            dragon.getId() + "," +
+                                    dragon.getName() + "," +
+                                    dragon.getCoordinates().getX() + "," +
+                                    dragon.getCoordinates().getY() + "," +
+                                    dragon.getAge() + "," +
+                                    dragon.getDescription() + "," +
+                                    dragon.getWeight() + "," +
+                                    dragon.getType() + "\n"
+                    );
                 }
-            } catch (IOException e) {
-                System.out.println("Невозможно записать в файл.");
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            System.out.println("Невозможно записать в файл: " + e.getMessage());
         }
     }
 
     public PriorityQueue<Dragon> loadCSV(){
-        File file = new File(fileName);
+        File file = new File(this.fileName);
         PriorityQueue<Dragon> dragons = new PriorityQueue<Dragon>();
         try {
+            Parser parser = new Parser();
             Scanner scanner = new Scanner(file);
-            if (scanner.hasNextLine()){
-                scanner.nextLine();
-            }
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
-                String[] values = line.split(",");
-
-                // надо добавить валидатор
-                if (values.length == 15){
-
-                    String name = values[0];
-
-                    Float coordinateX = Float.valueOf(values[1]);
-                    Integer coordinateY = Integer.valueOf(values[2]);
-
-                    Long age = Long.valueOf(values[2]);
-                    String description = values[2];
-                    Long weight = Long.valueOf(values[2]);
-                    DragonType type = DragonType.valueOf(values[2]);
-
-                    // person подумай еще 5 раз, это поле может быть пустым
-                    String killerName = values[2];
-                    BrightColor killerEyeColor = BrightColor.ValueOf(values[2]);
-                    NaturalColor killerHairColor = NaturalColor.ValueOf(values[2]);
-
-                    //location тут обратит внимание на имя
-                    int locationX = Integer.parseInt(values[2]);
-                    Integer locationY = Integer.valueOf(values[2]);
-                    double locationZ = Double.parseDouble(values[2]);
-                    String locationName = values[2];
-
-
-                    Dragon dragon = new Dragon(
-                            name,
-                            new Coordinates(coordinateX, coordinateY),
-                            age,
-                            description,
-                            weight,
-                            type,
-                            new Person(killerName, killerEyeColor, killerHairColor, new Location(locationX,locationY,locationZ, locationName))
-                    );
-                    dragons.add(dragon);
-                }
+                dragons.add(parser.parseLineToDragon(line));
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        System.out.println("Загружена коллекция из " + dragons.size() + " драконов.");
         return dragons;
     }
 }

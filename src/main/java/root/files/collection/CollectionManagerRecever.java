@@ -42,7 +42,13 @@ public class CollectionManagerRecever {
 
     public void save(){
         FileWriterManager fm = new FileWriterManager(fileName);
-        fm.saveCSV(dragons);
+        try {
+            fm.saveCSV(dragons);
+            System.out.println("Коллекция сохранена в файл.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Запись в файл не возможна");
+        }
     }
 
     public void add(Dragon dragon){

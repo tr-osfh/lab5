@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Person {
     private String name; //Поле не может быть null, Строка не может быть пустой
-    private final String passportID = IdGenerator.generatePassportId(); //Строка не может быть пустой, Значение этого поля должно быть уникальным, Поле не может быть null
+    private String passportID = IdGenerator.generatePassportId(); //Строка не может быть пустой, Значение этого поля должно быть уникальным, Поле не может быть null
     private BrightColor eyeColor; //Поле не может быть null
     private NaturalColor hairColor; //Поле может быть null
     private Location location; //Поле не может быть null
@@ -28,6 +28,10 @@ public class Person {
 
     public String getPassportID() {
         return passportID;
+    }
+
+    public void setPassportID(String id){
+        this.passportID = id;
     }
 
     public BrightColor getEyeColor() {
