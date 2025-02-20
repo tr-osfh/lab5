@@ -16,15 +16,22 @@ public class CommandManager {
         commands.put("add", new AddCommand(manager));
         commands.put("show", new ShowCommand(manager));
         commands.put("save", new SaveCommand(manager));
+        commands.put("help", new HelpCommand(manager));
+        commands.put("info", new infoCommand(manager));
+        commands.put("update", new UpdateIdCommand(manager));
+        commands.put("remove_by_id", new RemoveByIdCommand(manager));
+        commands.put("exit", new ExitCommand(manager));
+        commands.put("clear", new ClearCommand(manager));
     }
-
-
-
 
     private Command command;
 
     public void setCommand(Command command){
         this.command = command;
+    }
+
+    public HashMap<String, Command> getCommands() {
+        return commands;
     }
 
     public void executeCommand(){

@@ -188,7 +188,7 @@ public class Dragon implements Comparable<Dragon> {
                 ", coordinates=" + coordinates +
                 ", creationDate=" + creationDate +
                 ", age=" + age +
-                ", description='" + description + '\'' +
+                ", getDescription='" + description + '\'' +
                 ", weight=" + weight +
                 ", type=" + type +
                 ", killer=" + killer +

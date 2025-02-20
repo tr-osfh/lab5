@@ -84,13 +84,13 @@ public class Reader {
         Long weight = null;
         while (true) {
             try {
-                weight = readLong();  // Читаем ввод
+                weight = readLong();
                 if (weight == null) {
                     System.out.println("Строка не может быть пустой. Введите вес дракона: ");
                 } else if (weight < 0) {
                     System.out.println("Вес должен быть больше 0. Введите вес дракона: ");
                 } else {
-                    return weight;  // Возвращаем вес, если всё корректно
+                    return weight;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Число введено неверно. Введите вес дракона: ");
@@ -248,6 +248,23 @@ public class Reader {
         }
         else {
             return name;
+        }
+    }
+
+    public static long readId(){
+        System.out.println("Введите id дракона: ");
+        Long id = null;
+        while (true) {
+            try {
+                id = readLong();
+                if (id == null) {
+                    System.out.println("Строка не может быть пустой. Введите id дракона: ");
+                } else {
+                    return id;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите id дракона: ");
+            }
         }
     }
 

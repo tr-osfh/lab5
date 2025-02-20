@@ -13,7 +13,6 @@ public class AddCommand implements Command{
 
     @Override
     public void execute(String[] args){
-        // надо фиксить, трай кэч
         if (args.length == 1) {
             try {
                 Dragon dragon = manager.getDragonManager().setDragon();
@@ -35,5 +34,10 @@ public class AddCommand implements Command{
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public String getDescription() {
+        return "add {element} : добавить новый элемент в коллекцию";
     }
 }

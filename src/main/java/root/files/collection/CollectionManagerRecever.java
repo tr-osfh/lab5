@@ -1,16 +1,21 @@
 package root.files.collection;
 
+import root.files.commands.Command;
+import root.files.commands.CommandManager;
 import root.files.console.DragonManager;
 import root.files.file.FileWriterManager;
 import root.files.seClasses.Dragon;
 
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class CollectionManagerRecever {
 
     PriorityQueue<Dragon> dragons = new PriorityQueue<>();
     private String fileName;
-
+    private CommandManager commandManager;
+    private DragonManager dragonManager = new DragonManager();
+    private java.time.LocalDateTime creationDate = java.time.LocalDateTime.now();
     public PriorityQueue<Dragon> getDragons() {
         return dragons;
     }
@@ -23,11 +28,17 @@ public class CollectionManagerRecever {
         this.fileName = fileName;
     }
 
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
     public DragonManager getDragonManager(){
         return dragonManager;
     }
-
-    private DragonManager dragonManager = new DragonManager();
 
 
     public void show(){
@@ -53,5 +64,33 @@ public class CollectionManagerRecever {
 
     public void add(Dragon dragon){
         dragons.add(dragon);
+    }
+
+    public void help(HashMap<String, Command> commands){
+        for (Command command : commands.values()){
+            System.out.println(command.getDescription());
+        }
+    }
+
+    public void info(){
+        System.out.println("Тип хранимых данных в коллекции: Dragon");
+        System.out.println("Дата и время инициализации: " + creationDate);
+        System.out.println("Колличество элементов в коллеции: " + dragons.size());
+    }
+
+    public void updateById(Dragon dragon){
+        dragons.add(dragon);
+    }
+
+    public void removeById(Dragon dragon){
+        dragons.remove(dragon);
+    }
+
+    public void exit(){
+        System.exit(0);
+    }
+
+    public void clear(){
+        dragons.clear();
     }
 }

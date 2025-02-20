@@ -19,4 +19,9 @@ public class ShowCommand implements Command {
             throw new IllegalArgumentException();
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении";
+    }
 }

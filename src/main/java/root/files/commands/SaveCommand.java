@@ -17,4 +17,9 @@ public class SaveCommand implements Command{
             throw new IllegalArgumentException();
         }
     }
+
+    @Override
+    public String getDescription() {
+        return "save : сохранить коллекцию в файл";
+    }
 }
