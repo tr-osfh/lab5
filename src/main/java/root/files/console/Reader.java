@@ -13,7 +13,7 @@ public class Reader {
         for (;;){
             name = readLine();
             if (name.isEmpty() || name.isBlank()){
-                System.out.println("Строка не может быть пустой! Введите имя дракона: ");
+                System.out.println("Строка не может быть пустой! Введите имя: ");
             } else {
                 return name;
             }
@@ -204,7 +204,6 @@ public class Reader {
             } catch (NumberFormatException e) {
                 System.out.println("Число введено неверно. Введите координату Y: ");
             }
-
         }
     }
 
@@ -212,13 +211,45 @@ public class Reader {
         System.out.println("Введите координату Z: ");
         Double z;
         for (;;){
-            z = readDouble();
-            if (z == null){
-                System.out.println("Строка не может быть пустой. Введите координату Z: ");
-            } else {
-                return z;
+            try {
+                z = readDouble();
+                if (z == null){
+                    System.out.println("Строка не может быть пустой. Введите координату Z: ");
+                } else {
+                    return z;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Число введено неверно. Введите координату Z: ");
             }
         }
-
     }
+
+    public static boolean readChoice(String param){
+        System.out.println("Вы хотите добавить " + param + "? y/n");
+        String yn;
+        for (;;) {
+            yn = readLine();
+            if (yn.equals("y")){
+                return true;
+            } else if (yn.equals("n")) {
+                return false;
+            } else {
+                System.out.println("Введите y/n: ");
+            }
+        }
+    }
+
+
+    public static String readLocationName(){
+        System.out.println("Введите название локации: ");
+        String name = readLine();
+        if (name.isEmpty()){
+            return null;
+        }
+        else {
+            return name;
+        }
+    }
+
+
 }

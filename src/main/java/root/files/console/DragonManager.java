@@ -19,16 +19,29 @@ public class DragonManager {
         Long weight = readWeight();
         DragonType type = readType();
 
-        // person подумай еще 5 раз, это поле может быть пустым
-        String killerName = readName();
-        BrightColor killerEyeColor = readBrightColor();
-        NaturalColor killerHairColor = readNaturalColor();
+        if (readChoice("убийцу")){
+            String killerName = readName();
+            BrightColor killerEyeColor = readBrightColor();
+            NaturalColor killerHairColor = readNaturalColor();
 
-        //location тут обратит внимание на имя
-        int locationX = readLocationX();
-        Integer locationY = readLocationY();
-        double locationZ = readLocationZ();
-        String locationName = readName();
+            //location тут обратит внимание на имя
+            int locationX = readLocationX();
+            Integer locationY = readLocationY();
+            double locationZ = readLocationZ();
+            String locationName = readLocationName();
+
+            return new Dragon(
+                    name,
+                    new Coordinates(coordinateX, coordinateY),
+                    age,
+                    description,
+                    weight,
+                    type,
+                    new Person(killerName, killerEyeColor, killerHairColor, new Location(locationX,locationY,locationZ, locationName))
+            );
+        }
+        // person подумай еще 5 раз, это поле может быть пустым
+
 
         return new Dragon(
                 name,
@@ -36,8 +49,7 @@ public class DragonManager {
                 age,
                 description,
                 weight,
-                type,
-                new Person(killerName, killerEyeColor, killerHairColor, new Location(locationX,locationY,locationZ, locationName))
+                type
                 );
     }
 }

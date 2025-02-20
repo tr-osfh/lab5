@@ -9,13 +9,18 @@ import static root.files.console.Reader.*;
 
 public class Main {
     public static void main(String[] args) {
-        FileWriterManager fm = new FileWriterManager(args[0]);
-        CollectionManagerRecever cmr = new CollectionManagerRecever();
-        CommandManager cm = new CommandManager(cmr);
-        cmr.setFileName(args[0]);
-        cmr.setDragons(fm.loadCSV());
-        for (;;){
-            cm.executeCommand();
+        try {
+            String filePath = System.getenv("DB_FILE_PATH");
+            FileWriterManager fm = new FileWriterManager(filePath);
+            CollectionManagerRecever cmr = new CollectionManagerRecever();
+            CommandManager cm = new CommandManager(cmr);
+            cmr.setFileName(filePath);
+            cmr.setDragons(fm.loadCSV());
+            for (;;){
+                cm.executeCommand();
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Файл не найден.");
         }
     }
 }

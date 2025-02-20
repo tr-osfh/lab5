@@ -40,6 +40,27 @@ public class Dragon implements Comparable<Dragon> {
         }
     }
 
+    public Dragon(
+            String name,
+            Coordinates coordinates,
+            Long age,
+            String description,
+            Long weight,
+            DragonType type
+    ) {
+        if (name == null || name.isEmpty() || coordinates == null || age == null || age <= 0 || weight <= 0 || type == null){
+            System.out.println("Вкралась ошибка"); //добавить вывод информации об ошибке
+        } else {
+            this.id = IdGenerator.generateId();
+            this.name = name;
+            this.coordinates = coordinates;
+            this.age = age;
+            this.description = description;
+            this.weight = weight;
+            this.type = type;
+        }
+    }
+
     public long getId() {
         return id;
     }
