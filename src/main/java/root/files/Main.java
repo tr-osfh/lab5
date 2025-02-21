@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             //String filePath = System.getenv("DB_FILE_PATH");
-            String filePath = "/Users/sch/Yandex.Disk.localized/личные файлы/itmo/proga_itmo/lab5New2/src/main/java/root/files/dragonsDB.csv";
+            String filePath = "/Users/sch/Yandex.Disk.localized/личные_файлы/itmo/proga_itmo/lab5New2/src/main/java/root/files/dragonsDB.csv";
             FileWriterManager fm = new FileWriterManager(filePath);
             CollectionManagerRecever cmr = new CollectionManagerRecever();
             CommandManager cm = new CommandManager(cmr);
