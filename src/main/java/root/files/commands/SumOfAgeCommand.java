@@ -1,11 +1,11 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class SumOfAgeCommand implements Command{
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public SumOfAgeCommand(CollectionManagerRecever manager){
+    public SumOfAgeCommand(CollectionManager manager){
         this.manager = manager;
     }
 

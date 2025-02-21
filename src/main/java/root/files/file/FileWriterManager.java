@@ -23,37 +23,7 @@ public class FileWriterManager {
         try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(this.fileName))) {
              System.out.println("Сохраняем " + dragons.size() + " драконов.");
              for (Dragon dragon : dragons) {
-                if (dragon.getKiller() != null) {
-                    writer.write(
-                            dragon.getId() + "," +
-                                    dragon.getName() + "," +
-                                    dragon.getCoordinates().getX() + "," +
-                                    dragon.getCoordinates().getY() + "," +
-                                    dragon.getAge() + "," +
-                                    dragon.getDescription() + "," +
-                                    dragon.getWeight() + "," +
-                                    dragon.getType() + "," +
-                                    dragon.getKiller().getPassportID() + "," +
-                                    dragon.getKiller().getName() + "," +
-                                    dragon.getKiller().getEyeColor() + "," +
-                                    dragon.getKiller().getHairColor() + "," +
-                                    dragon.getKiller().getLocation().getX() + "," +
-                                    dragon.getKiller().getLocation().getY() + "," +
-                                    dragon.getKiller().getLocation().getZ() + "," +
-                                    dragon.getKiller().getLocation().getName() + "\n"
-                    );
-                } else {
-                    writer.write(
-                            dragon.getId() + "," +
-                                    dragon.getName() + "," +
-                                    dragon.getCoordinates().getX() + "," +
-                                    dragon.getCoordinates().getY() + "," +
-                                    dragon.getAge() + "," +
-                                    dragon.getDescription() + "," +
-                                    dragon.getWeight() + "," +
-                                    dragon.getType() + "\n"
-                    );
-                }
+                 writer.write(parser.parseDragonToLine(dragon));
             }
         } catch (IOException e) {
             System.out.println("Невозможно записать в файл: " + e.getMessage());
@@ -67,9 +37,11 @@ public class FileWriterManager {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                commands.add(line);
-                System.out.println("Загружен скрипт из " + commands.size() + " команд.");
+                if (!line.contains(link)){
+                    commands.add(line);
+                }
             }
+            System.out.println("Загружен скрипт из " + commands.size() + " команд.");
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден.");
             System.out.println(e.getStackTrace());

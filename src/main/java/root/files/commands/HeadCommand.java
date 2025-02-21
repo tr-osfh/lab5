@@ -1,12 +1,12 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class HeadCommand implements Command{
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public HeadCommand(CollectionManagerRecever manager) {
+    public HeadCommand(CollectionManager manager) {
         this.manager = manager;
     }
 

@@ -26,8 +26,8 @@ public class Dragon implements Comparable<Dragon> {
             DragonType type,
             Person killer
     ) {
-        if (name == null || name.isEmpty() || coordinates == null || age == null || age <= 0 || weight <= 0 || type == null){
-            System.out.println("ВВеденная информация содержит недопустимые значения."); //добавить вывод информации об ошибке
+        if (name == null || name.isEmpty() || coordinates == null || (age != null && age <= 0) || weight <= 0 || type == null){
+            System.out.println("Введенная информация содержит недопустимые значения.");//добавить вывод информации об ошибке
         } else {
             this.id = IdGenerator.generateId();
             this.name = name;
@@ -48,17 +48,18 @@ public class Dragon implements Comparable<Dragon> {
             Long weight,
             DragonType type
     ) {
-        if (name == null || name.isEmpty() || coordinates == null || age == null || age <= 0 || weight <= 0 || type == null){
-            System.out.println("Вкралась ошибка"); //добавить вывод информации об ошибке
-        } else {
-            this.id = IdGenerator.generateId();
-            this.name = name;
-            this.coordinates = coordinates;
-            this.age = age;
-            this.description = description;
-            this.weight = weight;
-            this.type = type;
-        }
+            if (name == null || name.isEmpty() || coordinates == null || (age != null && age <= 0) || weight <= 0 || type == null){
+                System.out.println("В исходном файле ошибка."); //добавить вывод информации об ошибке
+                throw new RuntimeException();
+            } else {
+                this.id = IdGenerator.generateId();
+                this.name = name;
+                this.coordinates = coordinates;
+                this.age = age;
+                this.description = description;
+                this.weight = weight;
+                this.type = type;
+            }
     }
 
     public long getId() {

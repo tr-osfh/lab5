@@ -8,17 +8,6 @@ public class DragonManager {
     public DragonManager() {
     }
 
-    public String getDragonNamePart(){
-        String name = readNamePart();
-        return name;
-    }
-
-    public Long getDragonId(){
-        Long id = readId();
-        return id;
-    }
-
-    
     public Dragon setDragon() {
         String name = readName();
 
@@ -35,7 +24,6 @@ public class DragonManager {
             BrightColor killerEyeColor = readBrightColor();
             NaturalColor killerHairColor = readNaturalColor();
 
-            //location тут обратит внимание на имя
             int locationX = readLocationX();
             Integer locationY = readLocationY();
             double locationZ = readLocationZ();
@@ -50,17 +38,17 @@ public class DragonManager {
                     type,
                     new Person(killerName, killerEyeColor, killerHairColor, new Location(locationX,locationY,locationZ, locationName))
             );
+        } else {
+            return new Dragon(
+                    name,
+                    new Coordinates(coordinateX, coordinateY),
+                    age,
+                    description,
+                    weight,
+                    type
+            );
         }
-        // person подумай еще 5 раз, это поле может быть пустым
 
 
-        return new Dragon(
-                name,
-                new Coordinates(coordinateX, coordinateY),
-                age,
-                description,
-                weight,
-                type
-                );
     }
 }

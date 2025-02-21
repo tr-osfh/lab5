@@ -8,7 +8,7 @@ public class Coordinates {
 
     public Coordinates(Float x, Integer y){
         if (x == null || y == null){
-            System.out.println("Вкралась ошибка");
+            System.out.println("Вкралась ошибка1");
         } else {
             this.x = x;
             this.y = y;

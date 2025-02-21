@@ -1,13 +1,13 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 import root.files.seClasses.Dragon;
 
 public class RemoveLowerCommand implements Command{
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public RemoveLowerCommand(CollectionManagerRecever manager){
+    public RemoveLowerCommand(CollectionManager manager){
         this.manager = manager;
     }
 

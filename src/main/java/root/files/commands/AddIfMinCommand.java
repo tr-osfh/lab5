@@ -1,12 +1,12 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 import root.files.seClasses.Dragon;
 
 public class AddIfMinCommand implements Command{
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public AddIfMinCommand(CollectionManagerRecever manager) {
+    public AddIfMinCommand(CollectionManager manager) {
         this.manager = manager;
     }
 

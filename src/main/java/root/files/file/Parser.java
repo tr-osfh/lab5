@@ -1,13 +1,39 @@
 package root.files.file;
 
-import root.files.commands.Command;
-import root.files.commands.CommandManager;
 import root.files.seClasses.*;
 
-import java.util.Scanner;
-
 public class Parser {
-
+    public String parseDragonToLine(Dragon dragon){
+        String dragonLine;
+        if (dragon.getKiller() != null){
+            dragonLine = dragon.getId() + "," +
+                    dragon.getName() + "," +
+                    dragon.getCoordinates().getX() + "," +
+                    dragon.getCoordinates().getY() + "," +
+                    dragon.getAge() + "," +
+                    dragon.getDescription() + "," +
+                    dragon.getWeight() + "," +
+                    dragon.getType() + "," +
+                    dragon.getKiller().getPassportID() + "," +
+                    dragon.getKiller().getName() + "," +
+                    dragon.getKiller().getEyeColor() + "," +
+                    dragon.getKiller().getHairColor() + "," +
+                    dragon.getKiller().getLocation().getX() + "," +
+                    dragon.getKiller().getLocation().getY() + "," +
+                    dragon.getKiller().getLocation().getZ() + "," +
+                    dragon.getKiller().getLocation().getName() + "\n";
+        } else {
+            dragonLine = dragon.getId() + "," +
+                    dragon.getName() + "," +
+                    dragon.getCoordinates().getX() + "," +
+                    dragon.getCoordinates().getY() + "," +
+                    dragon.getAge() + "," +
+                    dragon.getDescription() + "," +
+                    dragon.getWeight() + "," +
+                    dragon.getType() + "\n";
+        }
+        return dragonLine;
+    }
 
     public Dragon parseLineToDragon(String line) {
         String[] values = line.split(",");
@@ -58,9 +84,9 @@ public class Parser {
             Float coordinateX = Float.valueOf(values[2]);
             Integer coordinateY = Integer.valueOf(values[3]);
 
-            Long age = Long.valueOf(values[4]);
+            Long age = (values[4] == null ? null: Long.valueOf(values[6]));;
             String description = values[5];
-            Long weight = Long.valueOf(values[6]);
+            Long weight = (values[6] == null ? null: Long.valueOf(values[6]));
             DragonType type = DragonType.valueOf(values[7]);
 
             Dragon dragon = new Dragon(

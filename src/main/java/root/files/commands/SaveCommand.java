@@ -1,11 +1,11 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class SaveCommand implements Command{
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public SaveCommand(CollectionManagerRecever manager) {
+    public SaveCommand(CollectionManager manager) {
         this.manager = manager;
     }
 

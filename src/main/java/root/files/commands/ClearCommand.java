@@ -1,12 +1,12 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class ClearCommand implements Command{
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public ClearCommand(CollectionManagerRecever manager) {
+    public ClearCommand(CollectionManager manager) {
         this.manager = manager;
     }
     @Override

@@ -1,13 +1,12 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
-import root.files.seClasses.Dragon;
+import root.files.collection.CollectionManager;
 
 public class ShowCommand implements Command {
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public ShowCommand(CollectionManagerRecever manager) {
+    public ShowCommand(CollectionManager manager) {
         this.manager = manager;
     }
 

@@ -1,7 +1,7 @@
 package root.files.commands;
 
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ public class CommandManager {
 
     private static HashMap<String, Command> commands = new HashMap<>();
 
-    public CommandManager(CollectionManagerRecever manager){
+    public CommandManager(CollectionManager manager){
         commands.put("exit", new ExitCommand(manager));
         commands.put("info", new infoCommand(manager));
         commands.put("show", new ShowCommand(manager));

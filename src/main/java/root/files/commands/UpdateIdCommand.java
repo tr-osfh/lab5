@@ -1,22 +1,22 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 import root.files.seClasses.Dragon;
 
 public class UpdateIdCommand implements Command{
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public UpdateIdCommand(CollectionManagerRecever manager) {
+    public UpdateIdCommand(CollectionManager manager) {
         this.manager = manager;
     }
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 1) {
+        if (args.length == 2) {
             for (;;){
                 try {
-                    Long dragonId = manager.getDragonManager().getDragonId();
+                    Long dragonId = Long.parseLong(args[1]);
                     boolean inCollection = false;
                     for (Dragon dragonToRemove : manager.getDragons()) {
                         if (dragonToRemove.getId() == dragonId) {

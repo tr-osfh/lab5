@@ -1,12 +1,12 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class ExitCommand implements Command{
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public ExitCommand(CollectionManagerRecever manager){
+    public ExitCommand(CollectionManager manager){
         this.manager = manager;
     }
     @Override

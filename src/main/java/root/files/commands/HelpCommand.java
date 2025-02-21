@@ -1,12 +1,12 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class HelpCommand implements Command{
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public HelpCommand(CollectionManagerRecever manager) {
+    public HelpCommand(CollectionManager manager) {
         this.manager = manager;
     }
 

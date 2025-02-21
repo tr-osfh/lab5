@@ -1,6 +1,6 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 import root.files.seClasses.Dragon;
 
 import java.util.Iterator;
@@ -8,9 +8,9 @@ import java.util.PriorityQueue;
 
 public class RemoveByIdCommand implements Command {
 
-    private final CollectionManagerRecever manager;
+    private final CollectionManager manager;
 
-    public RemoveByIdCommand(CollectionManagerRecever manager) {
+    public RemoveByIdCommand(CollectionManager manager) {
         this.manager = manager;
     }
 

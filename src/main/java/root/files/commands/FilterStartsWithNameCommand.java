@@ -1,11 +1,11 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class FilterStartsWithNameCommand implements Command{
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public FilterStartsWithNameCommand(CollectionManagerRecever manager){
+    public FilterStartsWithNameCommand(CollectionManager manager){
         this.manager = manager;
     }
 

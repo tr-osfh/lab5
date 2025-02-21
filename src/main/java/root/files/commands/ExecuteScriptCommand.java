@@ -1,12 +1,12 @@
 package root.files.commands;
 
-import root.files.collection.CollectionManagerRecever;
+import root.files.collection.CollectionManager;
 
 public class ExecuteScriptCommand implements Command{
 
-    private CollectionManagerRecever manager;
+    private CollectionManager manager;
 
-    public ExecuteScriptCommand(CollectionManagerRecever manager) {
+    public ExecuteScriptCommand(CollectionManager manager) {
         this.manager = manager;
     }
 
