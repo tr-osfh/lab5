@@ -268,5 +268,10 @@ public class Reader {
         }
     }
 
+    public static String readLink(){
+        System.out.println("Введите ссылку на скрипт: ");
+        return readLine();
+    }
+
 
 }

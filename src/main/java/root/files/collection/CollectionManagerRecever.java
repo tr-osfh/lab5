@@ -13,9 +13,11 @@ public class CollectionManagerRecever {
 
     PriorityQueue<Dragon> dragons = new PriorityQueue<>();
     private String fileName;
+    FileWriterManager fm = new FileWriterManager(fileName);
     private CommandManager commandManager;
     private DragonManager dragonManager = new DragonManager();
     private java.time.LocalDateTime creationDate = java.time.LocalDateTime.now();
+
     public PriorityQueue<Dragon> getDragons() {
         return dragons;
     }
@@ -52,7 +54,6 @@ public class CollectionManagerRecever {
     }
 
     public void save(){
-        FileWriterManager fm = new FileWriterManager(fileName);
         try {
             fm.saveCSV(dragons);
             System.out.println("Коллекция сохранена в файл.");
@@ -92,5 +93,17 @@ public class CollectionManagerRecever {
 
     public void clear(){
         dragons.clear();
+    }
+
+    public void executeScript(){
+        commandManager.executeScriptCommand(fm.loadScript());
+    }
+
+    public void head(){
+        if (!dragons.isEmpty()){
+            System.out.println(dragons.peek());
+        } else {
+            System.out.println("Коллекция пуста.");
+        }
     }
 }

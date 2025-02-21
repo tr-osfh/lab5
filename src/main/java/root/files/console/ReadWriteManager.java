@@ -63,6 +63,4 @@ public class ReadWriteManager {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine().trim();
     }
-
-
 }
