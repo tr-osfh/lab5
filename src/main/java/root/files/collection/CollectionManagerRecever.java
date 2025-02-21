@@ -151,4 +151,18 @@ public class CollectionManagerRecever {
             System.out.println("Поиск не дал результатов.");
         }
     }
+
+    public void filterStartsWithName(String name){
+        boolean flag = false;
+        int len = name.length();
+        for (Dragon dragon : dragons){
+            if (dragon.getName().substring(0, len).equals(name)){
+                System.out.println(dragon);
+                flag = true;
+            }
+        }
+        if (!flag){
+            System.out.println("Поиск не дал результатов.");
+        }
+    }
 }

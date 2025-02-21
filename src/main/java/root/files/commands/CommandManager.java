@@ -28,6 +28,7 @@ public class CommandManager {
         commands.put("remove_lower", new RemoveLowerCommand(manager));
         commands.put("sum_of_age", new SumOfAgeCommand(manager));
         commands.put("filter_contains_name", new FilterContainsNameCommand(manager));
+        commands.put("filter_starts_with_name", new FilterStartsWithNameCommand(manager));
     }
 
     private Command command;
