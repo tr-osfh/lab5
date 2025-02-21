@@ -3,39 +3,46 @@ package root.files.commands;
 import root.files.collection.CollectionManagerRecever;
 import root.files.seClasses.Dragon;
 
-public class RemoveByIdCommand implements Command{
+import java.util.Iterator;
+import java.util.PriorityQueue;
 
-    private CollectionManagerRecever manager;
+public class RemoveByIdCommand implements Command {
 
-    public RemoveByIdCommand(CollectionManagerRecever manager){
+    private final CollectionManagerRecever manager;
+
+    public RemoveByIdCommand(CollectionManagerRecever manager) {
         this.manager = manager;
     }
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 1) {
-            for (;;){
-                try {
-                    Long dragonId = manager.getDragonManager().getDragonId();
-                    boolean inCollection = false;
-                    for (Dragon dragonToRemove : manager.getDragons()) {
-                        if (dragonToRemove.getId() == dragonId) {
-                            manager.removeById(dragonToRemove);
-                            inCollection = true;
-                        }
-                    }
-                    if (inCollection) {
-                        System.out.println("Дракон с ID" + dragonId + " успешно удален.");
+        if (args.length == 2) {
+            try {
+                Long dragonId = Long.valueOf(args[1]);
+                boolean inCollection = false;
+
+                PriorityQueue<Dragon> dragons = manager.getDragons();
+                Iterator<Dragon> iterator = dragons.iterator();
+
+                while (iterator.hasNext()) {
+                    Dragon dragonToRemove = iterator.next();
+                    if (dragonToRemove.getId() == dragonId) {
+                        iterator.remove();
+                        inCollection = true;
                         break;
-                    } else {
-                        System.out.println("Дракона с ID " + dragonId + " нет в коллекции.");
                     }
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(e);
                 }
+
+                if (inCollection) {
+                    System.out.println("Дракон с ID " + dragonId + " успешно удален.");
+                } else {
+                    System.out.println("Дракона с ID " + dragonId + " нет в коллекции.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Ошибка: ID должен быть числом.");
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Неверное количество аргументов. Используйте: remove_by_id <id>");
         }
     }
 

@@ -72,6 +72,7 @@ public class FileWriterManager {
             }
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден.");
+            System.out.println(e.getStackTrace());
         }
         return commands;
     }

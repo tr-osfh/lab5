@@ -24,6 +24,7 @@ public class Main {
             }
         } catch (NullPointerException e) {
             System.out.println("Файл не найден.");
+            e.getStackTrace();
         }
     }
 }
