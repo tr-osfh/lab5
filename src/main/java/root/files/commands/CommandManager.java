@@ -25,6 +25,7 @@ public class CommandManager {
         commands.put("help", new HelpCommand(manager));
         commands.put("execute_script", new ExecuteScriptCommand(manager));
         commands.put("head", new HeadCommand(manager));
+        commands.put("add_if_min", new AddIfMinCommand(manager));
     }
 
     private Command command;

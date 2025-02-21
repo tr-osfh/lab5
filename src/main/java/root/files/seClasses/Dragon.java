@@ -27,7 +27,7 @@ public class Dragon implements Comparable<Dragon> {
             Person killer
     ) {
         if (name == null || name.isEmpty() || coordinates == null || age == null || age <= 0 || weight <= 0 || type == null){
-            System.out.println("Вкралась ошибка"); //добавить вывод информации об ошибке
+            System.out.println("ВВеденная информация содержит недопустимые значения."); //добавить вывод информации об ошибке
         } else {
             this.id = IdGenerator.generateId();
             this.name = name;

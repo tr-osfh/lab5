@@ -16,6 +16,7 @@ public class Main {
             CollectionManagerRecever cmr = new CollectionManagerRecever();
             CommandManager cm = new CommandManager(cmr);
             cmr.setCommandManager(cm);
+            cmr.setFileManager(fm);
             cmr.setFileName(filePath);
             cmr.setDragons(fm.loadCSV());
             for (;;){

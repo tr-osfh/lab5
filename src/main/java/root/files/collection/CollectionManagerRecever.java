@@ -13,10 +13,14 @@ public class CollectionManagerRecever {
 
     PriorityQueue<Dragon> dragons = new PriorityQueue<>();
     private String fileName;
-    FileWriterManager fm = new FileWriterManager(fileName);
+    FileWriterManager fm;
     private CommandManager commandManager;
     private DragonManager dragonManager = new DragonManager();
     private java.time.LocalDateTime creationDate = java.time.LocalDateTime.now();
+
+    public void setFileManager(FileWriterManager fm){
+        this.fm = fm;
+    };
 
     public PriorityQueue<Dragon> getDragons() {
         return dragons;
@@ -105,5 +109,9 @@ public class CollectionManagerRecever {
         } else {
             System.out.println("Коллекция пуста.");
         }
+    }
+
+    public void addIfMin(Dragon dragon){
+        dragons.add(dragon);
     }
 }
