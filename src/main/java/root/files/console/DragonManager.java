@@ -8,10 +8,16 @@ public class DragonManager {
     public DragonManager() {
     }
 
+    public String getDragonNamePart(){
+        String name = readNamePart();
+        return name;
+    }
+
     public Long getDragonId(){
         Long id = readId();
         return id;
     }
+
     
     public Dragon setDragon() {
         String name = readName();

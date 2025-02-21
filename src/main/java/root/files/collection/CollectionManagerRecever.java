@@ -99,8 +99,8 @@ public class CollectionManagerRecever {
         dragons.clear();
     }
 
-    public void executeScript(){
-        commandManager.executeScriptCommand(fm.loadScript());
+    public void executeScript(String file){
+        commandManager.executeScriptCommand(fm.loadScript(file));
     }
 
     public void head(){
@@ -113,5 +113,42 @@ public class CollectionManagerRecever {
 
     public void addIfMin(Dragon dragon){
         dragons.add(dragon);
+    }
+
+    public void removeLower(Dragon dragon){
+        for (Dragon dragonToRemove : dragons){
+            if (dragonToRemove.getCoordinates().getX() < dragon.getCoordinates().getX()){
+                dragons.remove(dragonToRemove);
+            }
+        }
+    }
+
+    public void sumOfAge(){
+        Long sAge = 0L;
+        if (!dragons.isEmpty()){
+            for (Dragon dragon : dragons){
+                sAge += dragon.getAge();
+            }
+            if (sAge == 0L){
+                System.out.println("Нет данных о возрасте драконов.");
+            } else {
+                System.out.println("Суммарный возраст всех драконов: " + sAge);
+            }
+        } else {
+            System.out.println("В коллекции нет драконов.");
+        }
+    }
+
+    public void filterContainsName(String name){
+        boolean flag = false;
+        for (Dragon dragon : dragons){
+            if (dragon.getName().contains(name)){
+                System.out.println(dragon);
+                flag = true;
+            }
+        }
+        if (!flag){
+            System.out.println("Поиск не дал результатов.");
+        }
     }
 }

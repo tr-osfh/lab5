@@ -12,8 +12,11 @@ public class ExecuteScriptCommand implements Command{
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 1){
-            manager.executeScript();
+        if (args.length == 2){
+            manager.executeScript(args[1]);
+            System.out.println();
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 

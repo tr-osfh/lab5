@@ -60,23 +60,20 @@ public class FileWriterManager {
         }
     }
 
-    public ArrayList<String> loadScript(){
+    public ArrayList<String> loadScript(String link) {
         ArrayList<String> commands = new ArrayList<>();
-        for (;;){
-            String link = readLink();
-            File file = new File(link);
-            try {
-                Scanner scanner = new Scanner(file);
-                while (scanner.hasNextLine()){
-                    String line = scanner.nextLine();
-                    commands.add(line);
-                    System.out.println("Загружен скрипт из " + commands.size() + " команд.");
-                }
-                return commands;
-            } catch (FileNotFoundException e) {
-                System.out.println("Файл не найден.");;
+        File file = new File(link);
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                commands.add(line);
+                System.out.println("Загружен скрипт из " + commands.size() + " команд.");
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл не найден.");
         }
+        return commands;
     }
 
     public PriorityQueue<Dragon> loadCSV(){

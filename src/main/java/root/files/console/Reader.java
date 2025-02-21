@@ -273,5 +273,18 @@ public class Reader {
         return readLine();
     }
 
+    public static String readNamePart(){
+        System.out.println("Введите подстроку: ");
+        String name;
+        for (;;){
+            name = readLine();
+            if (name.isEmpty() || name.isBlank()){
+                System.out.println("Строка не может быть пустой! Введите имя: ");
+            } else {
+                return name;
+            }
+        }
+    }
+
 
 }

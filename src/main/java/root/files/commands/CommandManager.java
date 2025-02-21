@@ -5,7 +5,6 @@ import root.files.collection.CollectionManagerRecever;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 /// Invoker
@@ -26,6 +25,9 @@ public class CommandManager {
         commands.put("execute_script", new ExecuteScriptCommand(manager));
         commands.put("head", new HeadCommand(manager));
         commands.put("add_if_min", new AddIfMinCommand(manager));
+        commands.put("remove_lower", new RemoveLowerCommand(manager));
+        commands.put("sum_of_age", new SumOfAgeCommand(manager));
+        commands.put("filter_contains_name", new FilterContainsNameCommand(manager));
     }
 
     private Command command;
