@@ -14,31 +14,28 @@ public class UpdateIdCommand implements Command{
     @Override
     public void execute(String[] args) {
         if (args.length == 2) {
-            for (;;){
-                try {
-                    Long dragonId = Long.parseLong(args[1]);
-                    boolean inCollection = false;
-                    for (Dragon dragonToRemove : manager.getDragons()) {
-                        if (dragonToRemove.getId() == dragonId) {
-                            Dragon dragon = manager.getDragonManager().setDragon();
-                            manager.removeById(dragonToRemove);
-                            dragon.setId(dragonId);
-                            manager.updateById(dragon);
-                            inCollection = true;
-                        }
+            try {
+                Long dragonId = Long.parseLong(args[1]);
+                boolean inCollection = false;
+                for (Dragon dragonToRemove : manager.getDragons()) {
+                    if (dragonToRemove.getId() == dragonId) {
+                        Dragon dragon = manager.getDragonManager().setDragon();
+                        manager.removeById(dragonToRemove);
+                        dragon.setId(dragonId);
+                        manager.updateById(dragon);
+                        inCollection = true;
                     }
-                    if (inCollection) {
-                        System.out.println("Данные дракона успешно обновлены.");
-                        break;
-                    } else {
-                        System.out.println("Дракона с ID " + dragonId + " нет в коллекции.");
-                    }
-                } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(e);
                 }
+                if (inCollection) {
+                    System.out.println("Данные дракона успешно обновлены.");
+                } else {
+                    System.out.println("Дракона с ID " + dragonId + " нет в коллекции.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ID должен быть числом.");
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Неверное количество аргументов. Используйте: remove_by_id <id>");
         }
     }
 

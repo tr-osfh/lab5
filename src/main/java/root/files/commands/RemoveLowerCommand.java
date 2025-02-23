@@ -20,12 +20,13 @@ public class RemoveLowerCommand implements Command{
                 for (Dragon dragonTmp : manager.getDragons()) {
                     if (dragonTmp.equals(dragon)) {
                         inCollection = true;
+                    } else {
+                        manager.removeLower(dragon);
                     }
                 }
                 if (inCollection) {
                     System.out.println("Этот дракон уже есть в коллекции.");
                 } else {
-                    manager.removeLower(dragon);
                     System.out.println("Элементы меньшие чем заданый удалены.");
                 }
             } catch (IllegalArgumentException e) {

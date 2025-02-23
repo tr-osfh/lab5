@@ -12,14 +12,10 @@ public class FilterContainsNameCommand implements Command{
     @Override
     public void execute(String[] args) {
         if (args.length == 2) {
-            try {
-                String namePart = args[1];
-                manager.filterContainsName(namePart);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(e);
-            }
+            String namePart = args[1];
+            manager.filterContainsName(namePart);
         } else {
-            throw new IllegalArgumentException();
+            System.out.println("Неверное количество аргументов. Используйте: remove_by_id <id>");
         }
     }
 

@@ -12,14 +12,10 @@ public class FilterStartsWithNameCommand implements Command{
     @Override
     public void execute(String[] args) {
         if (args.length == 2) {
-            try {
-                String namePart = args[1];
-                manager.filterStartsWithName(namePart);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(e);
-            }
+            String namePart = args[1];
+            manager.filterStartsWithName(namePart);
         } else {
-            throw new IllegalArgumentException();
+            System.out.println("Неверное количество аргументов.");
         }
     }
 

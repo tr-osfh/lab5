@@ -10,16 +10,17 @@ import java.util.Objects;
 
 public class Person {
     private String name; //Поле не может быть null, Строка не может быть пустой
-    private String passportID = IdGenerator.generatePassportId(); //Строка не может быть пустой, Значение этого поля должно быть уникальным, Поле не может быть null
+    private String passportID; //Строка не может быть пустой, Значение этого поля должно быть уникальным, Поле не может быть null
     private BrightColor eyeColor; //Поле не может быть null
     private NaturalColor hairColor; //Поле может быть null
     private Location location; //Поле не может быть null
 
-    public Person(String name, BrightColor eyeColor, NaturalColor hairColor, Location location){
-        if (name == null || name.isEmpty() || eyeColor == null || hairColor == null || location == null){
+    public Person(String name, String passportID, BrightColor eyeColor, NaturalColor hairColor, Location location){
+        if (name == null || name.isEmpty() || passportID == null || passportID.isEmpty() ||eyeColor == null || hairColor == null || location == null){
             System.out.println("Ошибка вкралась");
         } else {
             this.name = name;
+            this.passportID = passportID;
             this.eyeColor = eyeColor;
             this.hairColor = hairColor;
             this.location = location;

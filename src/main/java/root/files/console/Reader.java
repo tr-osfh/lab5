@@ -93,7 +93,7 @@ public class Reader {
                 weight = readLong();
                 System.out.println();
                 if (weight == null) {
-                    System.out.print("Строка не может быть пустой. Введите вес дракона: ");
+                    return weight;
                 } else if (weight < 0) {
                     System.out.print("Вес должен быть больше 0. Введите вес дракона: ");
                 } else {
@@ -101,6 +101,20 @@ public class Reader {
                 }
             } catch (NumberFormatException e) {
                 System.out.print("Число введено неверно. Введите вес дракона: ");
+            }
+        }
+    }
+
+    public static String readPassportID(){
+        System.out.print("Введите идентификатор человека: ");
+        String passportId = null;
+        for (;;){
+            passportId = readLine();
+            System.out.println();
+            if (passportId.isEmpty()){
+                System.out.println("Идентификатор не может быть пустым. Введите идентификатор человека: ");
+            } else {
+                return passportId;
             }
         }
     }
@@ -287,7 +301,7 @@ public class Reader {
             name = readLine();
             System.out.println();
             if (name.isEmpty() || name.isBlank()){
-                System.out.println("Строка не может быть пустой!");
+                System.out.println("Строка не может быть пустым!");
             } else {
                 return name;
             }

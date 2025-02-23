@@ -21,6 +21,7 @@ public class DragonManager {
 
         if (readChoice("убийцу")){
             String killerName = readName();
+            String killerPassportId = readPassportID();
             BrightColor killerEyeColor = readBrightColor();
             NaturalColor killerHairColor = readNaturalColor();
 
@@ -36,7 +37,7 @@ public class DragonManager {
                     description,
                     weight,
                     type,
-                    new Person(killerName, killerEyeColor, killerHairColor, new Location(locationX,locationY,locationZ, locationName))
+                    new Person(killerName, killerPassportId, killerEyeColor, killerHairColor, new Location(locationX,locationY,locationZ, locationName))
             );
         } else {
             return new Dragon(

@@ -71,7 +71,7 @@ public class Parser {
                     description,
                     weight,
                     type,
-                    new Person(killerName, killerEyeColor, killerHairColor, new Location(locationX, locationY, locationZ, locationName))
+                    new Person(killerName, killerId, killerEyeColor, killerHairColor, new Location(locationX, locationY, locationZ, locationName))
             );
             dragon.setId(id);
             dragon.getKiller().setPassportID(killerId);

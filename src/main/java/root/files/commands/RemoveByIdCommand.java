@@ -29,7 +29,6 @@ public class RemoveByIdCommand implements Command {
                     if (dragonToRemove.getId() == dragonId) {
                         iterator.remove();
                         inCollection = true;
-                        break;
                     }
                 }
 

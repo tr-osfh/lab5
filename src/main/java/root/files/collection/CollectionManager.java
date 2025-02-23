@@ -1,13 +1,12 @@
 package root.files.collection;
 
+import java.util.*;
+
 import root.files.commands.Command;
 import root.files.commands.CommandManager;
 import root.files.console.DragonManager;
 import root.files.file.FileWriterManager;
 import root.files.seClasses.Dragon;
-
-import java.util.HashMap;
-import java.util.PriorityQueue;
 
 public class CollectionManager {
 
@@ -116,11 +115,15 @@ public class CollectionManager {
     }
 
     public void removeLower(Dragon dragon){
-        for (Dragon dragonToRemove : dragons){
-            if (dragonToRemove.getCoordinates().getX() < dragon.getCoordinates().getX()){
-                dragons.remove(dragonToRemove);
+        List<Dragon> toRemove = new ArrayList<>();
+
+        for (Dragon dragonToRemove : dragons) {
+            if (dragonToRemove.getCoordinates().getX() < dragon.getCoordinates().getX()) {
+                toRemove.add(dragonToRemove);
             }
         }
+
+        dragons.removeAll(toRemove);
     }
 
     public void sumOfAge(){
@@ -158,9 +161,11 @@ public class CollectionManager {
         boolean flag = false;
         int len = name.length();
         for (Dragon dragon : dragons){
-            if (dragon.getName().substring(0, len).equals(name)){
-                System.out.println(dragon);
-                flag = true;
+            if (dragon.getName().length() >= len){
+                if (dragon.getName().substring(0, len).equals(name)){
+                    System.out.println(dragon);
+                    flag = true;
+                }
             }
         }
         if (!flag){

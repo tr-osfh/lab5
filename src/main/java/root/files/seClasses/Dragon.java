@@ -17,6 +17,8 @@ public class Dragon implements Comparable<Dragon> {
     private DragonType type; //Поле не может быть null
     private Person killer; //Поле может быть null
 
+    private IdGenerator generator = new IdGenerator();
+
     public Dragon(
             String name,
             Coordinates coordinates,
@@ -29,7 +31,7 @@ public class Dragon implements Comparable<Dragon> {
         if (name == null || name.isEmpty() || coordinates == null || (age != null && age <= 0) || weight <= 0 || type == null){
             System.out.println("Введенная информация содержит недопустимые значения.");//добавить вывод информации об ошибке
         } else {
-            this.id = IdGenerator.generateId();
+            this.id = generator.generateId();
             this.name = name;
             this.coordinates = coordinates;
             this.age = age;
@@ -52,7 +54,7 @@ public class Dragon implements Comparable<Dragon> {
                 System.out.println("В исходном файле ошибка."); //добавить вывод информации об ошибке
                 throw new RuntimeException();
             } else {
-                this.id = IdGenerator.generateId();
+                this.id = generator.generateId();
                 this.name = name;
                 this.coordinates = coordinates;
                 this.age = age;
@@ -133,21 +135,6 @@ public class Dragon implements Comparable<Dragon> {
     public void setKiller(Person killer) {
         this.killer = killer;
     }
-
-    public String[] getDBDescription(){
-        String[] res = new String[9];
-        res[0] = Long.toString(this.getId());
-        res[1] = this.getName();
-        res[2] = this.getCoordinates().toString();
-        res[3] = this.getCreationDate().toString();
-        res[4] = this.getAge().toString();
-        res[5] = this.getDescription();
-        res[6] = this.getWeight().toString();
-        res[7] = this.getType().toString();
-        res[8] = this.getKiller().toString();
-        return res;
-    }
-
 
     @Override
     public boolean equals(Object object) {
