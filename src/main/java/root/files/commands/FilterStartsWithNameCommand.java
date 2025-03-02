@@ -15,7 +15,7 @@ public class FilterStartsWithNameCommand implements Command{
             String namePart = args[1];
             manager.filterStartsWithName(namePart);
         } else {
-            System.out.println("Неверное количество аргументов.");
+            throw new IllegalArgumentException("Неверное количество аргументов.");
         }
     }
 

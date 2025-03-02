@@ -12,7 +12,7 @@ public class SumOfAgeCommand implements Command{
     @Override
     public void execute(String[] args) {
         if (args.length == 1) {
-        manager.sumOfAge();
+            manager.sumOfAge();
         } else {
             throw new IllegalArgumentException();
         }

@@ -1,10 +1,11 @@
 package root.files.console;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ReadController {
 
-    public static Integer readInteger() {
+    public Integer readInteger() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         try {
@@ -18,7 +19,7 @@ public class ReadController {
 
     }
 
-    public static Float readFloat() {
+    public Float readFloat() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         try {
@@ -28,7 +29,7 @@ public class ReadController {
         }
     }
 
-    public static Long readLong() {
+    public Long readLong() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if (input.isEmpty()) {
@@ -41,7 +42,7 @@ public class ReadController {
         }
     }
 
-    public static Double readDouble() {
+    public Double readDouble() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if (input.isEmpty()) {
@@ -56,8 +57,12 @@ public class ReadController {
 
 
 
-    public static String readLine() {
+    public String readLine() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine().trim();
+    }
+
+    public void printLine(Object str){
+        System.out.print(str);
     }
 }

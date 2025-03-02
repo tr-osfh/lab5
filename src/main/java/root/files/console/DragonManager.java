@@ -1,34 +1,35 @@
 package root.files.console;
 import root.files.seClasses.*;
 
-import static root.files.console.Reader.*;
+import root.files.console.ConsoleManager;
 
 public class DragonManager {
-
-    public DragonManager() {
+    ConsoleManager cm;
+    public DragonManager(ConsoleManager cm) {
+        this.cm = cm;
     }
 
     public Dragon setDragon() {
-        String name = readName();
+        String name = cm.readName();
 
-        Float coordinateX = readCoordinateX();
-        Integer coordinateY = readCoordinateY();
+        Float coordinateX = cm.readCoordinateX();
+        Integer coordinateY = cm.readCoordinateY();
 
-        Long age = readAge();
-        String description = readDescription();
-        Long weight = readWeight();
-        DragonType type = readType();
+        Long age = cm.readAge();
+        String description = cm.readDescription();
+        Long weight = cm.readWeight();
+        DragonType type = cm.readType();
 
-        if (readChoice("убийцу")){
-            String killerName = readName();
-            String killerPassportId = readPassportID();
-            BrightColor killerEyeColor = readBrightColor();
-            NaturalColor killerHairColor = readNaturalColor();
+        if (cm.readChoice("убийцу")){
+            String killerName = cm.readName();
+            String killerPassportId = cm.readPassportID();
+            BrightColor killerEyeColor = cm.readBrightColor();
+            NaturalColor killerHairColor = cm.readNaturalColor();
 
-            int locationX = readLocationX();
-            Integer locationY = readLocationY();
-            double locationZ = readLocationZ();
-            String locationName = readLocationName();
+            int locationX = cm.readLocationX();
+            Integer locationY = cm.readLocationY();
+            double locationZ = cm.readLocationZ();
+            String locationName = cm.readLocationName();
 
             return new Dragon(
                     name,

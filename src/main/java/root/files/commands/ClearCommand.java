@@ -13,7 +13,7 @@ public class ClearCommand implements Command{
     public void execute(String[] args) {
         if (args.length == 1) {
             manager.clear();
-            System.out.println("Коллекция успешно удалена.");
+
         } else {
             throw new IllegalArgumentException();
         }

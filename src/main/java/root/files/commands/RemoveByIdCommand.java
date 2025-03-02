@@ -17,29 +17,7 @@ public class RemoveByIdCommand implements Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 2) {
-            try {
-                Long dragonId = Long.valueOf(args[1]);
-                boolean inCollection = false;
-
-                PriorityQueue<Dragon> dragons = manager.getDragons();
-                Iterator<Dragon> iterator = dragons.iterator();
-
-                while (iterator.hasNext()) {
-                    Dragon dragonToRemove = iterator.next();
-                    if (dragonToRemove.getId() == dragonId) {
-                        iterator.remove();
-                        inCollection = true;
-                    }
-                }
-
-                if (inCollection) {
-                    System.out.println("Дракон с ID " + dragonId + " успешно удален.");
-                } else {
-                    System.out.println("Дракона с ID " + dragonId + " нет в коллекции.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Ошибка: ID должен быть числом.");
-            }
+            manager.removeById(Long.valueOf(args[1]));
         } else {
             throw new IllegalArgumentException("Неверное количество аргументов. Используйте: remove_by_id <id>");
         }

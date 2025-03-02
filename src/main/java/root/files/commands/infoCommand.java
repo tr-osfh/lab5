@@ -1,6 +1,7 @@
 package root.files.commands;
 
 import root.files.collection.CollectionManager;
+import root.files.console.ConsoleManager;
 
 public class infoCommand implements Command{
 

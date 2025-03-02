@@ -14,24 +14,9 @@ public class RemoveLowerCommand implements Command{
     @Override
     public void execute(String[] args) {
         if (args.length == 1) {
-            try {
-                Dragon dragon = manager.getDragonManager().setDragon();
-                boolean inCollection = false;
-                for (Dragon dragonTmp : manager.getDragons()) {
-                    if (dragonTmp.equals(dragon)) {
-                        inCollection = true;
-                    } else {
-                        manager.removeLower(dragon);
-                    }
-                }
-                if (inCollection) {
-                    System.out.println("Этот дракон уже есть в коллекции.");
-                } else {
-                    System.out.println("Элементы меньшие чем заданый удалены.");
-                }
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(e);
-            }
+            Dragon dragon = manager.getDragonManager().setDragon();
+            manager.removeLower(dragon);
+
         } else {
             throw new IllegalArgumentException();
         }

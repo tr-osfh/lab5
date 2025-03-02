@@ -15,7 +15,7 @@ public class FilterContainsNameCommand implements Command{
             String namePart = args[1];
             manager.filterContainsName(namePart);
         } else {
-            System.out.println("Неверное количество аргументов. Используйте: remove_by_id <id>");
+            throw new IllegalArgumentException("Неверное количество аргументов. Используйте: remove_by_id <id>");
         }
     }
 

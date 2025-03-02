@@ -2,17 +2,17 @@ package root.files;
 
 import root.files.collection.CollectionManager;
 import root.files.commands.CommandManager;
-import root.files.file.FileWriterManager;
-
-import java.io.IOException;
+import root.files.console.ConsoleManager;
+import root.files.file.FileManager;
 
 public class Main {
     public static void main(String[] args) {
         try {
             String filePath = System.getenv("DB_FILE_PATH");
-            FileWriterManager fm = new FileWriterManager(filePath);
+            FileManager fm = new FileManager(filePath);
             CollectionManager receiver = new CollectionManager();
-            CommandManager cm = new CommandManager(receiver);
+            ConsoleManager consoleManager = new ConsoleManager();
+            CommandManager cm = new CommandManager(receiver, consoleManager);
             receiver.setCommandManager(cm);
             receiver.setFileManager(fm);
             receiver.setFileName(filePath);

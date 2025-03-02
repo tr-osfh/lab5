@@ -16,21 +16,7 @@ public class UpdateIdCommand implements Command{
         if (args.length == 2) {
             try {
                 Long dragonId = Long.parseLong(args[1]);
-                boolean inCollection = false;
-                for (Dragon dragonToRemove : manager.getDragons()) {
-                    if (dragonToRemove.getId() == dragonId) {
-                        Dragon dragon = manager.getDragonManager().setDragon();
-                        manager.removeById(dragonToRemove);
-                        dragon.setId(dragonId);
-                        manager.updateById(dragon);
-                        inCollection = true;
-                    }
-                }
-                if (inCollection) {
-                    System.out.println("Данные дракона успешно обновлены.");
-                } else {
-                    System.out.println("Дракона с ID " + dragonId + " нет в коллекции.");
-                }
+                manager.updateById(dragonId);
             } catch (NumberFormatException e) {
                 System.out.println("ID должен быть числом.");
             }
