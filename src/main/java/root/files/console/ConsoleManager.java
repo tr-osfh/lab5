@@ -82,7 +82,7 @@ public class ConsoleManager {
 
     public Long readWeight() {
         rc.printLine("Введите вес дракона: ");
-        Long weight = null;
+        Long weight;
         for (;;) {
             try {
                 weight = rc.readLong();

@@ -26,25 +26,6 @@ public class FileManager {
         }
     }
 
-    public ArrayList<String> loadScript(String link) {
-        ArrayList<String> commands = new ArrayList<>();
-        File file = new File(link);
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                if (!line.contains(link)){
-                    commands.add(line);
-                }
-            }
-            System.out.println("Загружен скрипт из " + commands.size() + " команд.");
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден.");
-            System.out.println(e.getStackTrace());
-        }
-        return commands;
-    }
-
     public PriorityQueue<Dragon> loadCSV(){
         File file = new File(this.fileName);
         PriorityQueue<Dragon> dragons = new PriorityQueue<Dragon>();

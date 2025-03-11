@@ -41,7 +41,7 @@ public class CommandManager {
         this.command = command;
     }
 
-    public HashMap<String, Command> getCommands() {
+    public static HashMap<String, Command> getCommands() {
         return commands;
     }
 

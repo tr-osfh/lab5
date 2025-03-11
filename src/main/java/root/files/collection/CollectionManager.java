@@ -1,5 +1,7 @@
 package root.files.collection;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 import root.files.commands.Command;
@@ -7,6 +9,8 @@ import root.files.commands.CommandManager;
 import root.files.console.ConsoleManager;
 import root.files.console.DragonManager;
 import root.files.file.FileManager;
+import root.files.file.FileStack;
+import root.files.file.ScriptReaderManager;
 import root.files.seClasses.Dragon;
 
 public class CollectionManager {
@@ -95,12 +99,11 @@ public class CollectionManager {
         cm.printLine("Колличество элементов в коллеции: " + dragons.size() + "\n");
     }
 
-    public void updateById(Long dragonId) {
+    public void updateById(Long dragonId, Dragon dragon) {
         boolean inCollection = false;
         for (Dragon dragonToRemove : dragons) {
             if (dragonToRemove.getId() == dragonId) {
                 dragons.remove(dragonToRemove);
-                Dragon dragon = getDragonManager().setDragon();
                 dragon.setId(dragonId);
                 dragons.add(dragon);
                 inCollection = true;
@@ -145,9 +148,10 @@ public class CollectionManager {
         cm.printLine("Коллекция успешно удалена.\n");
     }
 
-    public void executeScript(String file) {
-        commandManager.executeScriptCommand(fm.loadScript(file));
+    public void executeScript(String link) {
+
     }
+
 
     public void head() {
         if (!dragons.isEmpty()) {
@@ -155,6 +159,7 @@ public class CollectionManager {
         } else {
             cm.printLine("Коллекция пуста.\n");
         }
+
     }
 
     public void addIfMin(Dragon dragon) {
