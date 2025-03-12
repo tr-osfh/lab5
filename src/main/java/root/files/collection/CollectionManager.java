@@ -8,6 +8,7 @@ import root.files.commands.Command;
 import root.files.commands.CommandManager;
 import root.files.console.ConsoleManager;
 import root.files.console.DragonManager;
+import root.files.console.Validator;
 import root.files.file.FileManager;
 import root.files.file.FileStack;
 import root.files.file.ScriptReaderManager;
@@ -20,6 +21,7 @@ public class CollectionManager {
     FileManager fm;
     ConsoleManager cm = new ConsoleManager();
     private CommandManager commandManager;
+    private Validator validator = new Validator();
     private DragonManager dragonManager = new DragonManager(cm);
     private java.time.LocalDateTime creationDate = java.time.LocalDateTime.now();
 
@@ -55,7 +57,7 @@ public class CollectionManager {
     public void show() {
         if (!dragons.isEmpty()) {
             for (Dragon dragon : dragons) {
-                cm.printLine(dragon);
+                cm.printLine(dragon + "\n");
             }
         } else {
             cm.printLine("Коллекция пуста.\n");
@@ -82,14 +84,18 @@ public class CollectionManager {
         if (inCollection) {
             cm.printLine("Этот дракон уже есть в коллекции.\n");
         } else {
-            dragons.add(dragon);
+            if (validator.getValid(dragon) != null){
+                dragons.add(dragon);
+            } else {
+                cm.printLine("Параметры дракона не верны.\n");
+            }
             cm.printLine("Дракон успешно добавлен.\n");
         }
     }
 
     public void help(HashMap<String, Command> commands) {
         for (Command command : commands.values()) {
-            cm.printLine(command.getDescription());
+            cm.printLine(command.getDescription() + "\n");
         }
     }
 
@@ -101,12 +107,19 @@ public class CollectionManager {
 
     public void updateById(Long dragonId, Dragon dragon) {
         boolean inCollection = false;
-        for (Dragon dragonToRemove : dragons) {
+        Iterator<Dragon> iterator = dragons.iterator();
+        while (iterator.hasNext()) {
+            Dragon dragonToRemove = iterator.next();
             if (dragonToRemove.getId() == dragonId) {
-                dragons.remove(dragonToRemove);
+                iterator.remove();
                 dragon.setId(dragonId);
-                dragons.add(dragon);
+                if (validator.getValid(dragon) != null) {
+                    dragons.add(dragon);
+                } else {
+                    cm.printLine("Параметры дракона не верны.\n");
+                }
                 inCollection = true;
+                break;
             }
         }
         if (inCollection) {
@@ -174,7 +187,11 @@ public class CollectionManager {
             cm.printLine("Этот дракон уже есть в коллекции.\n");
         } else {
             if (dragon.getCoordinates().getX() < dragons.peek().getCoordinates().getX()) {
-                dragons.add(dragon);
+                if (validator.getValid(dragon) != null){
+                    dragons.add(dragon);
+                } else {
+                    cm.printLine("Параметры дракона не верны.\n");
+                }
                 cm.printLine("Дракон успешно добавлен.\n");
             } else {
                 cm.printLine("Данный дракон не имеет минимального значения.\n");
@@ -184,23 +201,19 @@ public class CollectionManager {
     }
 
     public void removeLower(Dragon dragon) {
+        List<Dragon> toRemove = new ArrayList<>();
 
-        for (Dragon dragonTmp : dragons) {
-            boolean flag = false;
-            List<Dragon> toRemove = new ArrayList<>();
-            for (Dragon dragonToRemove : dragons) {
-                if (dragonToRemove.getCoordinates().getX() < dragon.getCoordinates().getX()) {
-                    toRemove.add(dragonToRemove);
-                    flag = true;
-                }
+        for (Dragon dragonToCheck : dragons) {
+            if (dragonToCheck.getCoordinates().getX() < dragon.getCoordinates().getX()) {
+                toRemove.add(dragonToCheck);
             }
-            if (flag){
-                dragons.removeAll(toRemove);
-                cm.printLine("Драконы, меньшие чем заданный, удалены.\n");
-            } else {
-                cm.printLine("Драконов меньше, чем заданный, нет в коллекции\n");
-            }
+        }
 
+        if (!toRemove.isEmpty()) {
+            dragons.removeAll(toRemove);
+            cm.printLine("Драконы, меньшие чем заданный, удалены.\n");
+        } else {
+            cm.printLine("Драконов меньше, чем заданный, нет в коллекции\n");
         }
     }
 
@@ -226,7 +239,7 @@ public class CollectionManager {
         boolean flag = false;
         for (Dragon dragon : dragons){
             if (dragon.getName().contains(name)){
-                cm.printLine(dragon);
+                cm.printLine(dragon + "\n");
                 flag = true;
             }
         }
@@ -241,7 +254,7 @@ public class CollectionManager {
         for (Dragon dragon : dragons){
             if (dragon.getName().length() >= len){
                 if (dragon.getName().substring(0, len).equals(name)){
-                    cm.printLine(dragon);
+                    cm.printLine(dragon + "\n");
                     flag = true;
                 }
             }

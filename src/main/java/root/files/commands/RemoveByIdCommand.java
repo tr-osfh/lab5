@@ -19,7 +19,7 @@ public class RemoveByIdCommand implements Command {
         if (args.length == 2) {
             manager.removeById(Long.valueOf(args[1]));
         } else {
-            throw new IllegalArgumentException("Неверное количество аргументов. Используйте: remove_by_id <id>");
+            throw new IllegalArgumentException("Неверное количество аргументов. спользуйте: remove_by_id");
         }
     }
 

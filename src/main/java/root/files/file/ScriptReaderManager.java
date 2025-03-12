@@ -34,14 +34,14 @@ public class ScriptReaderManager {
                 if (cmdArg.length == 2){
                     return new String[]{cmd, cmdArg[1].trim()};
                 } else {
-                    if (cmdArg.length == 1){
-                        return new String[]{cmd};
-                    } else {
-                        throw new IllegalArgumentException("");
-                    }
+                    throw new IllegalArgumentException("");
                 }
             } else {
-                throw new IllegalArgumentException("");
+                if (cmdArg.length == 1){
+                    return new String[]{cmd};
+                } else {
+                    throw new IllegalArgumentException("");
+                }
             }
         } else {
             throw new IllegalArgumentException();
@@ -49,7 +49,7 @@ public class ScriptReaderManager {
     }
 
     public String readName() throws IllegalArgumentException{
-        String name = scanner.nextLine();
+        String name = scanner.nextLine().replace(',', '.');
         if (name.isEmpty() || name.isBlank()){
             throw new IllegalArgumentException();
         } else {
@@ -87,7 +87,7 @@ public class ScriptReaderManager {
     }
 
     public String readDescription(){
-        return scanner.nextLine();
+        return scanner.nextLine().replace(',', '.');
     }
 
     public Long readWeight() throws IllegalArgumentException{
@@ -102,7 +102,7 @@ public class ScriptReaderManager {
     }
 
     public String readPassportID() throws IllegalArgumentException{
-        String id = scanner.nextLine();
+        String id = scanner.nextLine().trim().replace(',', '.');
         if (id.isEmpty() || id.isBlank()){
             throw new IllegalArgumentException();
         } else {
@@ -181,7 +181,7 @@ public class ScriptReaderManager {
     }
 
     public String readLocationName(){
-        String name = scanner.nextLine();
+        String name = scanner.nextLine().replace(',', '.').trim();
         if (name.isEmpty() || name.isBlank()){
             return null;
         } else {

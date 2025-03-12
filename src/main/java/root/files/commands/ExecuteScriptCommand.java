@@ -1,6 +1,7 @@
 package root.files.commands;
 
 import root.files.collection.CollectionManager;
+import root.files.console.Validator;
 import root.files.file.FileStack;
 import root.files.file.ScriptReaderManager;
 import root.files.seClasses.*;
@@ -13,6 +14,7 @@ public class ExecuteScriptCommand implements Command{
 
     private CollectionManager manager;
     private final HashMap<String, Command> commands;
+    private Validator validator = new Validator();
 
     public ExecuteScriptCommand(CollectionManager manager) {
         this.manager = manager;
@@ -34,9 +36,9 @@ public class ExecuteScriptCommand implements Command{
                             if (commands.containsKey(cmd)) {
                                 if (
                                         cmd.equals("add") ||
-                                                cmd.equals("update") ||
-                                                cmd.equals("add_if_min") ||
-                                                cmd.equals("remove_lower")
+                                        cmd.equals("update") ||
+                                        cmd.equals("add_if_min") ||
+                                        cmd.equals("remove_lower")
                                 ) {
                                     Dragon dragon;
                                     String name = srm.readName();
@@ -78,8 +80,9 @@ public class ExecuteScriptCommand implements Command{
                                                 type
                                         );
                                     }
+                                    dragon = validator.getValid(dragon);
 
-                                    if (dragon != null) { // будет работать когда добавлю валидатор
+                                    if (dragon != null) {
                                         switch (cmd) {
                                             case "add" -> manager.add(dragon);
                                             case "update" -> manager.updateById(Long.valueOf(cmdAndArg[1]), dragon);

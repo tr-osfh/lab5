@@ -27,7 +27,7 @@ public class UpdateIdCommand implements Command{
                 System.out.println("ID должен быть числом.");
             }
         } else {
-            throw new IllegalArgumentException("Неверное количество аргументов. Используйте: remove_by_id <id>");
+            throw new IllegalArgumentException("Неверное количество аргументов. спользуйте: remove_by_id (id)");
         }
     }
 

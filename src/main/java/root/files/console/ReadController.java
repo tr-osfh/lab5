@@ -59,7 +59,7 @@ public class ReadController {
 
     public String readLine() {
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine().trim();
+        return scanner.nextLine().replace(',', '.').trim();
     }
 
     public void printLine(Object str){

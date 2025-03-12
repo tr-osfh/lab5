@@ -105,7 +105,7 @@ public class ConsoleManager {
         for (;;){
             passportId = rc.readLine();
             if (passportId.isEmpty()){
-                System.out.println("Идентификатор не может быть пустым. Введите идентификатор человека: ");
+                System.out.println("дентификатор не может быть пустым. Введите идентификатор человека: ");
             } else {
                 return passportId;
             }
