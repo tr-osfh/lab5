@@ -10,50 +10,80 @@ import root.files.console.ConsoleManager;
 import root.files.console.DragonManager;
 import root.files.console.Validator;
 import root.files.file.FileManager;
-import root.files.file.FileStack;
-import root.files.file.ScriptReaderManager;
 import root.files.seClasses.Dragon;
 
+/**
+ * Менеджер коллекции драконов. Обеспечивает:
+ * - Хранение данных в PriorityQueue<Dragon> с естественным порядком сортировки
+ * - Управление базовыми CRUD-операциями
+ * - Валидацию данных через {@link Validator}
+ * - Взаимодействие с файловой системой через {@link FileManager}
+ * - Консольный ввод/вывод через {@link ConsoleManager}
+ *
+ * <p>Коллекция инициализируется при создании и сохраняет дату создания.</p>
+ */
 public class CollectionManager {
 
     PriorityQueue<Dragon> dragons = new PriorityQueue<>();
-    private String fileName;
     FileManager fm;
     ConsoleManager cm = new ConsoleManager();
     private CommandManager commandManager;
-    private Validator validator = new Validator();
-    private DragonManager dragonManager = new DragonManager(cm);
-    private java.time.LocalDateTime creationDate = java.time.LocalDateTime.now();
+    private final Validator validator = new Validator();
+    private final DragonManager dragonManager = new DragonManager(cm);
+    private final java.time.LocalDateTime creationDate = java.time.LocalDateTime.now();
 
+    /**
+     * Устанавливает файловый менеджер для работы с сохранением/загрузкой данных
+     * @param fm Экземпляр {@link FileManager}
+     */
     public void setFileManager(FileManager fm) {
         this.fm = fm;
     }
 
+    /**
+     * Возвращает текущую коллекцию драконов
+     * @return PriorityQueue<Dragon> - коллекция объектов Dragon
+     */
     public PriorityQueue<Dragon> getDragons() {
         return dragons;
     }
 
+    /**
+     * Заменяет текущую коллекцию драконов
+     * @param dragons Новая коллекция объектов Dragon
+     */
     public void setDragons(PriorityQueue<Dragon> dragons) {
         this.dragons = dragons;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
+    /**
+     * Устанавливает менеджер команд для взаимодействия
+     * @param commandManager Экземпляр {@link CommandManager}
+     */
     public void setCommandManager(CommandManager commandManager) {
         this.commandManager = commandManager;
     }
 
+    /**
+     * Возвращает текущий менеджер команд
+     * @return {@link CommandManager}
+     */
     public CommandManager getCommandManager() {
         return commandManager;
     }
 
+    /**
+     * Возвращает менеджер для работы с данными драконов
+     * @return {@link DragonManager}
+     */
     public DragonManager getDragonManager() {
         return dragonManager;
     }
 
-
+    /**
+     * Выводит все элементы коллекции в консоль.
+     * Если коллекция пуста, отображает соответствующее сообщение.
+     */
     public void show() {
         if (!dragons.isEmpty()) {
             for (Dragon dragon : dragons) {
@@ -64,21 +94,31 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Сохраняет коллекцию в CSV-файл через {@link FileManager}.
+     * Выводит сообщение об успехе или ошибке записи.
+     */
     public void save() {
         try {
             fm.saveCSV(dragons);
             cm.printLine("Коллекция сохранена в файл.\n");
         } catch (Exception e) {
-            e.printStackTrace();
             cm.printLine("Запись в файл не возможна\n");
         }
     }
 
+    /**
+     * Добавляет дракона в коллекцию после проверки:
+     * - Уникальности объекта
+     * - Валидности данных через {@link Validator}
+     * @param dragon Объект Dragon для добавления
+     */
     public void add(Dragon dragon) {
         boolean inCollection = false;
         for (Dragon dragonTmp : dragons) {
             if (dragonTmp.equals(dragon)) {
                 inCollection = true;
+                break;
             }
         }
         if (inCollection) {
@@ -93,18 +133,33 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Выводит справку по доступным командам
+     * @param commands Карта команд с их описаниями
+     */
     public void help(HashMap<String, Command> commands) {
         for (Command command : commands.values()) {
             cm.printLine(command.getDescription() + "\n");
         }
     }
 
+    /**
+     * Выводит метаинформацию о коллекции:
+     * - Тип хранимых данных
+     * - Время инициализации
+     * - Количество элементов
+     */
     public void info() {
         cm.printLine("Тип хранимых данных в коллекции: Dragon\n");
         cm.printLine("Дата и время инициализации: " + creationDate + "\n");
         cm.printLine("Колличество элементов в коллеции: " + dragons.size() + "\n");
     }
 
+    /**
+     * Обновляет дракона по ID. Заменяет старые данные новыми после валидации.
+     * @param dragonId ID дракона для обновления
+     * @param dragon Новые данные дракона
+     */
     public void updateById(Long dragonId, Dragon dragon) {
         boolean inCollection = false;
         Iterator<Dragon> iterator = dragons.iterator();
@@ -129,6 +184,10 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Удаляет дракона из коллекции по ID
+     * @param dragonId ID дракона для удаления
+     */
     public void removeById(Long dragonId) {
         try {
             boolean inCollection = false;
@@ -152,31 +211,38 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Завершает работу приложения
+     */
     public void exit() {
         System.exit(0);
     }
 
+    /**
+     * Полностью очищает коллекцию
+     */
     public void clear() {
         dragons.clear();
         cm.printLine("Коллекция успешно удалена.\n");
     }
 
-    public void executeScript(String link) {
 
-    }
-
-
+    /**
+     * Выводит первый элемент коллекции
+     */
     public void head() {
         if (!dragons.isEmpty()) {
             cm.printLine(dragons.peek());
         } else {
             cm.printLine("Коллекция пуста.\n");
         }
-
     }
 
+    /**
+     * Добавляет дракона, если его значение меньше минимального в коллекции (по координате X)
+     * @param dragon Объект Dragon для проверки и добавления
+     */
     public void addIfMin(Dragon dragon) {
-
         boolean inCollection = false;
         for (Dragon dragonTmp : dragons) {
             if (dragonTmp.equals(dragon)) {
@@ -197,9 +263,12 @@ public class CollectionManager {
                 cm.printLine("Данный дракон не имеет минимального значения.\n");
             }
         }
-
     }
 
+    /**
+     * Удаляет всех драконов, меньших чем заданный (по координате X)
+     * @param dragon Объект Dragon для сравнения
+     */
     public void removeLower(Dragon dragon) {
         List<Dragon> toRemove = new ArrayList<>();
 
@@ -217,6 +286,9 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Выводит суммарный возраст всех драконов коллекции.
+     */
     public void sumOfAge(){
         Long sAge = 0L;
         if (!dragons.isEmpty()){
@@ -235,6 +307,10 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Ищет драконов, чьи имена содержат заданную подстроку
+     * @param name Подстрока для поиска
+     */
     public void filterContainsName(String name){
         boolean flag = false;
         for (Dragon dragon : dragons){
@@ -248,6 +324,10 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Ищет драконов, чьи имена начинаются с заданной подстроки
+     * @param name Подстрока для поиска в начале имени
+     */
     public void filterStartsWithName(String name){
         boolean flag = false;
         int len = name.length();
