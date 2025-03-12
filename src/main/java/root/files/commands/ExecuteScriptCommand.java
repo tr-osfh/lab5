@@ -98,6 +98,8 @@ public class ExecuteScriptCommand implements Command{
                 } finally {
                     FileStack.removeFile();
                 }
+            } else {
+                System.out.println("Рекурсия невозможна.");
             }
         }
     }
