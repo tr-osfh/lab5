@@ -4,8 +4,17 @@ import root.files.seClasses.BrightColor;
 import root.files.seClasses.DragonType;
 import root.files.seClasses.NaturalColor;
 
+/**
+ * Класс ConsoleManager управляет вводом и выводом данных через консоль.
+ * Используется для чтения различных типов данных, таких как строки, числа, цвета и т.д.
+ */
 public class ConsoleManager {
     private static ReadController rc = new ReadController();
+
+    /**
+     * Читает имя, введенное пользователем.
+     * @return Введенное имя, если оно не пустое.
+     */
     public String readName(){
         rc.printLine("Введите имя: ");
         String name;
@@ -20,6 +29,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает координату X, введенную пользователем.
+     * @return Введенная координата X, если она корректна.
+     */
     public Float readCoordinateX() {
         rc.printLine("Введите координату X: ");
         Float coordinateX;
@@ -38,6 +51,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает координату Y, введенную пользователем.
+     * @return Введенная координата Y, если она корректна.
+     */
     public Integer readCoordinateY(){
         rc.printLine("Введите координату Y: ");
         Integer coordinateY;
@@ -55,6 +72,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает возраст дракона, введенный пользователем.
+     * @return Введенный возраст, если он больше 0.
+     */
     public Long readAge(){
         rc.printLine("Введите возраст дракона: ");
         Long age;
@@ -74,12 +95,20 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает описание дракона, введенное пользователем.
+     * @return Введенное описание.
+     */
     public String readDescription(){
         rc.printLine("Введите описание дракона: ");
         String line = rc.readLine();
         return line;
     }
 
+    /**
+     * Читает вес дракона, введенный пользователем.
+     * @return Введенный вес, если он больше 0.
+     */
     public Long readWeight() {
         rc.printLine("Введите вес дракона: ");
         Long weight;
@@ -99,19 +128,27 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает идентификатор человека, введенный пользователем.
+     * @return Введенный идентификатор, если он не пустой.
+     */
     public String readPassportID(){
         rc.printLine("Введите идентификатор человека: ");
         String passportId = null;
         for (;;){
             passportId = rc.readLine();
             if (passportId.isEmpty()){
-                System.out.println("дентификатор не может быть пустым. Введите идентификатор человека: ");
+                System.out.println("Идентификатор не может быть пустым. Введите идентификатор человека: ");
             } else {
                 return passportId;
             }
         }
     }
 
+    /**
+     * Читает тип дракона, введенный пользователем.
+     * @return Введенный тип дракона (WATER, UNDERGROUND, AIR).
+     */
     public DragonType readType() {
         String type;
         for (; ; ) {
@@ -131,6 +168,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает цвет глаз дракона, введенный пользователем.
+     * @return Введенный цвет глаз (GREEN, BLACK, BLUE, YELLOW, ORANGE).
+     */
     public BrightColor readBrightColor(){
         String color;
         for (;;) {
@@ -153,6 +194,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает цвет волос дракона, введенный пользователем.
+     * @return Введенный цвет волос (RED, BLACK, YELLOW, WHITE, BROWN).
+     */
     public NaturalColor readNaturalColor(){
         String color;
         for (;;) {
@@ -175,6 +220,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает координату X локации, введенную пользователем.
+     * @return Введенная координата X, если она корректна.
+     */
     public int readLocationX(){
         rc.printLine("Введите координату X: ");
         Integer x;
@@ -193,6 +242,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает координату Y локации, введенную пользователем.
+     * @return Введенная координата Y, если она корректна.
+     */
     public Integer readLocationY(){
         rc.printLine("Введите координату Y: ");
         Integer y;
@@ -211,6 +264,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает координату Z локации, введенную пользователем.
+     * @return Введенная координата Z, если она корректна.
+     */
     public double readLocationZ(){
         rc.printLine("Введите координату Z: ");
         Double z;
@@ -229,6 +286,11 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает выбор пользователя (y/n) для добавления параметра.
+     * @param param Параметр, который пользователь может добавить.
+     * @return true, если пользователь выбрал "y", иначе false.
+     */
     public boolean readChoice(String param){
         String yn;
         for (;;) {
@@ -239,12 +301,15 @@ public class ConsoleManager {
             } else if (yn.equals("n")) {
                 return false;
             } else {
-                System.out.println("Проврьте введенные данные.");
+                System.out.println("Проверьте введенные данные.");
             }
         }
     }
 
-
+    /**
+     * Читает название локации, введенное пользователем.
+     * @return Введенное название локации, если оно не пустое.
+     */
     public String readLocationName(){
         rc.printLine("Введите название локации: ");
         String name = rc.readLine();
@@ -256,6 +321,10 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает идентификатор дракона, введенный пользователем.
+     * @return Введенный идентификатор, если он корректный.
+     */
     public long readId(){
         rc.printLine("Введите id дракона: ");
         Long id = null;
@@ -273,25 +342,37 @@ public class ConsoleManager {
         }
     }
 
+    /**
+     * Читает ссылку на скрипт, введенную пользователем.
+     * @return Введенная ссылка.
+     */
     public String readLink(){
         rc.printLine("Введите ссылку на скрипт: ");
         String line = rc.readLine();
         return line;
     }
 
+    /**
+     * Читает подстроку, введенную пользователем.
+     * @return Введенная подстрока, если она не пустая.
+     */
     public String readNamePart(){
         String name;
         for (;;){
             rc.printLine("Введите подстроку: ");
             name = rc.readLine();
             if (name.isEmpty() || name.isBlank()){
-                System.out.println("Строка не может быть пустым!");
+                System.out.println("Строка не может быть пустой!");
             } else {
                 return name;
             }
         }
     }
 
+    /**
+     * Читает команду, введенную пользователем.
+     * @return Массив строк, содержащий команду и ее аргументы.
+     */
     public String[] readCommand(){
         rc.printLine("Введите команду: \n");
         String command = rc.readLine();
@@ -299,9 +380,11 @@ public class ConsoleManager {
         return args;
     }
 
+    /**
+     * Выводит строку в консоль.
+     * @param str Строка для вывода.
+     */
     public void printLine(Object str){
         rc.printLine(str);
     }
-
-
 }

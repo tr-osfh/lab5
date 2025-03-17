@@ -2,10 +2,21 @@ package root.files.file;
 
 import root.files.seClasses.*;
 
+/**
+ * Класс Parser отвечает за преобразование объектов Dragon в строки и обратно.
+ * Используется для сериализации и десериализации данных о драконах.
+ */
 public class Parser {
-    public String parseDragonToLine(Dragon dragon){
+
+    /**
+     * Преобразует объект Dragon в строку в формате CSV.
+     * @param dragon Объект Dragon для преобразования.
+     * @return Строка в формате CSV, представляющая объект Dragon.
+     */
+    public String parseDragonToLine(Dragon dragon) {
         String dragonLine;
-        if (dragon.getKiller() != null){
+        if (dragon.getKiller() != null) {
+            // Если у дракона есть убийца, добавляем все поля, включая информацию об убийце
             dragonLine = dragon.getId() + "," +
                     dragon.getName() + "," +
                     dragon.getCoordinates().getX() + "," +
@@ -23,6 +34,7 @@ public class Parser {
                     dragon.getKiller().getLocation().getZ() + "," +
                     dragon.getKiller().getLocation().getName() + "\n";
         } else {
+            // Если у дракона нет убийцы, добавляем только основные поля
             dragonLine = dragon.getId() + "," +
                     dragon.getName() + "," +
                     dragon.getCoordinates().getX() + "," +
@@ -35,14 +47,18 @@ public class Parser {
         return dragonLine;
     }
 
+    /**
+     * Преобразует строку в формате CSV в объект Dragon.
+     * @param line Строка в формате CSV, представляющая объект Dragon.
+     * @return Объект Dragon, созданный из строки.
+     * @throws RuntimeException Если строка содержит невалидные значения.
+     */
     public Dragon parseLineToDragon(String line) {
         String[] values = line.split(",");
         Dragon res;
         try {
-
             if (values.length == 16) {
                 long id = Long.parseLong(values[0]);
-
                 String name = values[1];
 
                 Float coordinateX = Float.valueOf(values[2]);
@@ -53,13 +69,11 @@ public class Parser {
                 Long weight = Long.valueOf(values[6]);
                 DragonType type = DragonType.valueOf(values[7]);
 
-                // person подумай еще 5 раз, это поле может быть пустым
                 String killerId = values[8];
                 String killerName = values[9];
-                BrightColor killerEyeColor = BrightColor.ValueOf(values[10]);
-                NaturalColor killerHairColor = NaturalColor.ValueOf(values[11]);
+                BrightColor killerEyeColor = BrightColor.valueOf(values[10]);
+                NaturalColor killerHairColor = NaturalColor.valueOf(values[11]);
 
-                //location тут обратит внимание на имя
                 int locationX = Integer.parseInt(values[12]);
                 Integer locationY = Integer.valueOf(values[13]);
                 double locationZ = Double.parseDouble(values[14]);
@@ -79,14 +93,14 @@ public class Parser {
 
                 res = dragon;
             } else if (values.length == 8) {
+                // Если строка не содержит информации об убийце
                 long id = Long.parseLong(values[0]);
                 String name = values[1];
 
                 Float coordinateX = Float.valueOf(values[2]);
                 Integer coordinateY = Integer.valueOf(values[3]);
 
-                Long age = (values[4] == null ? null : Long.valueOf(values[6]));
-                ;
+                Long age = (values[4] == null ? null : Long.valueOf(values[4]));
                 String description = values[5];
                 Long weight = (values[6] == null ? null : Long.valueOf(values[6]));
                 DragonType type = DragonType.valueOf(values[7]);
@@ -103,12 +117,11 @@ public class Parser {
 
                 res = dragon;
             } else {
-                throw new RuntimeException("В файле не валидные значения.");
+                throw new RuntimeException("В файле невалидные значения.");
             }
             return res;
         } catch (Exception e) {
-            throw new RuntimeException("В файле не валидные значения.");
+            throw new RuntimeException("В файле невалидные значения.");
         }
     }
-
 }

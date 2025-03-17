@@ -13,14 +13,7 @@ import root.files.file.FileManager;
 import root.files.seClasses.Dragon;
 
 /**
- * Менеджер коллекции драконов. Обеспечивает:
- * - Хранение данных в PriorityQueue<Dragon> с естественным порядком сортировки
- * - Управление базовыми CRUD-операциями
- * - Валидацию данных через {@link Validator}
- * - Взаимодействие с файловой системой через {@link FileManager}
- * - Консольный ввод/вывод через {@link ConsoleManager}
- *
- * <p>Коллекция инициализируется при создании и сохраняет дату создания.</p>
+ * Менеджер коллекции драконов.
  */
 public class CollectionManager {
 

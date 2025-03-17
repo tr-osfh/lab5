@@ -2,22 +2,40 @@ package root.files.file;
 
 import java.util.Stack;
 
+/**
+ * Класс FileStack предоставляет функциональность для работы со стеком файлов.
+ * Используется для хранения имен файлов в порядке их добавления.
+ */
 public class FileStack {
 
-    private static Stack<String> fileStack = new Stack<>();
+    private static Stack<String> fileStack = new Stack<>(); // Стек для хранения имен файлов
 
-    public FileStack(){
+    /**
+     * Конструктор класса FileStack.
+     */
+    public FileStack() {
     }
 
-    public static Stack<String> getFileStack(){
+    /**
+     * Возвращает текущий стек файлов.
+     * @return Стек, содержащий имена файлов.
+     */
+    public static Stack<String> getFileStack() {
         return fileStack;
     }
 
-    public static void addFile(String filename){
+    /**
+     * Добавляет имя файла в стек.
+     * @param filename Имя файла для добавления в стек.
+     */
+    public static void addFile(String filename) {
         fileStack.push(filename);
     }
 
-    public static void removeFile(){
+    /**
+     * Удаляет последнее добавленное имя файла из стека.
+     */
+    public static void removeFile() {
         fileStack.pop();
     }
 }
