@@ -6,46 +6,41 @@ import root.files.seClasses.Dragon;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+/**
+ * Команда удаления элемента коллекции по уникальному идентификатору (ID).
+ * Осуществляет поиск элемента с указанным ID и его удаление при наличии.
+ */
 public class RemoveByIdCommand implements Command {
 
     private final CollectionManager manager;
 
+    /**
+     * Конструктор команды удаления по ID
+     * @param manager Менеджер коллекции для доступа к методам удаления
+     */
     public RemoveByIdCommand(CollectionManager manager) {
         this.manager = manager;
     }
 
+    /**
+     * @param args Аргументы команды (должен быть ровно 1 аргумент - ID)
+     * @throws IllegalArgumentException Если:
+     * <li>Количество аргументов неверное
+     * <li>Аргумент не является числом
+     */
     @Override
     public void execute(String[] args) {
         if (args.length == 2) {
-            try {
-                Long dragonId = Long.valueOf(args[1]);
-                boolean inCollection = false;
-
-                PriorityQueue<Dragon> dragons = manager.getDragons();
-                Iterator<Dragon> iterator = dragons.iterator();
-
-                while (iterator.hasNext()) {
-                    Dragon dragonToRemove = iterator.next();
-                    if (dragonToRemove.getId() == dragonId) {
-                        iterator.remove();
-                        inCollection = true;
-                        break;
-                    }
-                }
-
-                if (inCollection) {
-                    System.out.println("Дракон с ID " + dragonId + " успешно удален.");
-                } else {
-                    System.out.println("Дракона с ID " + dragonId + " нет в коллекции.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Ошибка: ID должен быть числом.");
-            }
+            manager.removeById(Long.valueOf(args[1]));
         } else {
-            throw new IllegalArgumentException("Неверное количество аргументов. Используйте: remove_by_id <id>");
+            throw new IllegalArgumentException();
         }
     }
 
+    /**
+     * Возвращает описание команды для справки
+     * @return Форматированная строка с синтаксисом и назначением
+     */
     @Override
     public String getDescription() {
         return "remove_by_id id : удалить элемент из коллекции по его id";

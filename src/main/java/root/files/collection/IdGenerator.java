@@ -3,34 +3,35 @@ package root.files.collection;
 import java.util.Random;
 import java.util.HashSet;
 
+/**
+ * Генератор уникальных идентификаторов для объектов коллекции.
+ * Использует комбинацию временной метки и случайных чисел для генерации ID,
+ * гарантируя отсутствие дубликатов в рамках текущей сессии.
+ */
 public class IdGenerator {
 
-    private static HashSet<Integer> occupiedIds = new HashSet<>();
+    /** Множество занятых идентификаторов */
+    private static HashSet<Long> occupiedIds = new HashSet<>();
+    /** Генератор случайных значений */
+    private static Random random = new Random();
 
-    public static int generateId(){
-        int id;
+    /**
+     * Генерирует новый уникальный идентификатор.
+     *
+     * @return Уникальный числовой идентификатор
+     * @throws ArithmeticException При генерации нулевого делителя (маловероятно)
+     */
+    public long generateId() {
+        long id;
         do {
-            int time = (int) System.currentTimeMillis();
-            int rnd = new Random().nextInt(1000);
-            id = rnd + time;
+            long timestamp = System.currentTimeMillis();
+            long randomPart = random.nextInt(1000000);
+            long randomDiv = random.nextInt(9999) + 1;
+
+            id = (timestamp * 1000000 + randomPart) / randomDiv;
         } while (occupiedIds.contains(id));
+
         occupiedIds.add(id);
         return id;
     }
-
-
-    private static HashSet<Integer> occupiedPassportIds = new HashSet<>();
-    public static String generatePassportId(){
-        Integer id;
-        do {
-            int time = (int) System.currentTimeMillis();
-            int rnd = new Random().nextInt(1000);
-            id = rnd + time;
-        } while (occupiedIds.contains(id));
-        occupiedPassportIds.add(id);
-        return id.toString();
-    }
-
-
-
 }

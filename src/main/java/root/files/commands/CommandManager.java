@@ -7,28 +7,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import root.files.console.ConsoleManager;
+
 /// Invoker
 public class CommandManager {
-
     private static HashMap<String, Command> commands = new HashMap<>();
+    private ConsoleManager consoleManager;
 
-    public CommandManager(CollectionManager manager){
-        commands.put("exit", new ExitCommand(manager));
-        commands.put("info", new infoCommand(manager));
-        commands.put("show", new ShowCommand(manager));
-        commands.put("save", new SaveCommand(manager));
-        commands.put("clear", new ClearCommand(manager));
-        commands.put("remove_by_id", new RemoveByIdCommand(manager));
-        commands.put("add", new AddCommand(manager));
-        commands.put("update", new UpdateIdCommand(manager));
-        commands.put("help", new HelpCommand(manager));
-        commands.put("execute_script", new ExecuteScriptCommand(manager));
-        commands.put("head", new HeadCommand(manager));
-        commands.put("add_if_min", new AddIfMinCommand(manager));
-        commands.put("remove_lower", new RemoveLowerCommand(manager));
-        commands.put("sum_of_age", new SumOfAgeCommand(manager));
-        commands.put("filter_contains_name", new FilterContainsNameCommand(manager));
-        commands.put("filter_starts_with_name", new FilterStartsWithNameCommand(manager));
+    public CommandManager(CollectionManager colManager, ConsoleManager consoleManager){
+        this.consoleManager = consoleManager;
+
+        commands.put("exit", new ExitCommand(colManager));
+        commands.put("info", new infoCommand(colManager));
+        commands.put("show", new ShowCommand(colManager));
+        commands.put("save", new SaveCommand(colManager));
+        commands.put("clear", new ClearCommand(colManager));
+        commands.put("remove_by_id", new RemoveByIdCommand(colManager));
+        commands.put("add", new AddCommand(colManager));
+        commands.put("update", new UpdateIdCommand(colManager));
+        commands.put("help", new HelpCommand(colManager));
+        commands.put("execute_script", new ExecuteScriptCommand(colManager));
+        commands.put("head", new HeadCommand(colManager));
+        commands.put("add_if_min", new AddIfMinCommand(colManager));
+        commands.put("remove_lower", new RemoveLowerCommand(colManager));
+        commands.put("sum_of_age", new SumOfAgeCommand(colManager));
+        commands.put("filter_contains_name", new FilterContainsNameCommand(colManager));
+        commands.put("filter_starts_with_name", new FilterStartsWithNameCommand(colManager));
     }
 
     private Command command;
@@ -37,16 +41,13 @@ public class CommandManager {
         this.command = command;
     }
 
-    public HashMap<String, Command> getCommands() {
+    public static HashMap<String, Command> getCommands() {
         return commands;
     }
 
     public void executeCommand(){
-        Scanner scanner = new Scanner(System.in);
         try{
-            System.out.println("Введите команду: ");
-            String command = scanner.nextLine().trim();
-            String[] args = command.split(" ");
+            String[] args = consoleManager.readCommand();
             if (commands.containsKey(args[0])){
                 try {
                     commands.get(args[0]).execute(args);
@@ -79,5 +80,4 @@ public class CommandManager {
             System.out.println("Что-то пошло не так. Попробуйте еще раз.");
         }
     }
-
 }
