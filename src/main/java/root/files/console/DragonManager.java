@@ -1,5 +1,6 @@
 package root.files.console;
 
+import root.files.file.ScriptReaderManager;
 import root.files.seClasses.*;
 import root.files.console.ConsoleManager;
 
@@ -8,14 +9,17 @@ import root.files.console.ConsoleManager;
  * Использует ConsoleManager для получения данных от пользователя.
  */
 public class DragonManager {
-    ConsoleManager cm;
+    Reader read;
 
     /**
      * Конструктор класса DragonManager.
-     * @param cm Объект ConsoleManager для взаимодействия с пользователем.
      */
-    public DragonManager(ConsoleManager cm) {
-        this.cm = cm;
+    public DragonManager(ConsoleManager reader) {
+        this.read = reader;
+    }
+
+    public DragonManager(ScriptReaderManager reader){
+        this.read = reader;
     }
 
     /**
@@ -23,26 +27,26 @@ public class DragonManager {
      * @return Объект Dragon с заданными параметрами.
      */
     public Dragon setDragon() {
-        String name = cm.readName();
+        String name = read.readName();
 
-        Float coordinateX = cm.readCoordinateX();
-        Integer coordinateY = cm.readCoordinateY();
+        Float coordinateX = read.readCoordinateX();
+        Integer coordinateY = read.readCoordinateY();
 
-        Long age = cm.readAge();
-        String description = cm.readDescription();
-        Long weight = cm.readWeight();
-        DragonType type = cm.readType();
+        Long age = read.readAge();
+        String description = read.readDescription();
+        Long weight = read.readWeight();
+        DragonType type = read.readType();
 
-        if (cm.readChoice("убийцу")){
-            String killerName = cm.readName();
-            String killerPassportId = cm.readPassportID();
-            BrightColor killerEyeColor = cm.readBrightColor();
-            NaturalColor killerHairColor = cm.readNaturalColor();
+        if (read.readChoice()){
+            String killerName = read.readName();
+            String killerPassportId = read.readPassportID();
+            BrightColor killerEyeColor = read.readBrightColor();
+            NaturalColor killerHairColor = read.readNaturalColor();
 
-            int locationX = cm.readLocationX();
-            Integer locationY = cm.readLocationY();
-            double locationZ = cm.readLocationZ();
-            String locationName = cm.readLocationName();
+            int locationX = read.readLocationX();
+            Integer locationY = read.readLocationY();
+            double locationZ = read.readLocationZ();
+            String locationName = read.readLocationName();
 
             return new Dragon(
                     name,

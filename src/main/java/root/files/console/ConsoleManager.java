@@ -8,7 +8,7 @@ import root.files.seClasses.NaturalColor;
  * Класс ConsoleManager управляет вводом и выводом данных через консоль.
  * Используется для чтения различных типов данных, таких как строки, числа, цвета и т.д.
  */
-public class ConsoleManager {
+public class ConsoleManager implements Reader{
     private static ReadController rc = new ReadController();
 
     /**
@@ -288,13 +288,12 @@ public class ConsoleManager {
 
     /**
      * Читает выбор пользователя (y/n) для добавления параметра.
-     * @param param Параметр, который пользователь может добавить.
      * @return true, если пользователь выбрал "y", иначе false.
      */
-    public boolean readChoice(String param){
+    public boolean readChoice(){
         String yn;
         for (;;) {
-            rc.printLine("Вы хотите добавить " + param + "? y/n: ");
+            rc.printLine("Вы хотите добавить убийцу? y/n: ");
             yn = rc.readLine();
             if (yn.equals("y")){
                 return true;

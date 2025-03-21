@@ -1,6 +1,7 @@
 package root.files.commands;
 
 import root.files.collection.CollectionManager;
+import root.files.console.DragonManager;
 import root.files.console.Validator;
 import root.files.file.FileStack;
 import root.files.file.ScriptReaderManager;
@@ -48,11 +49,21 @@ public class ExecuteScriptCommand implements Command {
                             if (commands.containsKey(cmd)) {
                                 if (
                                         cmd.equals("add") ||
-                                                cmd.equals("update") ||
-                                                cmd.equals("add_if_min") ||
-                                                cmd.equals("remove_lower")
+                                        cmd.equals("update") ||
+                                        cmd.equals("add_if_min") ||
+                                        cmd.equals("remove_lower")
                                 ) {
-                                    // ... (логика создания Dragon)
+                                    DragonManager drm = new DragonManager(srm);
+                                    Dragon dragon = validator.getValid(drm.setDragon());
+                                    if (!(dragon == null)){
+                                        switch (cmd){
+                                            case "add" -> manager.add(dragon);
+                                            case "update" -> manager.updateById(Long.valueOf(cmdAndArg[1]), dragon);
+                                            case "add_if_min" -> manager.addIfMin(dragon);
+                                            case "remove_lower" -> manager.removeLower(dragon);
+                                        }
+                                    }
+
                                 } else {
                                     commands.get(cmd).execute(cmdAndArg);
                                 }

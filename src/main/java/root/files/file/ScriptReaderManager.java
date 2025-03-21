@@ -1,6 +1,7 @@
 package root.files.file;
 
 import root.files.commands.CommandManager;
+import root.files.console.Reader;
 import root.files.seClasses.BrightColor;
 import root.files.seClasses.DragonType;
 import root.files.seClasses.NaturalColor;
@@ -13,7 +14,7 @@ import java.util.Scanner;
  * Класс ScriptReaderManager отвечает за чтение данных из скриптового файла.
  * Используется для выполнения команд и обработки данных, содержащихся в скрипте.
  */
-public class ScriptReaderManager {
+public class ScriptReaderManager implements Reader {
     private final Scanner scanner;
 
     /**
