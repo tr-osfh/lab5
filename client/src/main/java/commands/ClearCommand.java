@@ -1,0 +1,20 @@
+package commands;
+
+/**
+ * Команда полной очистки коллекции.
+ * Удаляет все элементы из коллекции без возможности восстановления.
+ */
+public class ClearCommand implements Command {
+
+    public ClearCommand(){
+    }
+
+    @Override
+    public void execute(String[] args) {
+    }
+
+    @Override
+    public String getDescription() {
+        return "clear : очистить коллекцию";
+    }
+}

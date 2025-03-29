@@ -37,7 +37,7 @@ public class Main {
             receiver.setCommandManager(cm);
             receiver.setFileManager(fm);
             receiver.setDragons(fm.loadCSV());
-            for (;;){
+            for (; ; ) {
                 cm.executeCommand();
             }
         } catch (NullPointerException e) {
