@@ -1,12 +1,13 @@
 package commands;
 
 
+import java.io.Serializable;
 
 /**
  * Команда фильтрации элементов коллекции по началу имени.
  * Выводит все элементы, значение поля name которых начинается с указанной подстроки.
  */
-public class FilterStartsWithNameCommand implements Command {
+public class FilterStartsWithNameCommand implements Command, Serializable {
 
     private String partOfName;
 

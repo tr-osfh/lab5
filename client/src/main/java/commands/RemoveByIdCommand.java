@@ -1,12 +1,13 @@
 package commands;
 
 
+import java.io.Serializable;
 
 /**
  * Команда удаления элемента коллекции по уникальному идентификатору (ID).
  * Осуществляет поиск элемента с указанным ID и его удаление при наличии.
  */
-public class RemoveByIdCommand implements Command {
+public class RemoveByIdCommand implements Command, Serializable {
 
     private Long id;
 

@@ -1,11 +1,13 @@
 package commands;
 
 
+import java.io.Serializable;
+
 /**
  * Команда вычисления суммарного возраста элементов коллекции.
  * Суммирует значения поля age всех драконов, игнорируя элементы с неустановленным возрастом (null).
  */
-public class SumOfAgeCommand implements Command {
+public class SumOfAgeCommand implements Command, Serializable {
 
     public SumOfAgeCommand(){
 

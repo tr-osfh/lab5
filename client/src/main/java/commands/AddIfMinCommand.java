@@ -3,12 +3,14 @@ package commands;
 
 import seClasses.Dragon;
 
+import java.io.Serializable;
+
 /**
  * Команда условного добавления элемента в коллекцию.
  * Добавляет новый элемент только если его значение (по координате X)
  * меньше минимального значения в текущей коллекции.
  */
-public class AddIfMinCommand implements Command {
+public class AddIfMinCommand implements Command, Serializable {
     private Dragon dragon;
 
     public AddIfMinCommand(Dragon dragon) {

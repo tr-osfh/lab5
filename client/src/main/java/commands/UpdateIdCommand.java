@@ -3,11 +3,13 @@ package commands;
 
 import seClasses.Dragon;
 
+import java.io.Serializable;
+
 /**
  * Команда обновления элемента коллекции по ID.
  * Заменяет данные существующего элемента новыми значениями, полученными через интерактивный ввод.
  */
-public class UpdateIdCommand implements Command {
+public class UpdateIdCommand implements Command, Serializable {
     private Long id;
     private Dragon dragon;
 

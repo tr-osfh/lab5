@@ -1,10 +1,12 @@
 package commands;
 
+import java.io.Serializable;
+
 /**
  * Команда полной очистки коллекции.
  * Удаляет все элементы из коллекции без возможности восстановления.
  */
-public class ClearCommand implements Command {
+public class ClearCommand implements Command, Serializable {
 
     public ClearCommand(){
     }

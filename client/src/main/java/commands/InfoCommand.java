@@ -1,5 +1,7 @@
 package commands;
 
+import java.io.Serializable;
+
 /**
  * Команда вывода метаинформации о коллекции.
  * Отображает:
@@ -7,7 +9,7 @@ package commands;
  * <li>Дату и время инициализации
  * <li>Текущее количество элементов
  */
-public class InfoCommand implements Command {
+public class InfoCommand implements Command, Serializable {
 
     public InfoCommand() {
 

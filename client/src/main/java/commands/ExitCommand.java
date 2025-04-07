@@ -1,12 +1,13 @@
 package commands;
 
-import collection.CollectionManager;
+
+import java.io.Serializable;
 
 /**
  * Команда завершения работы приложения.
  * Немедленно останавливает выполнение программы без сохранения данных.
  */
-public class ExitCommand implements Command {
+public class ExitCommand implements Command, Serializable {
 
     public ExitCommand(){
     }

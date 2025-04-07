@@ -3,10 +3,12 @@ package commands;
 
 import seClasses.Dragon;
 
+import java.io.Serializable;
+
 /**
  * Команда добавления нового элемента в коллекцию.
  */
-public class AddCommand implements Command {
+public class AddCommand implements Command, Serializable {
 
     private Dragon dragon;
     public AddCommand(Dragon dragon){

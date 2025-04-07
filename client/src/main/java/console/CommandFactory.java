@@ -6,9 +6,9 @@ import seClasses.Dragon;
 
 public class CommandFactory {
 
-    private ReadController rc = new ReadController();
+    private static final ReadController rc = new ReadController();
 
-    public Command createCommand(CommandsList command, String[] args){
+    public static Command createCommand(CommandsList command, String[] args){
         return switch (command){
             case HELP -> new HelpCommand();
             case INFO -> new InfoCommand();
@@ -47,14 +47,61 @@ public class CommandFactory {
                 }
             }
             case CLEAR -> new ClearCommand();
-            case EXECUTE_SCRIPT -> null;
-            case EXIT -> null;
-            case HEAD -> null;
-            case ADD_IF_MIN -> null;
-            case REMOVE_LOWER -> null;
-            case SUM_OF_AGE -> null;
-            case FILTER_CONTAINS_NAME -> null;
-            case FILTER_STARTS_WITH_NAME -> null;
-        }
+            case EXECUTE_SCRIPT -> {
+                if (args.length != 1){
+                    rc.printLine("Не верное колличество аргументов.");
+                    yield null;
+                } try {
+                    String link = args[0];
+                    yield new ExecuteScriptCommand(link);
+                } catch (Exception e){
+                    rc.printLine("Проверьте ссылку.");
+                    yield null;
+                }
+            }
+            case EXIT -> new ExitCommand();
+            case HEAD -> new HeadCommand();
+            case ADD_IF_MIN -> {
+                Dragon dragon;
+                CreateDragon dragonCreator = new CreateDragon(rc);
+                dragon = dragonCreator.create();
+                yield new AddIfMinCommand(dragon);
+            }
+            case REMOVE_LOWER -> {
+                Dragon dragon;
+                CreateDragon dragonCreator = new CreateDragon(rc);
+                dragon = dragonCreator.create();
+                yield new RemoveLowerCommand(dragon);
+            }
+            case SUM_OF_AGE -> new SumOfAgeCommand();
+            case FILTER_CONTAINS_NAME -> {
+                if (args.length != 1){
+                    rc.printLine("Не верное колличество аргументов.");
+                    yield null;
+                } try {
+                    String link = args[0];
+                    yield new FilterContainsNameCommand(link);
+                } catch (Exception e){
+                    rc.printLine("Проверьте ввод.");
+                    yield null;
+                }
+            }
+            case FILTER_STARTS_WITH_NAME -> {
+                if (args.length != 1){
+                    rc.printLine("Не верное колличество аргументов.");
+                    yield null;
+                } try {
+                    String link = args[0];
+                    yield new FilterStartsWithNameCommand(link);
+                } catch (Exception e){
+                    rc.printLine("Проверьте ввод.");
+                    yield null;
+                }
+            }
+            default -> {
+                rc.printLine("Неизвестная команада!");
+                yield null;
+            }
+        };
     }
 }

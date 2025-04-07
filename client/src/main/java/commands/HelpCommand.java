@@ -1,12 +1,13 @@
 package commands;
 
 
+import java.io.Serializable;
 
 /**
  * Команда вывода справочной информации о доступных командах.
  * Отображает список всех зарегистрированных команд с их описаниями.
  */
-public class HelpCommand implements Command {
+public class HelpCommand implements Command, Serializable {
     public HelpCommand() {
 
     }

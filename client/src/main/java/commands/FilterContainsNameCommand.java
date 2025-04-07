@@ -1,13 +1,13 @@
 package commands;
 
 
-import collection.CollectionManager;
+import java.io.Serializable;
 
 /**
  * Команда фильтрации элементов коллекции по содержанию подстроки в имени.
  * Выводит все элементы, значение поля name которых содержит указанную подстроку.
  */
-public class FilterContainsNameCommand implements Command {
+public class FilterContainsNameCommand implements Command, Serializable {
     private String partOfName;
 
     public FilterContainsNameCommand(String partOfName){
