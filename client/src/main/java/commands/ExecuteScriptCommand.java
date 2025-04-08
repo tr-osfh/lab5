@@ -3,6 +3,7 @@ package commands;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Команда выполнения скрипта из файла. Читает и исполняет последовательность команд,
@@ -13,9 +14,9 @@ public class ExecuteScriptCommand implements Command, Serializable {
     @Serial
     private static final long serialID = 5L;
 
-    private String link;
-    public ExecuteScriptCommand(String link) {
-        this.link = link;
+    private ArrayList<Command> commands;
+    public ExecuteScriptCommand(ArrayList<Command> commands) {
+        this.commands = commands;
     }
 
     @Override
