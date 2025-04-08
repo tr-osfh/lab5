@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,10 @@ import java.io.Serializable;
  * Выводит все элементы, значение поля name которых начинается с указанной подстроки.
  */
 public class FilterStartsWithNameCommand implements Command, Serializable {
+
+
+    @Serial
+    private static final long serialID = 8L;
 
     private String partOfName;
 

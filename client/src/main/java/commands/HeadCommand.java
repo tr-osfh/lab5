@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,10 @@ import java.io.Serializable;
  * Отображает первого элемент PriorityQueue без изменения коллекции.
  */
 public class HeadCommand implements Command, Serializable {
+
+
+    @Serial
+    private static final long serialID = 9L;
 
     public HeadCommand() {
 

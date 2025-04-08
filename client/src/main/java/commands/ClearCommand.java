@@ -1,5 +1,6 @@
 package commands;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -7,6 +8,9 @@ import java.io.Serializable;
  * Удаляет все элементы из коллекции без возможности восстановления.
  */
 public class ClearCommand implements Command, Serializable {
+
+    @Serial
+    private static final long serialID = 3L;
 
     public ClearCommand(){
     }

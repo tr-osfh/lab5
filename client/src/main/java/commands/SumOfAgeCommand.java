@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,10 @@ import java.io.Serializable;
  * Суммирует значения поля age всех драконов, игнорируя элементы с неустановленным возрастом (null).
  */
 public class SumOfAgeCommand implements Command, Serializable {
+
+
+    @Serial
+    private static final long serialID = 15L;
 
     public SumOfAgeCommand(){
 

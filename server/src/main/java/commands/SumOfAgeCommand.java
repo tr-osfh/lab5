@@ -2,41 +2,29 @@ package commands;
 
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
+
+import java.io.Serial;
 
 /**
  * Команда вычисления суммарного возраста элементов коллекции.
  * Суммирует значения поля age всех драконов, игнорируя элементы с неустановленным возрастом (null).
  */
 public class SumOfAgeCommand implements Command {
-    private CollectionManager manager;
+    @Serial
+    private final static long serialID = 15L;
 
-    /**
-     * Конструктор команды суммирования возраста
-     * @param manager Менеджер коллекции для доступа к данным
-     */
-    public SumOfAgeCommand(CollectionManager manager){
-        this.manager = manager;
+    public SumOfAgeCommand(){
     }
 
-    /**
-     * @param args Аргументы команды (должны отсутствовать)
-     * @throws IllegalArgumentException При наличии аргументов
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 1) {
-            manager.sumOfAge();
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        return new Response(ResponseStatus.OK, CollectionManager.sumOfAge());
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "sum_of_age : вывести сумму значений поля age для всех элементов коллекции (игнорирует null)";
     }
 }

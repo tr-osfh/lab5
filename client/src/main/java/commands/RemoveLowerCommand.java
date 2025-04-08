@@ -2,6 +2,7 @@ package commands;
 
 import seClasses.Dragon;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,9 @@ import java.io.Serializable;
  * чем у указанного дракона. Требует интерактивного ввода параметров дракона.
  */
 public class RemoveLowerCommand implements Command, Serializable  {
+
+    @Serial
+    private static final long serialID = 13L;
 
     private Dragon dragon;
 

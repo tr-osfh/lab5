@@ -2,42 +2,29 @@ package commands;
 
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
+
+import java.io.Serial;
 
 /**
  * Команда вывода первого элемента коллекции.
  * Отображает первого элемент PriorityQueue без изменения коллекции.
  */
 public class HeadCommand implements Command {
-
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды просмотра головы коллекции
-     * @param manager Менеджер коллекции для доступа к данным
-     */
-    public HeadCommand(CollectionManager manager) {
-        this.manager = manager;
+    @Serial
+    private final static long serialID = 9L;
+    public HeadCommand() {
     }
 
-    /**
-     * @param args Аргументы команды (должны отсутствовать)
-     * @throws IllegalArgumentException При наличии аргументов
-     */
+
     @Override
-    public void execute(String[] args) {
-        if (args.length == 1) {
-            manager.head();
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        return new Response(ResponseStatus.OK, CollectionManager.head());
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "head : вывести первый элемент коллекции";
     }
 }

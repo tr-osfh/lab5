@@ -3,7 +3,11 @@ package commands;
 
 import collection.CollectionManager;
 import collection.DragonManager;
+import connection.Response;
+import connection.ResponseStatus;
 import seClasses.Dragon;
+
+import java.io.Serial;
 
 /**
  * Команда обновления элемента коллекции по ID.
@@ -11,45 +15,23 @@ import seClasses.Dragon;
  */
 public class UpdateIdCommand implements Command {
 
-    private CollectionManager manager;
-    ConsoleManager cm = new ConsoleManager();
-    private DragonManager dragonManager = new DragonManager(cm);
+    @Serial
+    private final static long serialID = 16L;
+    private Long id;
+    private Dragon dragon;
 
-    /**
-     * Конструктор команды обновления
-     * @param manager Менеджер коллекции для доступа к методам обновления
-     */
-    public UpdateIdCommand(CollectionManager manager) {
-        this.manager = manager;
+    public UpdateIdCommand(Long id, Dragon dragon) {
+        this.id = id;
+        this.dragon = dragon;
     }
 
-    /**
-     * @param args Аргументы команды (должен быть ровно 1 аргумент - ID)
-     * @throws IllegalArgumentException Если:
-     * <li>Количество аргументов неверное
-     * <li>Аргумент ID не является числом
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 2) {
-            try {
-                Long dragonId = Long.parseLong(args[1]);
-                Dragon dragon = dragonManager.setDragon();
-                manager.updateById(dragonId, dragon);
-            } catch (NumberFormatException e) {
-                System.out.println("ID должен быть числом.");
-            }
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        return new Response(ResponseStatus.OK, CollectionManager.updateById(id, dragon));
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription(){
+    public String getCommandName(){
         return "update id {element} : обновить значение элемента коллекции, id которого равен заданному";
     }
 }

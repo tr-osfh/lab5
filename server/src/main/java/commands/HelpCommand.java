@@ -2,43 +2,40 @@ package commands;
 
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
+
+import java.io.Serial;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Команда вывода справочной информации о доступных командах.
  * Отображает список всех зарегистрированных команд с их описаниями.
  */
 public class HelpCommand implements Command {
+    @Serial
+    private final static long serialID = 10L;
+    public HelpCommand() {
 
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды помощи
-     * @param manager Менеджер коллекции для доступа к реестру команд
-     */
-    public HelpCommand(CollectionManager manager) {
-        this.manager = manager;
     }
 
-    /**
-     * @param args Аргументы команды (должны отсутствовать)
-     * @throws IllegalArgumentException При наличии аргументов
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 1) {
-            CommandManager cm = manager.getCommandManager();
-            manager.help(cm.getCommands());
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        return new Response(
+                ResponseStatus.OK,
+                Arrays.stream(CommandsList.CommandType.values())
+                        .map(CommandsList.CommandType::getDescription)
+                        .filter(description -> !description.isEmpty())
+                        .collect(Collectors.joining("\n"))
+        );
     }
-
     /**
      * Возвращает описание команды для системы помощи
      * @return Строка с синтаксисом и назначением команды
      */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "help : вывести справку по доступным командам";
     }
 }

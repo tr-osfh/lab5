@@ -1,7 +1,11 @@
 package commands;
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
 import seClasses.Dragon;
+
+import java.io.Serial;
 
 /**
  * Команда удаления элементов, меньших чем заданный.
@@ -9,40 +13,20 @@ import seClasses.Dragon;
  * чем у указанного дракона. Требует интерактивного ввода параметров дракона.
  */
 public class RemoveLowerCommand implements Command {
-
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды условного удаления
-     * @param manager Менеджер коллекции для выполнения операций сравнения и удаления
-     */
-    public RemoveLowerCommand(CollectionManager manager){
-        this.manager = manager;
+    @Serial
+    private final static long serialID = 13L;
+    private final Dragon dragon;
+    public RemoveLowerCommand(Dragon dragon){
+        this.dragon = dragon;
     }
 
-    /**
-     * @param args Аргументы команды (должны отсутствовать)
-     * @throws IllegalArgumentException Если:
-     * <li>Присутствуют аргументы
-     * <li>Ошибка ввода данных
-     * <li>Некорректные параметры дракона
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 1) {
-            Dragon dragon = manager.getDragonManager().setDragon();
-            manager.removeLower(dragon);
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        return new Response(ResponseStatus.OK, CollectionManager.removeLower(dragon));
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный";
     }
 }

@@ -1,43 +1,30 @@
 package commands;
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
+
+import java.io.Serial;
 
 /**
  * Команда полной очистки коллекции.
  * Удаляет все элементы из коллекции без возможности восстановления.
  */
 public class ClearCommand implements Command {
+    @Serial
+    private final static long serialID = 3L;
 
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды очистки
-     * @param manager Менеджер коллекции для выполнения операции очистки
-     */
     public ClearCommand(CollectionManager manager) {
-        this.manager = manager;
     }
 
-    /**
-     * Выполняет очистку коллекции при условии отсутствия аргументов
-     * @param args Аргументы команды (должны отсутствовать)
-     * @throws IllegalArgumentException Если присутствуют аргументы
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 1) {
-            manager.clear();
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        CollectionManager.clear();
+        return new Response(ResponseStatus.OK, "Коллекция успешно удалена.");
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "clear : очистить коллекцию";
     }
 }

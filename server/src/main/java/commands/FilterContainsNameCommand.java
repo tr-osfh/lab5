@@ -2,42 +2,30 @@ package commands;
 
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
+
+import java.io.Serial;
 
 /**
  * Команда фильтрации элементов коллекции по содержанию подстроки в имени.
  * Выводит все элементы, значение поля name которых содержит указанную подстроку.
  */
 public class FilterContainsNameCommand implements Command {
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды фильтрации
-     * @param manager Менеджер коллекции для доступа к методам фильтрации
-     */
-    public FilterContainsNameCommand(CollectionManager manager){
-        this.manager = manager;
+    @Serial
+    private final static long serialID = 7L;
+    private String namePart;
+    public FilterContainsNameCommand(String namePart){
+        this.namePart = namePart;
     }
 
-    /**
-     * @param args Аргументы команды (должен быть ровно 1 аргумент - подстрока)
-     * @throws IllegalArgumentException Если количество аргументов неверное
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 2) {
-            String namePart = args[1];
-            manager.filterContainsName(namePart);
-        } else {
-            throw new IllegalArgumentException("Неверное количество аргументов. Используйте: filter_contains_name (name)");
-        }
+    public Response execute() {
+        return new Response(ResponseStatus.OK, CollectionManager.filterContainsName(namePart));
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку";
     }
 }

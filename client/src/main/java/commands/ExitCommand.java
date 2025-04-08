@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,10 @@ import java.io.Serializable;
  * Немедленно останавливает выполнение программы без сохранения данных.
  */
 public class ExitCommand implements Command, Serializable {
+
+
+    @Serial
+    private static final long serialID = 6L;
 
     public ExitCommand(){
     }

@@ -2,42 +2,28 @@ package commands;
 
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
+
+import java.io.Serial;
 
 /**
  * Команда вывода всех элементов коллекции в строковом представлении.
  * Отображает полный список элементов коллекции или сообщение о пустой коллекции.
  */
 public class ShowCommand implements Command {
-
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды отображения коллекции
-     * @param manager Менеджер коллекции для доступа к данным
-     */
-    public ShowCommand(CollectionManager manager) {
-        this.manager = manager;
+    @Serial
+    private final static long serialID = 14L;
+    public ShowCommand() {
     }
 
-    /**
-     * @param args Аргументы команды (должны отсутствовать)
-     * @throws IllegalArgumentException При наличии аргументов
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 1) {
-            manager.show();
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        return new Response(ResponseStatus.OK, CollectionManager.show());
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении";
     }
 }

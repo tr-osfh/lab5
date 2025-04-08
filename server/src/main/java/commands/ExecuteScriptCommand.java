@@ -1,84 +1,28 @@
 package commands;
 
+import connection.Response;
+import connection.ResponseStatus;
 
-import collection.CollectionManager;
-import collection.DragonManager;
-import collection.Validator;
-import file.FileStack;
-import file.ScriptReaderManager;
-import seClasses.Dragon;
+import java.io.Serial;
+import java.util.ArrayList;
 
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.NoSuchElementException;
-
-/**
- * Команда выполнения скрипта из файла. Читает и исполняет последовательность команд,
- * включая создание объектов Dragon с валидацией. Обрабатывает вложенные скрипты с защитой от рекурсии.
- */
 public class ExecuteScriptCommand implements Command {
-
-    private CollectionManager manager;
-    private final HashMap<String, Command> commands;
-    private Validator validator = new Validator();
-
-    /**
-     * Конструктор инициализирует менеджер коллекции и копию регистра команд
-     * @param manager Менеджер для доступа к методам работы с коллекцией
-     */
-    public ExecuteScriptCommand(CollectionManager manager) {
-        this.manager = manager;
-        this.commands = CommandManager.getCommands();
+    @Serial
+    private final static long serialID = 5L;
+    private String link;
+    private final ArrayList<Command> commandStack;
+    public ExecuteScriptCommand(ArrayList<Command> commandStack) {
+        this.commandStack = commandStack;
     }
 
-    /**
-     * @param args Аргументы команды (требуется ровно 1 аргумент - путь к скрипту)
-     * @throws FileNotFoundException Если файл скрипта не существует
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 2){
-            String link = args[1];
-            if (!FileStack.getFileStack().contains(link)) {
-                FileStack.addFile(link);
-                try {
-                    ScriptReaderManager srm = new ScriptReaderManager(link);
-                    while (srm.getScanner().hasNextLine()){
-                        try {
-                            String[] cmdAndArg = srm.readCmdArg();
-                            String cmd = cmdAndArg[0];
-                            if (commands.containsKey(cmd)) {
-                                if (
-                                        cmd.equals("add") ||
-                                        cmd.equals("update") ||
-                                        cmd.equals("add_if_min") ||
-                                        cmd.equals("remove_lower")
-                                ) {
-                                    DragonManager drm = new DragonManager(srm);
-                                    Dragon dragon = validator.getValid(drm.setDragon());
-                                    if (!(dragon == null)){
-                                        switch (cmd){
-                                            case "add" -> manager.add(dragon);
-                                            case "update" -> manager.updateById(Long.valueOf(cmdAndArg[1]), dragon);
-                                            case "add_if_min" -> manager.addIfMin(dragon);
-                                            case "remove_lower" -> manager.removeLower(dragon);
-                                        }
-                                    }
-
-                                } else {
-                                    commands.get(cmd).execute(cmdAndArg);
-                                }
-                            }
-                        } catch (IllegalArgumentException | NoSuchElementException ignored) {}
-                    }
-                } catch (FileNotFoundException e){
-                    System.out.println("Файл не найден");
-                } finally {
-                    FileStack.removeFile();
-                }
-            } else {
-                System.out.println("Рекурсия невозможна.");
-            }
+    public Response execute() {
+        if (commandStack.isEmpty()){
+            return new Response(ResponseStatus.ERROR, "Стак команд пуст.");
+        } else {
+            StringBuilder output = new StringBuilder();
+            commandStack.forEach(command -> output.append(command.execute().getResponse()).append("\n"));
+            return new Response(ResponseStatus.OK, output.substring(0, output.length() - 1));
         }
     }
 
@@ -87,7 +31,7 @@ public class ExecuteScriptCommand implements Command {
      * @return Форматированная строка с синтаксисом и назначением
      */
     @Override
-    public String getDescription() {
-        return "execute_script file_path : считать и исполнить скрипт из указанного файла. Поддерживает команды с объектами.";
+    public String getCommandName() {
+        return "execute_script";
     }
 }

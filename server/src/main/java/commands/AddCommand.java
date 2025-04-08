@@ -2,55 +2,34 @@ package commands;
 
 
 import collection.CollectionManager;
+import collection.DragonManager;
+import connection.Response;
+import connection.ResponseStatus;
 import seClasses.Dragon;
+
+import java.io.Serial;
+
+import static collection.CollectionManager.add;
 
 /**
  * Команда добавления нового элемента в коллекцию.
  */
 public class AddCommand implements Command {
 
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды добавления
-     * @param manager Менеджер коллекции для выполнения операций
-     */
-    public AddCommand(CollectionManager manager){
-        this.manager = manager;
+    @Serial
+    private final static long serialID = 1L;
+    private Dragon dragon;
+    public AddCommand(Dragon dragon){
+        this.dragon = dragon;
     }
 
-    /**
-     * Выполняет логику команды:
-     * 1. Проверяет отсутствие аргументов
-     * 2. Запрашивает данные дракона через консоль
-     * 3. Добавляет элемент в коллекцию
-     *
-     * @param args Аргументы команды (должны отсутствовать)
-     * @throws IllegalArgumentException Если:
-     * <li>Присутствуют аргументы
-     * <li>Ошибка ввода данных
-     * <li>Некорректные параметры дракона
-     */
     @Override
-    public void execute(String[] args){
-        if (args.length == 1) {
-            try {
-                Dragon dragon = manager.getDragonManager().setDragon();
-                manager.add(dragon);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(e);
-            }
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute(){
+        return new Response(ResponseStatus.OK, CollectionManager.add(dragon));
     }
 
-    /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
-        return "add {element} : добавить новый элемент в коллекцию";
+    public String getCommandName() {
+        return "add";
     }
 }

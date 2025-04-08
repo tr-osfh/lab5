@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,9 @@ import java.io.Serializable;
  * Отображает полный список элементов коллекции или сообщение о пустой коллекции.
  */
 public class ShowCommand implements Command, Serializable {
+
+    @Serial
+    private static final long serialID = 14L;
 
     public ShowCommand() {
 

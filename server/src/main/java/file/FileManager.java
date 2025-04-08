@@ -1,6 +1,8 @@
 package file;
 
-import root.files.console.Validator;
+
+import collection.Validator;
+import seClasses.Dragon;
 
 import java.io.*;
 import java.util.PriorityQueue;

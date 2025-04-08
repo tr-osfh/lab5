@@ -105,7 +105,7 @@ public class Request implements Serializable {
             if (channel != null && channel.isOpen()) {
                 channel.close();
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 }

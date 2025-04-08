@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,10 @@ import java.io.Serializable;
  * Отображает список всех зарегистрированных команд с их описаниями.
  */
 public class HelpCommand implements Command, Serializable {
+
+    @Serial
+    private static final long serialID = 10L;
+
     public HelpCommand() {
 
     }

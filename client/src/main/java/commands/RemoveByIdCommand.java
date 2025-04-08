@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,9 @@ import java.io.Serializable;
  * Осуществляет поиск элемента с указанным ID и его удаление при наличии.
  */
 public class RemoveByIdCommand implements Command, Serializable {
+
+    @Serial
+    private static final long serialID = 12L;
 
     private Long id;
 

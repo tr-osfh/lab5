@@ -2,42 +2,30 @@ package commands;
 
 
 import collection.CollectionManager;
+import connection.Response;
+import connection.ResponseStatus;
+
+import java.io.Serial;
 
 /**
  * Команда фильтрации элементов коллекции по началу имени.
  * Выводит все элементы, значение поля name которых начинается с указанной подстроки.
  */
 public class FilterStartsWithNameCommand implements Command {
-    private CollectionManager manager;
-
-    /**
-     * Конструктор команды префиксного поиска
-     * @param manager Менеджер коллекции для доступа к методам фильтрации
-     */
-    public FilterStartsWithNameCommand(CollectionManager manager){
-        this.manager = manager;
+    @Serial
+    private final static long serialID = 8L;
+    private final String namePart;
+    public FilterStartsWithNameCommand(String namePart){
+        this.namePart = namePart;
     }
 
-    /**
-     * @param args Аргументы команды (должен быть ровно 1 аргумент - начальная подстрока)
-     * @throws IllegalArgumentException Если количество аргументов неверное
-     */
     @Override
-    public void execute(String[] args) {
-        if (args.length == 2) {
-            String namePart = args[1];
-            manager.filterStartsWithName(namePart);
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public Response execute() {
+        return new Response(ResponseStatus.OK, CollectionManager.filterStartsWithName(namePart));
     }
 
-     /**
-     * Возвращает описание команды для справки
-     * @return Форматированная строка с синтаксисом и назначением
-     */
     @Override
-    public String getDescription() {
+    public String getCommandName() {
         return "filter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки";
     }
 }

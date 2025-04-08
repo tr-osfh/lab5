@@ -1,6 +1,7 @@
 package commands;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,9 @@ import java.io.Serializable;
  * включая создание объектов Dragon с валидацией. Обрабатывает вложенные скрипты с защитой от рекурсии.
  */
 public class ExecuteScriptCommand implements Command, Serializable {
+
+    @Serial
+    private static final long serialID = 5L;
 
     private String link;
     public ExecuteScriptCommand(String link) {

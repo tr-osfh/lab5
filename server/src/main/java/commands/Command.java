@@ -1,7 +1,8 @@
 package commands;
 
-public interface Command {
-    void execute(String[] args);
+import connection.Response;
 
-    String getDescription();
+public interface Command {
+    Response execute();
+    String getCommandName();
 }

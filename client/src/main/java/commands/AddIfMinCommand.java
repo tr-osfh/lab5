@@ -3,6 +3,7 @@ package commands;
 
 import seClasses.Dragon;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -11,6 +12,10 @@ import java.io.Serializable;
  * меньше минимального значения в текущей коллекции.
  */
 public class AddIfMinCommand implements Command, Serializable {
+
+    @Serial
+    private static final long serialID = 2L;
+
     private Dragon dragon;
 
     public AddIfMinCommand(Dragon dragon) {

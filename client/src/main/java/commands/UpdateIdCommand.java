@@ -3,6 +3,7 @@ package commands;
 
 import seClasses.Dragon;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,10 @@ import java.io.Serializable;
  * Заменяет данные существующего элемента новыми значениями, полученными через интерактивный ввод.
  */
 public class UpdateIdCommand implements Command, Serializable {
+
+    @Serial
+    private static final long serialID = 16L;
+
     private Long id;
     private Dragon dragon;
 
