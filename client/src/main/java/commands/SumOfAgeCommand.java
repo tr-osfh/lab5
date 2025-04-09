@@ -1,6 +1,8 @@
 package commands;
 
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -12,15 +14,15 @@ public class SumOfAgeCommand implements Command, Serializable {
 
 
     @Serial
-    private static final long serialID = 15L;
+    private static final long serialVersionUID  = 15L;
 
     public SumOfAgeCommand(){
 
     }
 
     @Override
-    public void execute(String[] args) {
-
+    public Response execute() {
+        return null;
     }
 
     @Override

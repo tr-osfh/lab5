@@ -6,15 +6,16 @@ import connection.ResponseStatus;
 import seClasses.Dragon;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Команда удаления элементов, меньших чем заданный.
  * Удаляет все элементы коллекции, значение координаты X которых меньше,
  * чем у указанного дракона. Требует интерактивного ввода параметров дракона.
  */
-public class RemoveLowerCommand implements Command {
+public class RemoveLowerCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 13L;
+    private final static long serialVersionUID  = 13L;
     private final Dragon dragon;
     public RemoveLowerCommand(Dragon dragon){
         this.dragon = dragon;
@@ -27,6 +28,6 @@ public class RemoveLowerCommand implements Command {
 
     @Override
     public String getCommandName() {
-        return "remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный";
+        return "remove_lower";
     }
 }

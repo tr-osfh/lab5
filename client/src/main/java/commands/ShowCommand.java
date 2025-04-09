@@ -1,6 +1,8 @@
 package commands;
 
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -11,14 +13,14 @@ import java.io.Serializable;
 public class ShowCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 14L;
+    private static final long serialVersionUID  = 14L;
 
     public ShowCommand() {
-
     }
 
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
 
     @Override

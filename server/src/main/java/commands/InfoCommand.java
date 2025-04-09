@@ -5,6 +5,7 @@ import connection.Response;
 import connection.ResponseStatus;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Команда вывода метаинформации о коллекции.
@@ -13,9 +14,9 @@ import java.io.Serial;
  * <li>Дату и время инициализации
  * <li>Текущее количество элементов
  */
-public class InfoCommand implements Command {
+public class InfoCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 11L;
+    private final static long serialVersionUID  = 11L;
     public InfoCommand() {
 
     }
@@ -27,6 +28,6 @@ public class InfoCommand implements Command {
 
     @Override
     public String getCommandName() {
-        return "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)";
+        return "info";
     }
 }

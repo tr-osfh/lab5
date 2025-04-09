@@ -1,6 +1,7 @@
 package commands;
 
 
+import connection.Response;
 import seClasses.Dragon;
 
 import java.io.Serial;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 public class UpdateIdCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 16L;
+    private static final long serialVersionUID  = 16L;
 
     private Long id;
     private Dragon dragon;
@@ -24,7 +25,8 @@ public class UpdateIdCommand implements Command, Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
 
     @Override

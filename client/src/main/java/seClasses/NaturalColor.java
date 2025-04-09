@@ -1,15 +1,21 @@
 package seClasses;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Перечисление NaturalColor представляет естественные цвета, которые могут быть использованы в программе.
  * Поддерживаемые цвета: RED, BLACK, YELLOW, WHITE, BROWN.
  */
-public enum NaturalColor {
+public enum NaturalColor implements Serializable {
     RED,
     BLACK,
     YELLOW,
     WHITE,
     BROWN;
+
+    @Serial
+    private static final long serialVersionUID = 35L;
 
     /**
      * Преобразует строку в значение перечисления NaturalColor.

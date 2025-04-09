@@ -14,7 +14,7 @@ public class CollectionManager {
 
     private static PriorityQueue<Dragon> dragons = new PriorityQueue<>();
     private static FileManager fm;
-    private CommandManager commandManager;
+    private static CommandManager commandManager;
     private static final Validator validator = new Validator();
     private static final java.time.LocalDateTime creationDate = java.time.LocalDateTime.now();
 
@@ -22,7 +22,7 @@ public class CollectionManager {
         this.fm = fm;
     }
 
-    public PriorityQueue<Dragon> getDragons() {
+    public static PriorityQueue<Dragon> getDragons() {
         return dragons;
     }
 
@@ -50,14 +50,6 @@ public class CollectionManager {
         }
     }
 
-    public static String save() {
-        try {
-            fm.saveCSV(dragons);
-            return "Коллекция сохранена в файл.\n";
-        } catch (Exception e) {
-            return "Запись в файл не возможна\n";
-        }
-    }
 
     public static String add(Dragon dragon) {
         boolean inCollection = false;
@@ -78,14 +70,6 @@ public class CollectionManager {
             return ("Дракон успешно добавлен.\n");
         }
     }
-
-
-    public static void help(HashMap<String, Command> commands) {
-        for (Command command : commands.values()) {
-            cm.printLine(command.getDescription() + "\n");
-        }
-    }
-
 
     public static String info() {
         return "Тип хранимых данных в коллекции: Dragon\n" +

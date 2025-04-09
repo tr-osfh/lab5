@@ -1,5 +1,7 @@
 package seClasses;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -7,7 +9,11 @@ import java.util.Objects;
  * Координаты включают x (тип int), y (тип Integer, не может быть null) и z (тип double).
  * Имя локации может быть null.
  */
-public class Location {
+public class Location implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 34L;
+
     private int x;
     private Integer y;
     private double z;

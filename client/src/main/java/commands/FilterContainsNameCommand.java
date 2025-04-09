@@ -1,6 +1,8 @@
 package commands;
 
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -11,16 +13,16 @@ import java.io.Serializable;
 public class FilterContainsNameCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 7L;
+    private static final long serialVersionUID  = 7L;
 
     private String partOfName;
 
     public FilterContainsNameCommand(String partOfName){
         this.partOfName = partOfName;
     }
-
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
 
     @Override

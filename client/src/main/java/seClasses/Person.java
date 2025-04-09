@@ -1,12 +1,18 @@
 package seClasses;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Класс Person представляет человека с набором характеристик.
  * Включает такие поля, как имя, идентификатор паспорта, цвет глаз, цвет волос и локацию.
  */
-public class Person {
+public class Person implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 36L;
+
     private String name;
     private String passportID;
     private BrightColor eyeColor;

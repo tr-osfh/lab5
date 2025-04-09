@@ -1,16 +1,18 @@
 package commands;
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 
 public class DefaultCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 4L;
+    private static final long serialVersionUID  = 4L;
 
     @Override
-    public void execute(String[] args) {
-
+    public Response execute() {
+        return null;
     }
 
     @Override

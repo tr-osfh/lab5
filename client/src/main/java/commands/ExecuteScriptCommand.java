@@ -1,6 +1,8 @@
 package commands;
 
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 public class ExecuteScriptCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 5L;
+    private static final long serialVersionUID  = 5L;
 
     private ArrayList<Command> commands;
     public ExecuteScriptCommand(ArrayList<Command> commands) {
@@ -20,8 +22,10 @@ public class ExecuteScriptCommand implements Command, Serializable {
     }
 
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
+
     @Override
     public String getDescription() {
         return "execute_script file_path : считать и исполнить скрипт из указанного файла. Поддерживает команды с объектами.";

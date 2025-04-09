@@ -1,5 +1,7 @@
 package seClasses;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -7,7 +9,11 @@ import java.util.Objects;
  * Координаты состоят из двух полей: x (тип Float) и y (тип Integer).
  * Оба поля не могут быть null.
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 31L;
+
     private Float x; // Координата X, не может быть null
     private Integer y; // Координата Y, не может быть null
 

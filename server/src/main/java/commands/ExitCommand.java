@@ -5,14 +5,15 @@ import connection.Response;
 import connection.ResponseStatus;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Команда завершения работы приложения.
  * Немедленно останавливает выполнение программы без сохранения данных.
  */
-public class ExitCommand implements Command {
+public class ExitCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 6L;
+    private final static long serialVersionUID  = 6L;
     public ExitCommand(){
     }
 
@@ -24,6 +25,6 @@ public class ExitCommand implements Command {
 
     @Override
     public String getCommandName() {
-        return "exit : завершить программу (без сохранения в файл)";
+        return "exit";
     }
 }

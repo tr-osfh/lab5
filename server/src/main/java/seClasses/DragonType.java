@@ -1,13 +1,19 @@
 package seClasses;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Перечисление DragonType представляет типы драконов, которые могут быть использованы в программе.
  * Поддерживаемые типы: WATER, UNDERGROUND, AIR.
  */
-public enum DragonType {
+public enum DragonType implements Serializable {
     WATER,
     UNDERGROUND,
     AIR;
+
+    @Serial
+    private static final long serialVersionUID = 33L;
 
     /**
      * Преобразует строку в значение перечисления DragonType.

@@ -6,11 +6,12 @@ import connection.ResponseStatus;
 import seClasses.Dragon;
 
 import java.io.Serial;
+import java.io.Serializable;
 
-public class AddIfMinCommand implements Command {
+public class AddIfMinCommand implements Command, Serializable {
 
     @Serial
-    private final static long serialID = 2L;
+    private final static long serialVersionUID  = 2L;
     private Dragon dragon;
     public AddIfMinCommand(Dragon dragon) {
         this.dragon = dragon;

@@ -1,7 +1,7 @@
+// Response.java (общая для клиента и сервера)
 package connection;
 
 import seClasses.Dragon;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
@@ -9,12 +9,11 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public class Response implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 22L;
 
     private ResponseStatus responseStatus;
-    private String response = "";
+    private String response;
     private Collection<Dragon> collection;
     public Response(){}
 
@@ -52,8 +51,8 @@ public class Response implements Serializable {
         Response response1 = (Response) object;
         return
                 responseStatus == response1.responseStatus &&
-                Objects.equals(response, response1.response) &&
-                Objects.equals(collection, response1.collection);
+                        Objects.equals(response, response1.response) &&
+                        Objects.equals(collection, response1.collection);
     }
 
     @Override
@@ -73,4 +72,6 @@ public class Response implements Serializable {
                 ", collection=" + collection +
                 '}';
     }
+
+
 }

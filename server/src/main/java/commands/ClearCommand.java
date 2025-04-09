@@ -5,14 +5,15 @@ import connection.Response;
 import connection.ResponseStatus;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Команда полной очистки коллекции.
  * Удаляет все элементы из коллекции без возможности восстановления.
  */
-public class ClearCommand implements Command {
+public class ClearCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 3L;
+    private final static long serialVersionUID  = 3L;
 
     public ClearCommand(CollectionManager manager) {
     }
@@ -25,6 +26,6 @@ public class ClearCommand implements Command {
 
     @Override
     public String getCommandName() {
-        return "clear : очистить коллекцию";
+        return "clear";
     }
 }

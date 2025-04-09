@@ -15,10 +15,10 @@ public class Main {
         }
     }
 
-    private static final int serverPort = 34246;
+    private static final int serverPort = 2213;
 
     public static void main(String[] args) {
-        Client client = new Client(serverAddress, serverPort);
+        Client client = new Client("localhost", serverPort);
         try {
             System.out.println("Для получения справки по доступным командам введите help");
             client.run();

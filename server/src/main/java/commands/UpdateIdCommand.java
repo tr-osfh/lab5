@@ -2,21 +2,21 @@ package commands;
 
 
 import collection.CollectionManager;
-import collection.DragonManager;
 import connection.Response;
 import connection.ResponseStatus;
 import seClasses.Dragon;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Команда обновления элемента коллекции по ID.
  * Заменяет данные существующего элемента новыми значениями, полученными через интерактивный ввод.
  */
-public class UpdateIdCommand implements Command {
+public class UpdateIdCommand implements Command, Serializable {
 
     @Serial
-    private final static long serialID = 16L;
+    private final static long serialVersionUID  = 16L;
     private Long id;
     private Dragon dragon;
 
@@ -32,6 +32,6 @@ public class UpdateIdCommand implements Command {
 
     @Override
     public String getCommandName(){
-        return "update id {element} : обновить значение элемента коллекции, id которого равен заданному";
+        return "update";
     }
 }

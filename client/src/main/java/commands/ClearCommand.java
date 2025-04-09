@@ -1,5 +1,7 @@
 package commands;
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -10,13 +12,14 @@ import java.io.Serializable;
 public class ClearCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 3L;
+    private static final long serialVersionUID  = 3L;
 
     public ClearCommand(){
     }
 
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
 
     @Override

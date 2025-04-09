@@ -1,111 +1,108 @@
 package connection;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
+import java.nio.channels.Selector;
+import java.nio.channels.SelectionKey;
+import java.util.Iterator;
 
 public class Request implements Serializable {
+
     @Serial
-    private static final long serialID = 0L;
+    private static final long serialVersionUID = 0L;
 
     private SocketChannel channel;
-    private final InetSocketAddress serverAdress;
-    private final int socketTimeout;
-    private ByteBuffer readBuffer = ByteBuffer.allocate(1024 * 1024);
+    private Selector selector;
     private ByteBuffer writeBuffer;
+    private ByteBuffer readBuffer;
+    private final InetSocketAddress serverAddress;
+    private final int socketTimeout;
 
     public Request(InetAddress address, int port, int timeout) throws IOException {
-        this.serverAdress = new InetSocketAddress(address, port);
+        this.serverAddress = new InetSocketAddress(address, port);
         this.socketTimeout = timeout;
-        initializeChannel();
+        initialize();
     }
 
-    private void initializeChannel() throws IOException {
+
+    public void initialize() throws IOException {
         channel = SocketChannel.open();
-        channel.configureBlocking(false);
-        channel.connect(serverAdress);
+        channel.configureBlocking(false); // Неблокирующий режим
+        channel.connect(serverAddress);
+
+        selector = Selector.open();
+        channel.register(selector, SelectionKey.OP_CONNECT);
 
         long startTime = System.currentTimeMillis();
-        while (!channel.finishConnect()){
-            if (System.currentTimeMillis() - startTime > socketTimeout){
+        while (!channel.finishConnect()) {
+            if (System.currentTimeMillis() - startTime > socketTimeout) {
                 throw new IOException("Connection timeout");
             }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ignored){}
+            selector.select(100);
+            Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+            while (keys.hasNext()) {
+                SelectionKey key = keys.next();
+                keys.remove();
+                if (key.isConnectable()) {
+                    finishConnection(key);
+                }
+            }
         }
     }
 
-    public int getPort() throws IOException {
-        try {
-            return ((InetSocketAddress) channel.getLocalAddress()).getPort();
-        } catch (IOException e){
-            throw new IOException("Ошибка подключения.");
+    private void finishConnection(SelectionKey key) throws IOException {
+        SocketChannel channel = (SocketChannel) key.channel();
+        if (channel.isConnectionPending()) {
+            channel.finishConnect();
         }
+        channel.register(selector, SelectionKey.OP_WRITE);
     }
 
-    public void setBufferSize(int size) throws SocketException{
-        readBuffer = ByteBuffer.allocate(size);
-        try {
-            channel.setOption(java.net.StandardSocketOptions.SO_SNDBUF, size);
-            channel.setOption(java.net.StandardSocketOptions.SO_RCVBUF, size);
-        } catch (IOException e) {
-            throw new SocketException();
-        }
-    }
-
-    public void send(byte[] data) throws IOException{
+    // В методе send()
+    public void send(byte[] data) throws IOException {
         writeBuffer = ByteBuffer.wrap(data);
-        while (writeBuffer.hasRemaining()){
-            int bytesWritten = channel.write(writeBuffer);
-            if (bytesWritten == 0){
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ignored) {}
-            }
+        while (writeBuffer.hasRemaining()) {
+            channel.write(writeBuffer);
         }
+        System.out.println("Отправлено: " + new String(data));
     }
 
-    public String receive() throws IOException{
-        readBuffer.clear();
-        StringBuilder response = new StringBuilder();
+    // В методе receive()
+    public byte[] receive() throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocate(4096);
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        int bytesRead;
 
-        while (true){
-            int bytesRead = channel.read(readBuffer);
-            if (bytesRead == -1){
-                throw new IOException();
-            }
-            if (bytesRead == 0){
-                if (response.length() > 0) break;
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ignored) {}
-            }
-            readBuffer.flip();
-            response.append(StandardCharsets.UTF_8.decode(readBuffer));
-            readBuffer.clear();
-
-            if (!isMoreDataPending()) break;
-        }
-        return response.toString();
-    }
-
-    private boolean isMoreDataPending() throws IOException{
-        return channel.socket().getInputStream().available() > 0;
-    }
-
-    public void close(){
         try {
-            if (channel != null && channel.isOpen()) {
-                channel.close();
+            while ((bytesRead = channel.read(buffer)) != -1) {
+                if (bytesRead == 0) {
+                    continue;
+                }
+                buffer.flip();
+                byteStream.write(buffer.array(), 0, bytesRead);
+                buffer.clear();
             }
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            throw new IOException("Ошибка чтения данных: " + e.getMessage());
         }
+
+        return byteStream.toByteArray();
+    }
+    public void close() {
+        try {
+            if (channel != null) channel.close();
+            if (selector != null) selector.close();
+        } catch (IOException ignored) {}
+    }
+
+    public void reconnect() throws IOException {
+        close();
+        initialize();
     }
 }

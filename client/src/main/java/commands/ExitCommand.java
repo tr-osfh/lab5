@@ -1,6 +1,8 @@
 package commands;
 
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -12,13 +14,14 @@ public class ExitCommand implements Command, Serializable {
 
 
     @Serial
-    private static final long serialID = 6L;
+    private static final long serialVersionUID  = 6L;
 
     public ExitCommand(){
     }
 
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
 
     @Override

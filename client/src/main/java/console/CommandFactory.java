@@ -47,18 +47,6 @@ public class CommandFactory {
                 }
             }
             case CLEAR -> new ClearCommand();
-            case EXECUTE_SCRIPT -> {
-                if (args.length != 1){
-                    rc.printLine("Не верное колличество аргументов.");
-                    yield null;
-                } try {
-                    String link = args[0];
-                    yield new ExecuteScriptCommand(link);
-                } catch (Exception e){
-                    rc.printLine("Проверьте ссылку.");
-                    yield null;
-                }
-            }
             case EXIT -> new ExitCommand();
             case HEAD -> new HeadCommand();
             case ADD_IF_MIN -> {

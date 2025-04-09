@@ -1,6 +1,8 @@
 package commands;
 
 
+import connection.Response;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -11,14 +13,15 @@ import java.io.Serializable;
 public class HelpCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 10L;
+    private static final long serialVersionUID  = 10L;
 
     public HelpCommand() {
 
     }
 
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
 
     /**

@@ -2,24 +2,22 @@ package commands;
 
 
 import collection.CollectionManager;
-import collection.DragonManager;
 import connection.Response;
 import connection.ResponseStatus;
 import seClasses.Dragon;
 
 import java.io.Serial;
-
-import static collection.CollectionManager.add;
+import java.io.Serializable;
 
 /**
  * Команда добавления нового элемента в коллекцию.
  */
-public class AddCommand implements Command {
+public class AddCommand1 implements Command, Serializable {
 
     @Serial
-    private final static long serialID = 1L;
+    private final static long serialVersionUID  = 1L;
     private Dragon dragon;
-    public AddCommand(Dragon dragon){
+    public AddCommand1(Dragon dragon){
         this.dragon = dragon;
     }
 

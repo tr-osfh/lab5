@@ -1,5 +1,6 @@
 package commands;
 
+import connection.Response;
 import seClasses.Dragon;
 
 import java.io.Serial;
@@ -13,7 +14,7 @@ import java.io.Serializable;
 public class RemoveLowerCommand implements Command, Serializable  {
 
     @Serial
-    private static final long serialID = 13L;
+    private static final long serialVersionUID  = 13L;
 
     private Dragon dragon;
 
@@ -22,7 +23,8 @@ public class RemoveLowerCommand implements Command, Serializable  {
     }
 
     @Override
-    public void execute(String[] args) {
+    public Response execute() {
+        return null;
     }
 
     /**

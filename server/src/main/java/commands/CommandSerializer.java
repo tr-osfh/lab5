@@ -1,4 +1,6 @@
-package console;
+package commands;
+
+import java.io.*;
 
 import java.io.*;
 
@@ -19,14 +21,9 @@ public class CommandSerializer {
     }
 
     public static <T> T deserialize(byte[] data) throws IOException, ClassNotFoundException {
-        if (data == null || data.length == 0) {
-            throw new IOException("Пустой массив данных");
-        }
         try (ByteArrayInputStream bais = new ByteArrayInputStream(data);
              ObjectInputStream ois = new ObjectInputStream(bais)) {
             return (T) ois.readObject();
         }
     }
 }
-
-

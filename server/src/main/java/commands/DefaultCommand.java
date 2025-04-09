@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class DefaultCommand implements Command, Serializable {
 
     @Serial
-    private static final long serialID = 4L;
+    private static final long serialVersionUID = 4L;
 
     @Override
     public Response execute() {

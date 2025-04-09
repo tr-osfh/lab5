@@ -1,15 +1,21 @@
 package seClasses;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Перечисление BrightColor представляет яркие цвета, которые могут быть использованы в программе.
  * Поддерживаемые цвета: GREEN, BLACK, BLUE, YELLOW, ORANGE.
  */
-public enum BrightColor {
+public enum BrightColor implements Serializable {
     GREEN,
     BLACK,
     BLUE,
     YELLOW,
     ORANGE;
+
+    @Serial
+    private static final long serialVersionUID = 30L;
 
     /**
      * Преобразует строку в значение перечисления BrightColor.

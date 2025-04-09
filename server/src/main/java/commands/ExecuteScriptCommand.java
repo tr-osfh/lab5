@@ -4,11 +4,12 @@ import connection.Response;
 import connection.ResponseStatus;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ExecuteScriptCommand implements Command {
+public class ExecuteScriptCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 5L;
+    private final static long serialVersionUID  = 5L;
     private String link;
     private final ArrayList<Command> commandStack;
     public ExecuteScriptCommand(ArrayList<Command> commandStack) {

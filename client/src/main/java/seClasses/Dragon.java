@@ -1,6 +1,7 @@
 package seClasses;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,6 +11,10 @@ import java.util.Objects;
  * Включает такие поля, как имя, координаты, возраст, описание, вес, тип и убийца.
  */
 public class Dragon implements Comparable<Dragon>, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 32L;
+
     private long id; // Уникальный идентификатор дракона, должен быть больше 0
     private String name; // Имя дракона, не может быть null или пустым
     private Coordinates coordinates; // Координаты дракона, не могут быть null

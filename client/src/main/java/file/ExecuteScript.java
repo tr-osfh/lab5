@@ -1,8 +1,11 @@
 package file;
 
-import commands.Command;
-import commands.CommandsList;
+import commands.*;
 import console.CommandDecoder;
+import console.CommandFactory;
+import objectsCreation.CreateDragon;
+import objectsCreation.CreateDragonFromScr;
+import seClasses.Dragon;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,16 +46,77 @@ public class ExecuteScript {
                     continue;
                 }
             }
-            if (Set.of(CommandsList.UPDATE, CommandsList.ADD_IF_MIN, CommandsList.REMOVE_LOWER).contains(commandType)){
-                if (args.length < 1 || index + 8 >= lines.size() || args.length > 1) {
-                    System.out.println("неверное колличество аргументов.");
+            if (Set.of(CommandsList.UPDATE, CommandsList.REMOVE_LOWER).contains(commandType)) {
+                if (args.length < 1 || index + 16 >= lines.size() || args.length > 1) {
+                    System.out.println("не верные аргументы для команды" + commandType + ".");
                     continue;
                 }
-                if (args[index + 8].toString() == "y"){
-                    String[] DragonFields = lines.subList(index + 1, index + )
+
+                Dragon dragon = null;
+
+                if (Objects.equals(args[index + 8], "y")) {
+                    String[] DragonFields = lines.subList(index + 1, index + 17).toArray(new String[0]);
+                    args[0] = line.split(" ")[1];
+                    System.arraycopy(DragonFields, 0, args, 1, DragonFields.length);
+                    index += 16;
+                    dragon = CreateDragonFromScr.createDragon(DragonFields);
+                } else if (Objects.equals(args[index + 8], "n")) {
+                    String[] DragonFields = lines.subList(index + 1, index + 9).toArray(new String[0]);
+                    args[0] = line.split(" ")[1];
+                    System.arraycopy(DragonFields, 0, args, 1, DragonFields.length);
+                    index += 8;
+                    dragon = CreateDragonFromScr.createDragon(DragonFields);
+                }
+
+                if (dragon != null) {
+                    if (commandType == CommandsList.UPDATE) {
+                        cmd = new UpdateIdCommand(Long.parseLong(args[0]), dragon);
+                    } else {
+                        cmd = new RemoveLowerCommand(dragon);
+                    }
                 }
             }
+            else if (Set.of(CommandsList.ADD, CommandsList.ADD_IF_MIN).contains(commandType)){
+                if (args.length != 0 || index + 16 >= lines.size()){
+                    System.out.println("не верные аргументы для команды" + commandType + ".");
+                    continue;
+                }
+                Dragon dragon = null;
 
+                if (Objects.equals(args[index + 8], "y")) {
+                    String[] DragonFields = lines.subList(index + 1, index + 17).toArray(new String[0]);
+                    args[0] = line.split(" ")[1];
+                    System.arraycopy(DragonFields, 0, args, 1, DragonFields.length);
+                    index += 16;
+                    dragon = CreateDragonFromScr.createDragon(DragonFields);
+                } else if (Objects.equals(args[index + 8], "n")) {
+                    String[] DragonFields = lines.subList(index + 1, index + 9).toArray(new String[0]);
+                    args[0] = line.split(" ")[1];
+                    System.arraycopy(DragonFields, 0, args, 1, DragonFields.length);
+                    index += 8;
+                    dragon = CreateDragonFromScr.createDragon(DragonFields);
+                }
+
+                if (dragon != null){
+                    switch (commandType){
+                        case ADD -> cmd = new AddCommand(dragon);
+                        case ADD_IF_MIN -> cmd = new AddIfMinCommand(dragon);
+                    }
+                } else {
+                    System.out.println("не верные аргументы для команды" + commandType + ".");
+                    continue;
+                }
+            } else {
+                cmd = CommandFactory.createCommand(commandType, line.split(" "));
+            }
+            if (cmd != null) commandQueue.add(cmd);
         }
+        fileMemory.pop();
+        return this;
+    }
+    public ExecuteScript readScript(){
+        return this.readScript(scriptFile);
     }
 }
+
+

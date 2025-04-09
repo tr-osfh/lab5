@@ -6,14 +6,15 @@ import connection.Response;
 import connection.ResponseStatus;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Команда вывода первого элемента коллекции.
  * Отображает первого элемент PriorityQueue без изменения коллекции.
  */
-public class HeadCommand implements Command {
+public class HeadCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 9L;
+    private final static long serialVersionUID  = 9L;
     public HeadCommand() {
     }
 
@@ -25,6 +26,6 @@ public class HeadCommand implements Command {
 
     @Override
     public String getCommandName() {
-        return "head : вывести первый элемент коллекции";
+        return "head";
     }
 }

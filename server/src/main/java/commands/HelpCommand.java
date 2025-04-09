@@ -6,6 +6,7 @@ import connection.Response;
 import connection.ResponseStatus;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -13,9 +14,9 @@ import java.util.stream.Collectors;
  * Команда вывода справочной информации о доступных командах.
  * Отображает список всех зарегистрированных команд с их описаниями.
  */
-public class HelpCommand implements Command {
+public class HelpCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 10L;
+    private final static long serialVersionUID  = 10L;
     public HelpCommand() {
 
     }
@@ -36,6 +37,6 @@ public class HelpCommand implements Command {
      */
     @Override
     public String getCommandName() {
-        return "help : вывести справку по доступным командам";
+        return "help";
     }
 }

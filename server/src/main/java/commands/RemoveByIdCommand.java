@@ -6,14 +6,15 @@ import connection.Response;
 import connection.ResponseStatus;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * Команда удаления элемента коллекции по уникальному идентификатору (ID).
  * Осуществляет поиск элемента с указанным ID и его удаление при наличии.
  */
-public class RemoveByIdCommand implements Command {
+public class RemoveByIdCommand implements Command, Serializable {
     @Serial
-    private final static long serialID = 12L;
+    private final static long serialVersionUID  = 12L;
     private Long id;
     public RemoveByIdCommand(Long id) {
         this.id = id;
@@ -27,6 +28,6 @@ public class RemoveByIdCommand implements Command {
 
     @Override
     public String getCommandName() {
-        return "remove_by_id id";
+        return "remove_by_id";
     }
 }
