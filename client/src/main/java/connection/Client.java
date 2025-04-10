@@ -27,6 +27,7 @@ public class Client {
     private boolean isConnected = false;
     private boolean isWaitingForResponse = false;
     private Thread consoleInputThread;
+    private volatile boolean running = true;
 
     public Client(String serverAddress, int port) {
         this.serverAddress = serverAddress;
@@ -76,13 +77,20 @@ public class Client {
     }
 
     private void startConsoleInputThread() {
+        running = false;
         if (consoleInputThread != null && consoleInputThread.isAlive()) {
-            consoleInputThread.interrupt();
+            try {
+                consoleInputThread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
+
+        running = true;
         consoleInputThread = new Thread(() -> {
-            while (true) {
+            while (running && !Thread.currentThread().isInterrupted()) {
                 Command command = readCommand();
-                if (command == null){
+                if (command == null) {
                     continue;
                 }
                 synchronized (this) {
@@ -95,6 +103,7 @@ public class Client {
         });
         consoleInputThread.start();
     }
+
 
     private void sendPendingCommand() {
         try {
@@ -148,43 +157,22 @@ public class Client {
     }
 
     private void handleReconnect() {
-        isConnected = false;
-        while (!isConnected) {
-            System.out.println("Сервер недоступен. Повторная попытка через 5 секунд...");
-            try {
-                Thread.sleep(5000);
+        System.err.println("Сервер недоступен. Завершение работы.");
 
-                if (socketChannel != null && socketChannel.isOpen()) socketChannel.close();
-                if (selector != null && selector.isOpen()) selector.close();
-
-                selector = Selector.open();
-                socketChannel = SocketChannel.open();
-                socketChannel.configureBlocking(false);
-                socketChannel.connect(new InetSocketAddress(serverAddress, port));
-                socketChannel.register(selector, SelectionKey.OP_CONNECT);
-
-                if (socketChannel.finishConnect()) {
-                    isConnected = true;
-                    isWaitingForResponse = false;
-                    System.out.println("Подключение восстановлено.\nВведите команду:");
-                    socketChannel.register(selector, SelectionKey.OP_READ);
-
-                    if (consoleInputThread != null && consoleInputThread.isAlive()) {
-                        consoleInputThread.interrupt();
-                    }
-                    startConsoleInputThread();
-                    selector.wakeup();
-                }
-
-            } catch (InterruptedException e) {
-                System.err.println("Поток прерван");
-                Thread.currentThread().interrupt();
-                return;
-            } catch (IOException e) {
-                System.err.println("Ошибка подключения: " + e.getMessage());
+        try {
+            if (socketChannel != null && socketChannel.isOpen()) {
+                socketChannel.close();
             }
+            if (selector != null && selector.isOpen()) {
+                selector.close();
+            }
+        } catch (IOException e) {
+            System.err.println("Ошибка при закрытии ресурсов: " + e.getMessage());
         }
+
+        System.exit(1);
     }
+
 
 
     private void commandRq(){
