@@ -21,7 +21,7 @@ public class IdGenerator {
      * @return Уникальный числовой идентификатор
      * @throws ArithmeticException При генерации нулевого делителя (маловероятно)
      */
-    public long generateId() {
+    public static long generateId() {
         long id;
         do {
             long timestamp = System.currentTimeMillis();

@@ -5,7 +5,7 @@ public class CommandsList {
         HELP(HelpCommand.class, "help : вывести справку по доступным командам"),
         INFO(InfoCommand.class, "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)"),
         SHOW(ShowCommand.class, "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении"),
-        ADD(AddCommand1.class, "add {element}: добавить новый элемент в коллекцию"),
+        ADD(AddCommand.class, "add {element}: добавить новый элемент в коллекцию"),
         UPDATE(UpdateIdCommand.class, "update id {element} : обновить значение элемента коллекции, id которого равен заданному"),
         REMOVE_BY_ID(RemoveByIdCommand.class, "remove_by_id id : удалить элемент из коллекции по его id"),
         CLEAR(ClearCommand.class, "clear : очистить коллекцию"),

@@ -15,11 +15,12 @@ public class FilterContainsNameCommand implements Command, Serializable {
     @Serial
     private static final long serialVersionUID  = 7L;
 
-    private String partOfName;
+    private String namePart;
 
-    public FilterContainsNameCommand(String partOfName){
-        this.partOfName = partOfName;
+    public FilterContainsNameCommand(String namePart){
+        this.namePart = namePart;
     }
+
     @Override
     public Response execute() {
         return null;

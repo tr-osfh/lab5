@@ -43,7 +43,7 @@ public class CollectionManager {
     public static String show() {
         StringBuilder res = new StringBuilder();
         if (!dragons.isEmpty()) {
-            dragons.forEach(dragon -> res.append(dragon.toString()));
+            dragons.forEach(dragon -> res.append(dragon.toString() + "\n"));
             return res.toString();
         } else {
             return "Коллекция пуста.";
@@ -62,6 +62,7 @@ public class CollectionManager {
         if (inCollection) {
             return ("Этот дракон уже есть в коллекции.\n");
         } else {
+            dragon.setId(IdGenerator.generateId());
             if (validator.getValid(dragon) != null){
                 dragons.add(dragon);
             } else {
@@ -134,6 +135,7 @@ public class CollectionManager {
     }
 
     public static String addIfMin(Dragon dragon) {
+        dragon.setId(IdGenerator.generateId());
         boolean inCollection = false;
         for (Dragon dragonTmp : dragons) {
             if (dragonTmp.equals(dragon)) {
@@ -143,6 +145,14 @@ public class CollectionManager {
         if (inCollection) {
             return ("Этот дракон уже есть в коллекции.\n");
         } else {
+            if (dragons.isEmpty()){
+                if (validator.getValid(dragon) != null){
+                    dragons.add(dragon);
+                } else {
+                    return ("Параметры дракона не верны.\n");
+                }
+                return ("Дракон успешно добавлен.\n");
+            }
             if (dragon.getCoordinates().getX() < dragons.peek().getCoordinates().getX()) {
                 if (validator.getValid(dragon) != null){
                     dragons.add(dragon);
@@ -195,24 +205,45 @@ public class CollectionManager {
 
 
     public static String filterContainsName(String name){
-        for (Dragon dragon : dragons){
-            if (dragon.getName().contains(name)){
-                return (dragon + "\n");
+        boolean flag = false;
+        StringBuilder res = new StringBuilder();
+        if (!dragons.isEmpty()) {
+            for (Dragon dragon : dragons){
+                if (dragon.getName().contains(name)){
+                    res.append(dragon + "\n");
+                    flag = true;
+                }
             }
+            if (flag){
+                return res.toString();
+            } else {
+                return ("Поиск не дал результатов.\n");
+            }
+        } else {
+            return ("Поиск не дал результатов.\n");
         }
-        return ("Поиск не дал результатов.\n");
     }
 
 
     public static String filterStartsWithName(String name){
         int len = name.length();
-        for (Dragon dragon : dragons){
-            if (dragon.getName().length() >= len){
+
+        boolean flag = false;
+        StringBuilder res = new StringBuilder();
+        if (!dragons.isEmpty()) {
+            for (Dragon dragon : dragons){
                 if (dragon.getName().substring(0, len).equals(name)){
-                    return (dragon + "\n");
+                    res.append(dragon + "\n");
+                    flag = true;
                 }
             }
+            if (flag){
+                return res.toString();
+            } else {
+                return ("Поиск не дал результатов.\n");
+            }
+        } else {
+            return ("Поиск не дал результатов.\n");
         }
-        return ("Поиск не дал результатов.\n");
     }
 }

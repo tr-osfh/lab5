@@ -1,12 +1,11 @@
 package file;
 
-
 import collection.Validator;
 import seClasses.Dragon;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 /**
  * Класс FileManager отвечает за сохранение и загрузку данных о драконах в CSV-файл.
@@ -30,13 +29,17 @@ public class FileManager {
      * @param dragons Коллекция драконов, которую нужно сохранить.
      */
     public void saveCSV(PriorityQueue<Dragon> dragons) {
-        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(this.fileName))) {
+        try (OutputStream outputStream = new FileOutputStream(this.fileName);
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))) {
+
             System.out.println("Сохраняем " + dragons.size() + " драконов.");
             for (Dragon dragon : dragons) {
                 if (validator.getValid(dragon) != null) {
                     writer.write(parser.parseDragonToLine(dragon));
+                    writer.newLine();
                 }
             }
+
         } catch (IOException e) {
             System.out.println("Невозможно записать в файл: " + e.getMessage());
         }
@@ -47,13 +50,13 @@ public class FileManager {
      * @return Коллекция драконов, загруженная из файла.
      */
     public PriorityQueue<Dragon> loadCSV() {
-        File file = new File(this.fileName);
         PriorityQueue<Dragon> dragons = new PriorityQueue<>();
 
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+        try (InputStream inputStream = new FileInputStream(this.fileName);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
                 Dragon dragon = null;
                 try {
                     dragon = validator.getValid(parser.parseLineToDragon(line));
@@ -66,8 +69,9 @@ public class FileManager {
                     dragons.add(dragon);
                 }
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при чтении файла: " + e.getMessage(), e);
         }
 
         System.out.println("Загружена коллекция из " + dragons.size() + " драконов.");

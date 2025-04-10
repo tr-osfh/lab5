@@ -1,9 +1,10 @@
 import collection.CollectionManager;
-import connection.Server;
 import file.FileManager;
 import seClasses.Dragon;
+import connection.Server;
 
 import java.util.PriorityQueue;
+
 
 public class Main {
     private final static Integer serverPort = 2213;
@@ -18,7 +19,7 @@ public class Main {
         }
         CollectionManager cm = new CollectionManager();
         cm.setDragons(collection);
-        Server server = new Server(serverPort, fm, cm);
+        Server server = new Server(serverPort, fm);
         server.run();
     }
 }

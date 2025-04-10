@@ -13,9 +13,12 @@ import java.io.Serializable;
  * Выводит все элементы, значение поля name которых начинается с указанной подстроки.
  */
 public class FilterStartsWithNameCommand implements Command, Serializable {
+
     @Serial
     private final static long serialVersionUID  = 8L;
+
     private final String namePart;
+
     public FilterStartsWithNameCommand(String namePart){
         this.namePart = namePart;
     }

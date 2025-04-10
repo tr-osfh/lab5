@@ -84,7 +84,6 @@ public class Dragon implements Comparable<Dragon>, Serializable {
         if (name == null || name.isEmpty() || coordinates == null || (age != null && age <= 0) || weight <= 0 || type == null) {
             throw new IllegalArgumentException("В исходном файле ошибка.");
         } else {
-            this.id = generator.generateId();
             this.name = name;
             this.coordinates = coordinates;
             this.age = age;

@@ -1,11 +1,14 @@
 package connection;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
+import commands.Command;
+import commands.CommandsList;
+import console.CommandDecoder;
+import console.CommandFactory;
+
+import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.Selector;
@@ -23,8 +26,10 @@ public class Request implements Serializable {
     private ByteBuffer readBuffer;
     private final InetSocketAddress serverAddress;
     private final int socketTimeout;
-
+    private Socket socket;
     public Request(InetAddress address, int port, int timeout) throws IOException {
+
+        this.socket = new Socket(address, port);
         this.serverAddress = new InetSocketAddress(address, port);
         this.socketTimeout = timeout;
         initialize();
@@ -65,13 +70,22 @@ public class Request implements Serializable {
     }
 
     // В методе send()
-    public void send(byte[] data) throws IOException {
-        writeBuffer = ByteBuffer.wrap(data);
-        while (writeBuffer.hasRemaining()) {
-            channel.write(writeBuffer);
-        }
-        System.out.println("Отправлено: " + new String(data));
-    }
+   // public void send(byte[] data) throws IOException {
+   //     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+//
+   //     // Чтение команды от пользователя
+   //     String[] commandAndArgs = consoleReader.readCommand();
+   //     if (commandAndArgs.length == 0) continue;
+//
+   //     // Создание команды
+   //     CommandsList type = CommandDecoder.getCommandType(commandAndArgs[0]);
+   //     Command command = CommandFactory.createCommand(type, commandAndArgs);
+   //     if (command == null) continue;
+//
+   //     // Отправка команды
+   //     out.writeObject(command);
+   //     out.flush();
+   // }
 
     // В методе receive()
     public byte[] receive() throws IOException {

@@ -14,14 +14,13 @@ public class FilterStartsWithNameCommand implements Command, Serializable {
 
 
     @Serial
-    private static final long serialVersionUID  = 8L;
+    private final static long serialVersionUID  = 8L;
 
-    private String partOfName;
+    private final String namePart;
 
-    public FilterStartsWithNameCommand(String partOfName){
-        this.partOfName = partOfName;
+    public FilterStartsWithNameCommand(String namePart){
+        this.namePart = namePart;
     }
-
     @Override
     public Response execute() {
         return null;

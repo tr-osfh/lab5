@@ -4,7 +4,7 @@ import commands.*;
 import objectsCreation.CreateDragon;
 import seClasses.Dragon;
 
-public class CommandFactory {
+public class CommandFactoryScript {
 
     private static final ReadController rc = new ReadController();
 
@@ -87,7 +87,6 @@ public class CommandFactory {
                 }
             }
             default -> {
-                rc.printLine("Неизвестная команада! Введите команду: \n");
                 yield null;
             }
         };

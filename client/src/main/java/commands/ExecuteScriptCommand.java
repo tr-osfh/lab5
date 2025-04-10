@@ -12,15 +12,13 @@ import java.util.ArrayList;
  * включая создание объектов Dragon с валидацией. Обрабатывает вложенные скрипты с защитой от рекурсии.
  */
 public class ExecuteScriptCommand implements Command, Serializable {
-
     @Serial
-    private static final long serialVersionUID  = 5L;
+    private final static long serialVersionUID  = 5L;
+    private final ArrayList<Command> commandStack;
 
-    private ArrayList<Command> commands;
-    public ExecuteScriptCommand(ArrayList<Command> commands) {
-        this.commands = commands;
+    public ExecuteScriptCommand(ArrayList<Command> commandStack) {
+        this.commandStack = commandStack;
     }
-
     @Override
     public Response execute() {
         return null;

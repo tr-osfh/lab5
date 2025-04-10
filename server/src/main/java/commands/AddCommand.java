@@ -12,12 +12,12 @@ import java.io.Serializable;
 /**
  * Команда добавления нового элемента в коллекцию.
  */
-public class AddCommand1 implements Command, Serializable {
+public class AddCommand implements Command, Serializable {
 
     @Serial
     private final static long serialVersionUID  = 1L;
     private Dragon dragon;
-    public AddCommand1(Dragon dragon){
+    public AddCommand(Dragon dragon){
         this.dragon = dragon;
     }
 

@@ -3,7 +3,6 @@ package file;
 import commands.*;
 import console.CommandDecoder;
 import console.CommandFactory;
-import objectsCreation.CreateDragon;
 import objectsCreation.CreateDragonFromScr;
 import seClasses.Dragon;
 
@@ -47,7 +46,7 @@ public class ExecuteScript {
                 }
             }
             if (Set.of(CommandsList.UPDATE, CommandsList.REMOVE_LOWER).contains(commandType)) {
-                if (args.length < 1 || index + 16 >= lines.size() || args.length > 1) {
+                if (args.length < 1 || index + 16 >= lines.size()) {
                     System.out.println("не верные аргументы для команды" + commandType + ".");
                     continue;
                 }
@@ -77,10 +76,6 @@ public class ExecuteScript {
                 }
             }
             else if (Set.of(CommandsList.ADD, CommandsList.ADD_IF_MIN).contains(commandType)){
-                if (args.length != 0 || index + 16 >= lines.size()){
-                    System.out.println("не верные аргументы для команды" + commandType + ".");
-                    continue;
-                }
                 Dragon dragon = null;
 
                 if (Objects.equals(args[index + 8], "y")) {

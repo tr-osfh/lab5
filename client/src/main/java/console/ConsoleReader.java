@@ -377,7 +377,6 @@ public class ConsoleReader implements Reader{
      * @return Массив строк, содержащий команду и ее аргументы.
      */
     public String[] readCommand(){
-        rc.printLine("Введите команду: \n");
         String command = rc.readLine();
         String[] args = command.split(" ");
         return args;

@@ -13,16 +13,18 @@ import java.io.Serializable;
  * Выводит все элементы, значение поля name которых содержит указанную подстроку.
  */
 public class FilterContainsNameCommand implements Command, Serializable {
+
     @Serial
     private final static long serialVersionUID  = 7L;
+
     private String namePart;
+
     public FilterContainsNameCommand(String namePart){
         this.namePart = namePart;
     }
 
     @Override
     public Response execute() {
-        System.out.println(namePart);
         return new Response(ResponseStatus.OK, CollectionManager.filterContainsName(namePart));
     }
 
