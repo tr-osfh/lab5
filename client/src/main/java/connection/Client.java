@@ -157,7 +157,7 @@ public class Client {
     }
 
     private void handleReconnect() {
-        System.err.println("Сервер недоступен. Завершение работы.");
+        System.out.println("Сервер недоступен. Завершение работы.");
 
         try {
             if (socketChannel != null && socketChannel.isOpen()) {
