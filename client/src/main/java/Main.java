@@ -5,20 +5,11 @@ import java.net.UnknownHostException;
 import java.util.NoSuchElementException;
 
 public class Main {
-    private static final InetAddress serverAddress;
 
-    static {
-        try {
-            serverAddress = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    private static final int serverPort = 2213;
+    private static final int serverPort = 21213;
 
     public static void main(String[] args) {
-        Client client = new Client("localhost", serverPort);
+        Client client = new Client("se.ifmo.ru", serverPort);
         try {
             System.out.println("Для получения справки по доступным командам введите help");
             client.run();

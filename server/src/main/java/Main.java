@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
 
 
 public class Main {
-    private final static Integer serverPort = 2213;
+    private final static Integer serverPort = 21213;
     static FileManager fm = new FileManager(System.getenv("DB_FILE_PATH"));
     public static void main(String[] args) {
         PriorityQueue<Dragon> collection;
