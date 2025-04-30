@@ -1,6 +1,8 @@
 package file;
 
+import collection.ServerLogger;
 import collection.Validator;
+import console.ConsoleManager;
 import seClasses.Dragon;
 
 import java.io.*;
@@ -15,13 +17,15 @@ public class FileManager {
     private final String fileName;
     Parser parser = new Parser();
     Validator validator = new Validator();
+    private final ConsoleManager consoleManager;
 
     /**
      * Конструктор класса FileManager.
      * @param fileName Имя файла, с которым будет работать FileManager.
      */
-    public FileManager(String fileName) {
+    public FileManager(String fileName, ConsoleManager consoleManager) {
         this.fileName = fileName;
+        this.consoleManager = consoleManager;
     }
 
     /**
@@ -32,7 +36,7 @@ public class FileManager {
         try (OutputStream outputStream = new FileOutputStream(this.fileName);
              BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))) {
 
-            System.out.println("Сохраняем " + dragons.size() + " драконов.");
+            ServerLogger.getLogger().info("Сохранена коллекция из " + dragons.size() + " драконов.");
             for (Dragon dragon : dragons) {
                 if (validator.getValid(dragon) != null) {
                     writer.write(parser.parseDragonToLine(dragon));
@@ -41,7 +45,7 @@ public class FileManager {
             }
 
         } catch (IOException e) {
-            System.out.println("Невозможно записать в файл: " + e.getMessage());
+            ServerLogger.getLogger().warning("Невозможно записать в файл");
         }
     }
 
@@ -61,7 +65,7 @@ public class FileManager {
                 try {
                     dragon = validator.getValid(parser.parseLineToDragon(line));
                 } catch (Exception e) {
-                    System.out.println("В файле невалидные значения");
+                    ServerLogger.getLogger().warning("В файле невалидные значения");
                 }
 
                 if (dragon != null) {
@@ -74,7 +78,7 @@ public class FileManager {
             throw new RuntimeException("Ошибка при чтении файла: " + e.getMessage(), e);
         }
 
-        System.out.println("Загружена коллекция из " + dragons.size() + " драконов.");
+        ServerLogger.getLogger().info("Загружена коллекция из " + dragons.size() + " драконов.");
         return dragons;
     }
 }

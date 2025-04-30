@@ -15,7 +15,6 @@ public class CommandSerializer {
 
         } catch (IOException e) {
             System.err.println("Ошибка сериализации: " + e.getMessage());
-            e.printStackTrace();
             return new byte[0];
         }
     }

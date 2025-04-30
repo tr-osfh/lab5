@@ -45,7 +45,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
             DragonType type,
             Person killer
     ) {
-        if (name == null || name.isEmpty() || coordinates == null || (age != null && age <= 0) || weight <= 0 || type == null) {
+        if (name == null || name.isEmpty() || coordinates == null || (age != null && age <= 0) || (weight !=null && weight <= 0) || type == null) {
             throw new IllegalArgumentException("Введенная информация содержит недопустимые значения.");
         } else {
             this.name = name;
@@ -76,7 +76,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
             Long weight,
             DragonType type
     ) {
-        if (name == null || name.isEmpty() || coordinates == null || (age != null && age <= 0) || weight <= 0 || type == null) {
+        if (name == null || name.isEmpty() || (weight != null && weight <= 0) || coordinates == null || (age != null && age <= 0) || type == null) {
             throw new IllegalArgumentException("В исходном файле ошибка.");
         } else {
             this.name = name;

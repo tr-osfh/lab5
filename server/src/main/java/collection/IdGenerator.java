@@ -3,9 +3,7 @@ package collection;
 import seClasses.Dragon;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static java.util.Arrays.stream;
 
 /**
  * Генератор уникальных идентификаторов для объектов коллекции.

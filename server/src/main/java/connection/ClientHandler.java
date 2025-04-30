@@ -1,65 +1,7 @@
-//package connection;//package connection;
-//
-//import collection.ServerLogger;
-//import commands.Command;
-//
-//import java.io.EOFException;
-//import java.io.IOException;
-//import java.io.ObjectInputStream;
-//import java.io.ObjectOutputStream;
-//import collection.CollectionManager;
-//import commands.CommandSerializer;
-//
-//import java.net.Socket;
-//
-//
-//public class ClientHandler extends Thread {
-//    private final Socket clientSocket;
-//    private final CollectionManager collectionManager;
-//
-//    public ClientHandler(Socket socket, CollectionManager manager) {
-//        this.clientSocket = socket;
-//        this.collectionManager = manager;
-//    }
-//
-//    @Override
-//    public void run() {
-//        try (
-//                ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-//                ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream())
-//        ) {
-//            while (true) {
-//                // Получение команды
-//                Command command = (Command) in.readObject(); // Только один readObject()
-//                System.out.println("[Сервер] Получена команда: " + command.toString());
-//                Response response = command.execute();
-//                System.out.println(response.getResponse());
-//                out.writeObject(response);
-//                out.flush();
-//                clientSocket.close();
-//            }
-//        } catch (EOFException e) {
-//            ServerLogger.getLogger().info("Клиент отключился: " + clientSocket.getRemoteSocketAddress());
-//        } catch (IOException e) {
-//            ServerLogger.getLogger().warning("Ошибка обработки команды: " + e.getMessage());
-//        } catch (ClassNotFoundException e){
-//            ServerLogger.getLogger().warning("Класс не найден: " + e.getMessage());
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                clientSocket.close();
-//            } catch (IOException e) {
-//                ServerLogger.getLogger().warning("Ошибка закрытия сокета: " + e.getMessage());
-//            }
-//        }
-//    }
-//}
-
 package connection;
 
 import collection.ServerLogger;
 import commands.Command;
-import collection.CollectionManager;
 import commands.CommandSerializer;
 
 import java.io.IOException;
@@ -76,7 +18,7 @@ public class ClientHandler extends Thread {
 
     public ClientHandler(SocketChannel channel) throws IOException {
         this.clientChannel = channel;
-        this.clientChannel.configureBlocking(false); // Неблокирующий режим
+        this.clientChannel.configureBlocking(false);
         this.selector = Selector.open();
         this.clientChannel.register(selector, SelectionKey.OP_READ);
         this.buffer = ByteBuffer.allocate(8124*8124);
@@ -86,7 +28,7 @@ public class ClientHandler extends Thread {
     public void run() {
         try {
             while (true) {
-                selector.select(); // Ожидание событий
+                selector.select();
                 Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
                 while (keys.hasNext()) {
                     SelectionKey key = keys.next();
@@ -101,8 +43,6 @@ public class ClientHandler extends Thread {
             }
         } catch (IOException e) {
             ServerLogger.getLogger().warning("Ошибка обработки клиента: " + e.getMessage());
-        } finally {
-            closeConnection();
         }
     }
 
@@ -127,12 +67,11 @@ public class ClientHandler extends Thread {
                 ServerLogger.getLogger().info("[Сервер] Получена команда: " + command.toString());
                 Response response = command.execute();
 
-                // Подготовка ответа
                 byte[] responseData = CommandSerializer.serialize(response);
                 buffer.clear();
                 buffer.put(responseData);
                 buffer.flip();
-                key.interestOps(SelectionKey.OP_WRITE); // Переключаем на запись
+                key.interestOps(SelectionKey.OP_WRITE);
             } catch (ClassNotFoundException e) {
                 ServerLogger.getLogger().warning("Ошибка десериализации команды: " + e.getMessage());
             }
@@ -143,21 +82,7 @@ public class ClientHandler extends Thread {
         SocketChannel channel = (SocketChannel) key.channel();
         channel.write(buffer);
         if (!buffer.hasRemaining()) {
-            key.interestOps(SelectionKey.OP_READ); // Возвращаемся к чтению
-        }
-    }
-
-    private void closeConnection() {
-        try {
-            if (clientChannel != null) {
-                ServerLogger.getLogger().info("Закрытие соединения с клиентом: " + clientChannel.getRemoteAddress());
-                clientChannel.close();
-            }
-            if (selector != null) {
-                selector.close();
-            }
-        } catch (IOException e) {
-            ServerLogger.getLogger().warning("Ошибка закрытия соединения: " + e.getMessage());
+            key.interestOps(SelectionKey.OP_READ);
         }
     }
 }

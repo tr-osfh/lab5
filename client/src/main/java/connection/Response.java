@@ -1,4 +1,3 @@
-// Response.java (общая для клиента и сервера)
 package connection;
 
 import seClasses.Dragon;

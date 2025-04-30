@@ -31,7 +31,6 @@ public class Validator {
         Long id = dragon.getId();
         if (ids.contains(id)) {
             Long tmpId = idGen.generateId();
-            System.out.println("ID дракона " + dragon.getId() + " заменен на " + tmpId + " из-за коллизии.");
             dragon.setId(tmpId);
             ids.add(tmpId);
             return dragon;
@@ -54,8 +53,8 @@ public class Validator {
                         dragon.getName() == null ||
                         dragon.getCoordinates() == null ||
                         dragon.getCreationDate() == null ||
-                        dragon.getAge() <= 0 ||
-                        dragon.getWeight() <= 0 ||
+                        (dragon.getAge() != null && dragon.getAge() <= 0) ||
+                        (dragon.getWeight() != null && dragon.getWeight() <= 0) ||
                         dragon.getType() == null ||
                         !possibleDragonTypes.contains(dragon.getType()) ||
                         dragon.getCoordinates().getX() == null ||

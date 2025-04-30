@@ -16,7 +16,6 @@ public class Parser {
     public String parseDragonToLine(Dragon dragon) {
         String dragonLine;
         if (dragon.getKiller() != null) {
-            // Если у дракона есть убийца, добавляем все поля, включая информацию об убийце
             dragonLine = dragon.getId() + "," +
                     dragon.getName() + "," +
                     dragon.getCoordinates().getX() + "," +
@@ -32,9 +31,8 @@ public class Parser {
                     dragon.getKiller().getLocation().getX() + "," +
                     dragon.getKiller().getLocation().getY() + "," +
                     dragon.getKiller().getLocation().getZ() + "," +
-                    dragon.getKiller().getLocation().getName() + "\n";
+                    dragon.getKiller().getLocation().getName();
         } else {
-            // Если у дракона нет убийцы, добавляем только основные поля
             dragonLine = dragon.getId() + "," +
                     dragon.getName() + "," +
                     dragon.getCoordinates().getX() + "," +
@@ -42,7 +40,7 @@ public class Parser {
                     dragon.getAge() + "," +
                     dragon.getDescription() + "," +
                     dragon.getWeight() + "," +
-                    dragon.getType() + "\n";
+                    dragon.getType();
         }
         return dragonLine;
     }
@@ -93,7 +91,6 @@ public class Parser {
 
                 res = dragon;
             } else if (values.length == 8) {
-                // Если строка не содержит информации об убийце
                 long id = Long.parseLong(values[0]);
                 String name = values[1];
 

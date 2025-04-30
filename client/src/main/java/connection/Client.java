@@ -4,16 +4,15 @@ import commands.Command;
 import commands.CommandsList;
 import commands.ExecuteScriptCommand;
 import console.*;
-import file.ExecuteScript31;
+import file.ExecuteScript;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
-import java.nio.channels.Selector;
 import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
 public class Client {
@@ -21,18 +20,16 @@ public class Client {
     private final int port;
     private SocketChannel socketChannel;
     private Selector selector;
-    private ConsoleReader consoleReader;
-    private volatile boolean isCommandReady = false;
+    private ConsoleReader cr;
     private Command pendingCommand;
     private boolean isConnected = false;
     private boolean isWaitingForResponse = false;
-    private Thread consoleInputThread;
-    private volatile boolean running = true;
+    private boolean running = true;
 
     public Client(String serverAddress, int port) {
         this.serverAddress = serverAddress;
         this.port = port;
-        this.consoleReader = new ConsoleReader(new ReadController());
+        this.cr = new ConsoleReader(new ReadController());
     }
 
     public void connect() throws IOException {
@@ -45,159 +42,121 @@ public class Client {
     }
 
     public void run() {
-        try {
-            connect();
-            while (true) {
-                selector.select();
-                Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
-                while (keys.hasNext()) {
-                    SelectionKey key = keys.next();
-                    keys.remove();
-                    if (key.isConnectable()) {
-                        handleConnect(key);
-                        // Запускаем ввод команд только после подключения
-                        if (isConnected) {
-                            startConsoleInputThread();
+        while (true) {
+            try {
+                connect();
+                while (running) {
+                    int readyChannels = selector.select(100);
+                    if (readyChannels > 0) {
+                        Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
+                        while (keys.hasNext()) {
+                            SelectionKey key = keys.next();
+                            keys.remove();
+                            if (key.isConnectable()) {
+                                successConnect(key);
+                            } else if (key.isReadable()) {
+                                read(key);
+                            } else if (key.isWritable()) {
+                                write(key);
+                            }
                         }
-                    } else if (key.isReadable()) {
-                        handleRead(key);
-                    } else if (key.isWritable()) {
-                        handleWrite(key);
+                    }
+                    processConsoleInput();
+                }
+            } catch (IOException e) {
+                try {
+                    System.out.print("Ошибка подключения. Повторная попытка");
+                    Thread.sleep(1000);
+                    System.out.print('.');
+                    Thread.sleep(1000);
+                    System.out.print('.');
+                    Thread.sleep(1000);
+                    System.out.println('.');
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            } catch (ClassNotFoundException e) {
+                System.out.println("Ошибка десериализации");
+                break;
+            }
+        }
+    }
+
+    private void processConsoleInput() {
+        if (isConnected && !isWaitingForResponse) {
+            try {
+                if (System.in.available() > 0) {
+                    Command cmd = readCommand();
+                    if (cmd != null) {
+                        pendingCommand = cmd;
+                        SelectionKey key = socketChannel.keyFor(selector);
+                        if (key != null) key.interestOps(SelectionKey.OP_WRITE);
                     }
                 }
-                if (isCommandReady) {
-                    sendPendingCommand();
-                }
-            }
-        } catch (IOException e) {
-            handleReconnect();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void startConsoleInputThread() {
-        running = false;
-        if (consoleInputThread != null && consoleInputThread.isAlive()) {
-            try {
-                consoleInputThread.join();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        running = true;
-        consoleInputThread = new Thread(() -> {
-            while (running && !Thread.currentThread().isInterrupted()) {
-                Command command = readCommand();
-                if (command == null) {
-                    continue;
-                }
-                synchronized (this) {
-                    pendingCommand = command;
-                    isCommandReady = true;
-                    isWaitingForResponse = true;
-                }
-                selector.wakeup();
-            }
-        });
-        consoleInputThread.start();
-    }
-
-
-    private void sendPendingCommand() {
-        try {
-            SelectionKey key = socketChannel.keyFor(selector);
-            if (key != null) {
-                key.interestOps(SelectionKey.OP_WRITE);
-            }
-        } catch (Exception e) {
-            System.out.println("Ошибка");
-        } finally {
-            synchronized (this) {
-                isCommandReady = false;
+            } catch (IOException e) {
+                cr.printLine("Ошибка ввода: " + e.getMessage());
             }
         }
     }
 
-    private void handleConnect(SelectionKey key) throws IOException {
+
+
+    private void successConnect(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
         if (channel.finishConnect()) {
             channel.register(selector, SelectionKey.OP_READ);
-            System.out.println("Подключено к серверу.");
-            System.out.println("Введите команду: ");
+            cr.printLine("Подключено к серверу. \n");
+            cr.printLine("Введите команду: \n");
             isConnected = true;
         }
     }
 
-    private void handleRead(SelectionKey key) throws IOException, ClassNotFoundException {
+    private void read(SelectionKey key) throws IOException, ClassNotFoundException {
         SocketChannel channel = (SocketChannel) key.channel();
-        ByteBuffer buffer = ByteBuffer.allocate(8124*8124);
+        ByteBuffer buffer = ByteBuffer.allocate(8124 * 8124);
         int bytesRead = channel.read(buffer);
+
         if (bytesRead > 0) {
             buffer.flip();
             byte[] data = new byte[buffer.limit()];
             buffer.get(data);
             Response response = CommandSerializer.deserialize(data);
             System.out.println(response.getResponse());
-            buffer.clear();
             isWaitingForResponse = false;
-            commandRq();
+                cr.printLine("Введите команду: \n");
+        } else if (bytesRead == -1) {
+            channel.close();
+            isConnected = false;
         }
+        buffer.clear();
     }
 
-    private void handleWrite(SelectionKey key) throws IOException {
+    private void write(SelectionKey key) throws IOException {
         if (pendingCommand != null) {
             ByteBuffer buffer = ByteBuffer.wrap(CommandSerializer.serialize(pendingCommand));
             SocketChannel channel = (SocketChannel) key.channel();
             channel.write(buffer);
             key.interestOps(SelectionKey.OP_READ);
             pendingCommand = null;
+            isWaitingForResponse = true;
         }
     }
 
-    private void handleReconnect() {
-        System.out.println("Сервер недоступен. Завершение работы.");
+    private Command readCommand() {
+        String[] input = cr.readCommand();
 
-        try {
-            if (socketChannel != null && socketChannel.isOpen()) {
-                socketChannel.close();
-            }
-            if (selector != null && selector.isOpen()) {
-                selector.close();
-            }
-        } catch (IOException e) {
-            System.err.println("Ошибка при закрытии ресурсов: " + e.getMessage());
+        if (input == null || input.length == 0) return null;
+
+        CommandsList type = CommandDecoder.getCommandType(input[0]);
+        if (type == CommandsList.EXIT) {
+            running = false;
+            return null;
+        } else if (type == CommandsList.EXECUTE_SCRIPT && input.length > 1) {
+            ExecuteScript script = new ExecuteScript(new File(input[1]));
+            script.readScript();
+            return new ExecuteScriptCommand(script.getCommandQueue());
         }
-
-        System.exit(1);
+        return CommandFactory.createCommand(type, input);
     }
-
-
-
-    private void commandRq(){
-        if (!isWaitingForResponse) {
-            System.out.println("Введите команду:");
-        }
-    }
-
-    private Command readCommand(){
-        if (isConnected) {
-                String[] commandAndArgs = consoleReader.readCommand();
-
-                CommandsList type = CommandDecoder.getCommandType(commandAndArgs[0]);
-                if (type == CommandsList.EXIT) {
-                    System.exit(0);
-                } else if (type == CommandsList.EXECUTE_SCRIPT) {
-                    ExecuteScript31 ex = new ExecuteScript31(new File(commandAndArgs[1]));
-                    ex.readScript();
-                    return new ExecuteScriptCommand(ex.getCommandQueue());
-                }
-            Command command = CommandFactory.createCommand(type, commandAndArgs);
-                return command;
-        }
-        return null;
-
-    }
-
 }

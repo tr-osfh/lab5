@@ -8,7 +8,7 @@ import java.util.Stack;
  */
 public class FileStack {
 
-    private static Stack<String> fileStack = new Stack<>(); // Стек для хранения имен файлов
+    private static Stack<String> fileStack = new Stack<>();
 
     /**
      * Конструктор класса FileStack.
