@@ -7,18 +7,14 @@ import commands.CommandSerializer;
 import console.ConsoleManager;
 import file.FileManager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.channels.ClosedChannelException;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class Server {
     private final ConsoleManager consoleManager;
@@ -57,11 +53,11 @@ public class Server {
 
                         try {
                             if (key.isAcceptable()) {
-                                handleAccept(key);
+                                acceptConnection(key);
                             } else if (key.isReadable()) {
-                                handleRead(key);
+                                read(key);
                             } else if (key.isWritable()) {
-                                handleWrite(key);
+                                write(key);
                             }
                         } catch (IOException e) {
                             ServerLogger.getLogger().info("Клиент отключился");
@@ -96,7 +92,7 @@ public class Server {
     }
 
 
-    private void handleAccept(SelectionKey key) throws IOException {
+    private void acceptConnection(SelectionKey key) throws IOException {
         ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
         SocketChannel clientChannel = serverChannel.accept();
         clientChannel.configureBlocking(false);
@@ -104,7 +100,7 @@ public class Server {
         ServerLogger.getLogger().info("Подключен клиент: " + clientChannel.getRemoteAddress());
     }
 
-    private void handleRead(SelectionKey key) throws IOException {
+    private void read(SelectionKey key) throws IOException {
         SocketChannel channel = (SocketChannel) key.channel();
         ByteBuffer readBuffer = ByteBuffer.allocate(8124 * 8124);
         int bytesRead = channel.read(readBuffer);
@@ -137,7 +133,7 @@ public class Server {
         }
     }
 
-    private void handleWrite(SelectionKey key) throws IOException {
+    private void write(SelectionKey key) throws IOException {
         try {
             SocketChannel channel = (SocketChannel) key.channel();
             ByteBuffer buffer = (ByteBuffer) key.attachment();
