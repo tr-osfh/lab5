@@ -26,7 +26,6 @@ public class Server {
     private final FileManager fm;
     private ServerSocketChannel serverChannel;
     private Selector selector;
-    private final Scanner consoleScanner = new Scanner(System.in);
     private volatile boolean running = true;
 
 
@@ -72,7 +71,7 @@ public class Server {
                 }
             }
         } catch (IOException e) {
-            ServerLogger.getLogger().severe("Ошибка в работе сервера: " + e.getMessage());
+            ServerLogger.getLogger().severe("Ошибка в работе сервера");
         } finally {
             closeResources();
         }
@@ -92,7 +91,7 @@ public class Server {
                 }
             }
         } catch (IOException e) {
-            ServerLogger.getLogger().warning("Ошибка ввода: " + e.getMessage());
+            ServerLogger.getLogger().warning("Ошибка ввода");
         }
     }
 
@@ -128,6 +127,7 @@ public class Server {
             try {
                 Command command = CommandSerializer.deserialize(data);
                 Response response = command.execute();
+                ServerLogger.getLogger().info("От клиента " + channel.getRemoteAddress() + " получена команда: " + command.getCommandName());
                 ByteBuffer responseBuffer = ByteBuffer.wrap(CommandSerializer.serialize(response));
                 key.attach(responseBuffer);
                 key.interestOps(SelectionKey.OP_WRITE);
@@ -149,7 +149,7 @@ public class Server {
                 }
             }
         } catch (IOException e) {
-            ServerLogger.getLogger().warning("Ошибка записи: " + e.getMessage());
+            ServerLogger.getLogger().warning("Ошибка записи");
             key.channel().close();
         }
     }

@@ -25,6 +25,7 @@ public class Client {
     private boolean isConnected = false;
     private boolean isWaitingForResponse = false;
     private boolean running = true;
+    private boolean connectionProblem = true;
 
     public Client(String serverAddress, int port) {
         this.serverAddress = serverAddress;
@@ -42,11 +43,27 @@ public class Client {
     }
 
     public void run() {
-        while (true) {
+        if (connectionProblem && !isConnected){
             try {
                 connect();
+            } catch (IOException e) {
+                try {
+                    noConnectionHandler();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+        while (true) {
+            try {
                 while (running) {
                     int readyChannels = selector.select(100);
+                    if (readyChannels == 0){
+                        if (!socketChannel.isConnected()){
+                            noConnectionHandler();
+                        }
+                    }
+
                     if (readyChannels > 0) {
                         Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
                         while (keys.hasNext()) {
@@ -63,23 +80,33 @@ public class Client {
                     }
                     processConsoleInput();
                 }
+                System.exit(0);
             } catch (IOException e) {
                 try {
-                    System.out.print("Ошибка подключения. Повторная попытка");
-                    Thread.sleep(1000);
-                    System.out.print('.');
-                    Thread.sleep(1000);
-                    System.out.print('.');
-                    Thread.sleep(1000);
-                    System.out.println('.');
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                    break;
+                    noConnectionHandler();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             } catch (ClassNotFoundException e) {
                 System.out.println("Ошибка десериализации");
                 break;
             }
+        }
+    }
+
+    private void noConnectionHandler() throws IOException {
+        try {
+            System.out.print("Ошибка подключения. Повторная попытка");
+            Thread.sleep(1000);
+            System.out.print('.');
+            Thread.sleep(1000);
+            System.out.print('.');
+            Thread.sleep(1000);
+            System.out.println('.');
+            connect();
+            connectionProblem = true;
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -95,7 +122,7 @@ public class Client {
                     }
                 }
             } catch (IOException e) {
-                cr.printLine("Ошибка ввода: " + e.getMessage());
+                cr.printLine("Ошибка ввода");
             }
         }
     }
@@ -109,6 +136,7 @@ public class Client {
             cr.printLine("Подключено к серверу. \n");
             cr.printLine("Введите команду: \n");
             isConnected = true;
+            connectionProblem = false;
         }
     }
 
@@ -126,6 +154,7 @@ public class Client {
             isWaitingForResponse = false;
                 cr.printLine("Введите команду: \n");
         } else if (bytesRead == -1) {
+            noConnectionHandler();
             channel.close();
             isConnected = false;
         }
